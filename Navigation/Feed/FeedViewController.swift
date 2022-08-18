@@ -9,8 +9,6 @@ import UIKit
 
 class FeedViewController: UIViewController {
     
-
-
     private lazy var buttonOne : UIButton = {
         let button = UIButton(frame: .zero)
         button.backgroundColor = .orange
@@ -29,7 +27,7 @@ class FeedViewController: UIViewController {
         return button
     } ()
     
-    
+
     private lazy var stackview: UIStackView = {
         
         let stack = UIStackView(frame: .zero)
@@ -60,7 +58,6 @@ class FeedViewController: UIViewController {
         NSLayoutConstraint.activate(
             stackviewConstraints + buttonsConstraints
         )
-        
     }
 
     private func  stackviewConstraints () -> [NSLayoutConstraint] {
@@ -72,13 +69,11 @@ class FeedViewController: UIViewController {
         return [centerXAnchor, centerYAnchor, leadingAnchor, trailingAnchor]
     }
     
-    
     private func buttonsConstraints () -> [NSLayoutConstraint] {
         let heightAnchorButtonOne = self.buttonOne.heightAnchor.constraint(equalToConstant: 50)
          let heightAnchorButtonTwo = self.buttonTwo.heightAnchor.constraint(equalToConstant: 50)
         return [heightAnchorButtonOne, heightAnchorButtonTwo]
     }
-    
     
     @objc private func didTapButton() {
         let vc = PostViewController()
@@ -87,9 +82,4 @@ class FeedViewController: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
   
-    
-    
-    
-        
-   
 }

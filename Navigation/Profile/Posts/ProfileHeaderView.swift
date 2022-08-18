@@ -140,12 +140,7 @@ class ProfileHeaderView: UIView {
             self.profileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -16)
         ] )
     }
-    
    
-    
-    
-  
-    
     @objc func buttonPressed () {
         if statusText != "" && statusText != " " {
             statusLabel.text = statusText

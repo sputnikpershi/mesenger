@@ -8,7 +8,6 @@
 import UIKit
 
 class PostTableViewCell: UITableViewCell {
-
     
     private lazy var authorLabel: UILabel = {
         let author = UILabel()
@@ -67,7 +66,6 @@ class PostTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setViews()
         setConstraints()
         
@@ -134,7 +132,6 @@ class PostTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
     
     func setup(with viewModel: [Post], index: Int) {
         self.authorLabel.text = viewModel[index].authorLabel

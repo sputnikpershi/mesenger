@@ -15,8 +15,6 @@ struct Post {
     var views: Int
 }
 
-
-
 var postArray = [Post(authorLabel: "zina.nizina",
                                         descriptionLabel: "Конвертируйте видео в большинство популярных форматов. Меняйте формат видео всего за несколько секунд в режиме SuperSpeed без потери качества: ускорение до 81 раза по сравнению с обычной конвертацией!",
                       image: "app", likes: 12, views: 125),

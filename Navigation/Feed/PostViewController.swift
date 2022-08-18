@@ -9,8 +9,6 @@ import UIKit
 
 class PostViewController: UIViewController {
 
-    
-    
     var postTitle : String?
     
     private lazy var titleLabel: UILabel = {
@@ -24,10 +22,6 @@ class PostViewController: UIViewController {
         return label
     }()
     
-    
-    
-   
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .orange
@@ -37,9 +31,7 @@ class PostViewController: UIViewController {
         self.view.addSubview(self.titleLabel)
         self.titleLabel.center = self.view.center
     }
-    
-    
-    
+
     @objc private func didSelectedButton() {
       let vc = InfoViewController()
         self.present(vc, animated: true)

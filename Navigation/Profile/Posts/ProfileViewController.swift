@@ -9,7 +9,6 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    
     private lazy var tableView: UITableView  = {
         let table = UITableView (frame: .zero, style: .grouped)
         table.dataSource = self
@@ -24,7 +23,6 @@ class ProfileViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     } ()
-    
     
     private lazy var profileHeaderView : ProfileHeaderView = {
         let view = ProfileHeaderView(frame: .zero)
