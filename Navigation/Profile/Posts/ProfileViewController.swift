@@ -115,19 +115,42 @@ class ProfileViewController: UIViewController {
     
     func animateAvatar (ava: UIImageView) {
         
-        initialAvatarFrame = ava.frame
-        self.avatarWidthConstant?.constant = self.view.frame.width
-        self.avatarHeightConstant?.constant = self.view.frame.width
-        self.avatarLeadingConstant?.constant = 0
-        self.avatarTopConstant?.constant = self.view.frame.width/3
+        //  MARK: Basic Animation
         
-        UIView.animate(withDuration: 0.75, delay: 0, options: .curveEaseIn) {
-            self.avaImage.layer.cornerRadius = 0
-            
-            self.avaImage.alpha = 1
-            self.backButton.alpha = 1
-            self.backgroundView.alpha = 0.75
-            self.view.layoutIfNeeded()
+        //        initialAvatarFrame = ava.frame
+        //        self.avatarWidthConstant?.constant = self.view.frame.width
+        //        self.avatarHeightConstant?.constant = self.view.frame.width
+        //        self.avatarLeadingConstant?.constant = 0
+        //        self.avatarTopConstant?.constant = self.view.frame.width/3
+        //
+        //        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
+        
+        //        self.avaImage.alpha = 1
+        //        self.backgroundView.alpha = 0.75
+        //        self.view.layoutIfNeeded()
+        
+        //        } completion: { _ in
+        //
+        //        }
+        
+        //  MARK: Keyframe Animation
+        
+        UIView.animateKeyframes(withDuration: 0.8, delay: 0, options: .calculationModeCubic) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+                self.initialAvatarFrame = ava.frame
+                self.avatarWidthConstant?.constant = self.view.frame.width
+                self.avatarHeightConstant?.constant = self.view.frame.width
+                self.avatarLeadingConstant?.constant = 0
+                self.avatarTopConstant?.constant = self.view.frame.width/3
+                self.avaImage.layer.cornerRadius = 0
+                self.avaImage.alpha = 1
+                self.backgroundView.alpha = 0.75
+                self.view.layoutIfNeeded()
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.8) {
+                self.backButton.alpha = 1
+            }
+    
         } completion: { _ in
             
         }
@@ -140,7 +163,7 @@ class ProfileViewController: UIViewController {
         self.avatarLeadingConstant?.constant = self.initialAvatarFrame.minX
         self.avatarTopConstant?.constant = self.initialAvatarFrame.minY
         
-        UIView.animate(withDuration: 0.75, delay: 0, options: .curveEaseIn) {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
             
             self.avaImage.layer.cornerRadius = self.initialAvatarFrame.height/2
             self.avaImage.alpha = 0
