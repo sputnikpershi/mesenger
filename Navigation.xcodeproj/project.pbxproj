@@ -25,7 +25,6 @@
 		4F7F5910288EC1F800138DF2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7F590F288EC1F800138DF2 /* ProfileViewController.swift */; };
 		4F7F5912288EC64B00138DF2 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7F5911288EC64B00138DF2 /* PostViewController.swift */; };
 		4F7F5914288EDF6700138DF2 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7F5913288EDF6700138DF2 /* InfoViewController.swift */; };
-		4F7F59182894A1D500138DF2 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7F59172894A1D500138DF2 /* ProfileHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +48,6 @@
 		4F7F590F288EC1F800138DF2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		4F7F5911288EC64B00138DF2 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		4F7F5913288EDF6700138DF2 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
-		4F7F59172894A1D500138DF2 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +66,6 @@
 			children = (
 				4F7F590F288EC1F800138DF2 /* ProfileViewController.swift */,
 				4F40772A28A8A40C0040E680 /* ProfileTableHeaderView.swift */,
-				4F7F59172894A1D500138DF2 /* ProfileHeaderView.swift */,
 				4F40772F28ACA6DD0040E680 /* PhotosTableViewCell.swift */,
 				4F40772D28A8BDB20040E680 /* PostTableViewCell.swift */,
 				4F33CB6A28950D5F00319B6D /* Post.swift */,
@@ -223,7 +220,6 @@
 				4F40773028ACA6DD0040E680 /* PhotosTableViewCell.swift in Sources */,
 				4F40772B28A8A40C0040E680 /* ProfileTableHeaderView.swift in Sources */,
 				4F40773828AE0E6F0040E680 /* PhotosCollectionViewCell.swift in Sources */,
-				4F7F59182894A1D500138DF2 /* ProfileHeaderView.swift in Sources */,
 				4F40772E28A8BDB20040E680 /* PostTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

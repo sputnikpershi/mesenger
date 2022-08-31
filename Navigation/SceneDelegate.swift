@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: windowScene)
         let navController = UINavigationController(rootViewController: FeedViewController())
-        let profileItemController = UINavigationController(rootViewController: LogInViewController() ) // LogInViewController()ProfileViewController
+        let profileItemController = UINavigationController(rootViewController: ProfileViewController() ) // LogInViewController()ProfileViewController
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [navController, profileItemController]
         tabBarController.viewControllers?.enumerated().forEach{
