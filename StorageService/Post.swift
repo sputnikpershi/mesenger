@@ -7,15 +7,15 @@
 
 import UIKit
 
-struct Post {
-    var authorLabel: String
-    var descriptionLabel : String
-    var image: String
-    var likes: Int
-    var views: Int
+public struct Post {
+    public var authorLabel: String
+    public var descriptionLabel : String
+    public  var image: String
+    public  var likes: Int
+    public  var views: Int
 }
 
-var postArray = [Post(authorLabel: "zina.nizina",
+public var postArray = [Post(authorLabel: "zina.nizina",
                                         descriptionLabel: "Конвертируйте видео в большинство популярных форматов. Меняйте формат видео всего за несколько секунд в режиме SuperSpeed без потери качества: ускорение до 81 раза по сравнению с обычной конвертацией!",
                       image: "app", likes: 12, views: 125),
                  Post(authorLabel: "xiaomi.mozga",
