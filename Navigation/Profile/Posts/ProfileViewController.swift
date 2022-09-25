@@ -5,8 +5,8 @@
 //  Created by Krime Loma    on 7/25/22.
 //
 import StorageService
-
 import UIKit
+import SnapKit
 
 class ProfileViewController: UIViewController {
     
@@ -21,7 +21,6 @@ class ProfileViewController: UIViewController {
         table.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
         table.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosCell")
         table.register(PostTableViewCell.self, forCellReuseIdentifier: "CustomCell")
-        
         table.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
@@ -41,7 +40,6 @@ class ProfileViewController: UIViewController {
     private lazy var backgroundView: UIView = {
         let background = UIView()
         background.backgroundColor = .black
-
         background.alpha = 0
         background.translatesAutoresizingMaskIntoConstraints = false
         return background
@@ -101,56 +99,45 @@ class ProfileViewController: UIViewController {
     
     private func setConstraints () {
         
-        NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
-            avatarTopConstant, avatarLeadingConstant, avatarWidthConstant, avatarHeightConstant,
-            
-            self.backgroundView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.backgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.backgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.backgroundView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
-            self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            self.backButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
-            self.backButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1),
-            self.backButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1),
-            
-        ].compactMap({ $0 }))
+        tableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        avaImage.snp.makeConstraints { make in
+            make.width.equalTo(initialAvatarFrame.width)
+            make.height.equalTo(initialAvatarFrame.height)
+            make.leading.equalToSuperview().offset(initialAvatarFrame.minX)
+            make.top.equalToSuperview().offset(initialAvatarFrame.minY)
+        }
+        backgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        backButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(32)
+            make.trailing.equalToSuperview().offset(-16)
+            make.width.equalToSuperview().multipliedBy(0.1)
+            make.height.equalTo(backButton.snp.width)
+        }
     }
     
     func animateAvatar (ava: UIImageView) {
         
-        //  MARK: Basic Animation
-        
-        //        initialAvatarFrame = ava.frame
-        //        self.avatarWidthConstant?.constant = self.view.frame.width
-        //        self.avatarHeightConstant?.constant = self.view.frame.width
-        //        self.avatarLeadingConstant?.constant = 0
-        //        self.avatarTopConstant?.constant = self.view.frame.width/3
-        //
-        //        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
-        
-        //        self.avaImage.alpha = 1
-        //        self.backgroundView.alpha = 0.75
-        //        self.view.layoutIfNeeded()
-        
-        //        } completion: { _ in
-        //
-        //        }
         
         //  MARK: Keyframe Animation
         
         UIView.animateKeyframes(withDuration: 0.8, delay: 0, options: .calculationModeCubic) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
                 self.initialAvatarFrame = ava.frame
-                self.avatarWidthConstant?.constant = self.view.frame.width
-                self.avatarHeightConstant?.constant = self.view.frame.width
-                self.avatarLeadingConstant?.constant = 0
-                self.avatarTopConstant?.constant = self.view.frame.width/3
+                
+                self.avaImage.snp.remakeConstraints { make in
+                    make.width.equalToSuperview()
+                    make.height.equalTo(self.view.snp.width)
+                    make.leading.equalToSuperview().offset(0)
+                    make.top.equalTo(self.view.frame.width/3)
+                }
+                
+                self.avaImage.layoutIfNeeded()
                 self.avaImage.layer.cornerRadius = 0
                 self.avaImage.alpha = 1
                 self.backgroundView.alpha = 0.75
@@ -159,13 +146,20 @@ class ProfileViewController: UIViewController {
             UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.8) {
                 self.backButton.alpha = 1
             }
-    
+            
         } completion: { _ in
             
         }
     }
     
     @objc func closeAvatarImage () {
+        
+        self.avaImage.snp.remakeConstraints { make in
+            make.width.equalTo(self.initialAvatarFrame.width)
+            make.height.equalTo(self.initialAvatarFrame.height)
+            make.leading.equalToSuperview().offset(self.initialAvatarFrame.minX)
+            make.top.equalToSuperview().offset(initialAvatarFrame.minY)
+        }
         
         self.avatarWidthConstant?.constant = self.initialAvatarFrame.width
         self.avatarHeightConstant?.constant = self.initialAvatarFrame.height
