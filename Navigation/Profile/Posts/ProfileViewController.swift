@@ -68,9 +68,9 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
 #if DEBUG
-        tableView.backgroundColor = .systemRed
+//        tableView.backgroundColor = .systemRed
 #else
-        tableView.backgroundColor = .systemMint
+//        tableView.backgroundColor = .systemMint
 #endif
         
         if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light }
