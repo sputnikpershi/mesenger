@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import iOSIntPackage
+
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
+    private let imageProcessor = ImageProcessor()
     private lazy var photoImage : UIImageView = {
         let image = UIImageView ()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -41,5 +44,10 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     
     func setup(with viewModel: [Photos], index: Int) {
         self.photoImage.image = UIImage(named: viewModel[index].image)
+        
+        imageProcessor.processImage(sourceImage: self.photoImage.image!, filter: .noir) { image in
+            self.photoImage.image = image
+        }
+      
     }
 }
