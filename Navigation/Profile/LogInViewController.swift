@@ -82,20 +82,15 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         loginButton.alpha = 0.8
-        
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
         }
-        
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
-        
         setViews()
         setConstraints()
         self.setGesture()
-        
     }
     
     private func setViews () {
@@ -150,15 +145,18 @@ class LogInViewController: UIViewController {
         ])
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.loginTF.becomeFirstResponder()
     }
     
+    
     private  func setGesture () {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         self.view.addGestureRecognizer(tapGesture)
     }
+    
     
     @objc private func hideKeyboard () {
         self.view.endEditing(true )
@@ -172,6 +170,7 @@ class LogInViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.didWroteLoginAndPswd), name: UITextField.textDidChangeNotification, object: nil)
     }
     
+    
     @objc private func didWroteLoginAndPswd () {
         if loginTF.hasText && pswdTF.hasText {
             loginButton.alpha = 1
@@ -181,8 +180,6 @@ class LogInViewController: UIViewController {
             loginButton.isEnabled = false
         }
     }
-    
-    
     
     @objc private func didShowKeyboard (_ notification: Notification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]  as? NSValue {
@@ -208,26 +205,17 @@ class LogInViewController: UIViewController {
         let findTestUser = TestUserService()
         
         
-#if DEBUG
+#if DEBUG       // testUsersData = ["test": "test"]
         findTestUser.users = testUsers
-        let user = findTestUser.searchLogin(login: login)
-        vc.user = user
-        print("\(vc.user?.fullName)")
-
+        vc.user = findTestUser.searchLogin(login: login)
+        print("test \(vc.user?.fullName ?? "")")
         makeAuthorization(with: findTestUser)
-        
-#else
+#else          // usersData = ["cat": "12345", "dog": "12345"]
         findCurrentUser.users = users
-        let user = findCurrentUser.searchLogin(login: login)
-        
-        vc.user = user
-        print("\(vc.user?.fullName)")
-
+        vc.user = findCurrentUser.searchLogin(login: login)
+        print("release \(vc.user?.fullName)")
         makeAuthorization(with: findCurrentUser)
-        
 #endif
-        
-        
         
         
         func  makeAuthorization (with service: UserServiceProtocol) {
@@ -247,61 +235,7 @@ class LogInViewController: UIViewController {
                 alertController.addAction(ok)
                 self.present(alertController, animated: true)
             }
-            
         }
-        
-        ////// TEST
-        //    }
-        //
-        //    func makeSearch(with service: UserServiceProtocol ){
-        //        let vc = ProfileViewController()
-        //
-        //        let login = loginTF.text ?? ""
-        //        let password = pswdTF.text ?? ""
-        //        vc.user = service.searchLogin(login: login)
-        //        print(" --- \(vc.user?.fullName)")
-        //        if service.isRightPassword(with: login, password: password) {
-        //            print("Authorization was success")
-        //            vc.modalPresentationStyle = .fullScreen
-        //            loginButton.alpha = 1
-        //            self.navigationController?.pushViewController(vc, animated: true)
-        //        } else {
-        //            let alertController = UIAlertController(title: "Ошибка", message: "Логин или пароль введен с ошибкой, попробуйте еще раз", preferredStyle: .alert)
-        //            let ok = UIAlertAction(title: "Понятно", style:.cancel)
-        //
-        //            loginTF.text = ""
-        //            pswdTF.text = ""
-        //
-        //            alertController.addAction(ok)
-        //            self.present(alertController, animated: true)
-        //        }
-        //    }
-        
-        
     }
-    
-    
 }
 
-
-//
-//
-//findCurrentUser.users = users
-//let user = findCurrentUser.searchLogin(login: login)
-//vc.user = user
-//print("\(vc.user?.fullName)")
-//if findCurrentUser.isRightPassword(with: login, password: password) {
-//    print("Authorization was success")
-//    vc.modalPresentationStyle = .fullScreen
-//    loginButton.alpha = 1
-//    self.navigationController?.pushViewController(vc, animated: true)
-//} else {
-//    let alertController = UIAlertController(title: "Ошибка", message: "Логин или пароль введен с ошибкой, попробуйте еще раз", preferredStyle: .alert)
-//    let ok = UIAlertAction(title: "Понятно", style:.cancel)
-//
-//    loginTF.text = ""
-//    pswdTF.text = ""
-//
-//    alertController.addAction(ok)
-//    self.present(alertController, animated: true)
-//}

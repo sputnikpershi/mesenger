@@ -132,7 +132,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     }
     
     private func setViews () {
-        print("\(user?.fullName)")
 
         self.addSubview(self.background)
 

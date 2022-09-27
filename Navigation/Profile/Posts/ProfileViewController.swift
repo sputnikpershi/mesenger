@@ -72,7 +72,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print ("ProfileViewController \(user?.fullName)")
         
 #if DEBUG
         tableView.backgroundColor = .systemRed
