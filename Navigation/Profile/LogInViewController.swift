@@ -91,11 +91,11 @@ class LogInViewController: UIViewController {
         
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
-      
+        
         setViews()
         setConstraints()
         self.setGesture()
-
+        
     }
     
     private func setViews () {
@@ -202,12 +202,106 @@ class LogInViewController: UIViewController {
     
     @objc private func  tapButton() {
         let vc = ProfileViewController()
-        vc.modalPresentationStyle = .fullScreen
-        loginButton.alpha = 1
-        self.navigationController?.pushViewController(vc, animated: true)
+        let login = loginTF.text ?? ""
+        let password = pswdTF.text ?? ""
+        let findCurrentUser = CurrentUserService()
+        let findTestUser = TestUserService()
+        
+        
+#if DEBUG
+        findTestUser.users = testUsers
+        let user = findTestUser.searchLogin(login: login)
+        vc.user = user
+        print("\(vc.user?.fullName)")
+
+        makeAuthorization(with: findTestUser)
+        
+#else
+        findCurrentUser.users = users
+        let user = findCurrentUser.searchLogin(login: login)
+        
+        vc.user = user
+        print("\(vc.user?.fullName)")
+
+        makeAuthorization(with: findCurrentUser)
+        
+#endif
+        
+        
+        
+        
+        func  makeAuthorization (with service: UserServiceProtocol) {
+            
+            if service.isRightPassword(with: login, password: password) {
+                print("Authorization was success")
+                vc.modalPresentationStyle = .fullScreen
+                loginButton.alpha = 1
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let alertController = UIAlertController(title: "Ошибка", message: "Логин или пароль введен с ошибкой, попробуйте еще раз", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "Понятно", style:.cancel)
+                
+                loginTF.text = ""
+                pswdTF.text = ""
+                
+                alertController.addAction(ok)
+                self.present(alertController, animated: true)
+            }
+            
+        }
+        
+        ////// TEST
+        //    }
+        //
+        //    func makeSearch(with service: UserServiceProtocol ){
+        //        let vc = ProfileViewController()
+        //
+        //        let login = loginTF.text ?? ""
+        //        let password = pswdTF.text ?? ""
+        //        vc.user = service.searchLogin(login: login)
+        //        print(" --- \(vc.user?.fullName)")
+        //        if service.isRightPassword(with: login, password: password) {
+        //            print("Authorization was success")
+        //            vc.modalPresentationStyle = .fullScreen
+        //            loginButton.alpha = 1
+        //            self.navigationController?.pushViewController(vc, animated: true)
+        //        } else {
+        //            let alertController = UIAlertController(title: "Ошибка", message: "Логин или пароль введен с ошибкой, попробуйте еще раз", preferredStyle: .alert)
+        //            let ok = UIAlertAction(title: "Понятно", style:.cancel)
+        //
+        //            loginTF.text = ""
+        //            pswdTF.text = ""
+        //
+        //            alertController.addAction(ok)
+        //            self.present(alertController, animated: true)
+        //        }
+        //    }
+        
+        
     }
     
     
 }
 
 
+//
+//
+//findCurrentUser.users = users
+//let user = findCurrentUser.searchLogin(login: login)
+//vc.user = user
+//print("\(vc.user?.fullName)")
+//if findCurrentUser.isRightPassword(with: login, password: password) {
+//    print("Authorization was success")
+//    vc.modalPresentationStyle = .fullScreen
+//    loginButton.alpha = 1
+//    self.navigationController?.pushViewController(vc, animated: true)
+//} else {
+//    let alertController = UIAlertController(title: "Ошибка", message: "Логин или пароль введен с ошибкой, попробуйте еще раз", preferredStyle: .alert)
+//    let ok = UIAlertAction(title: "Понятно", style:.cancel)
+//
+//    loginTF.text = ""
+//    pswdTF.text = ""
+//
+//    alertController.addAction(ok)
+//    self.present(alertController, animated: true)
+//}
