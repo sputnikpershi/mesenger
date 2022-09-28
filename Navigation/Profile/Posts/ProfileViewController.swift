@@ -12,6 +12,20 @@ class ProfileViewController: UIViewController {
     
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
     
+    var user : User
+    
+
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
     private lazy var tableView: UITableView = {
         let table = UITableView (frame: .zero, style: .grouped)
         table.dataSource = self
@@ -69,6 +83,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
 #if DEBUG
         tableView.backgroundColor = .systemRed
 #else
@@ -123,25 +138,7 @@ class ProfileViewController: UIViewController {
     }
     
     func animateAvatar (ava: UIImageView) {
-        
-        //  MARK: Basic Animation
-        
-        //        initialAvatarFrame = ava.frame
-        //        self.avatarWidthConstant?.constant = self.view.frame.width
-        //        self.avatarHeightConstant?.constant = self.view.frame.width
-        //        self.avatarLeadingConstant?.constant = 0
-        //        self.avatarTopConstant?.constant = self.view.frame.width/3
-        //
-        //        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
-        
-        //        self.avaImage.alpha = 1
-        //        self.backgroundView.alpha = 0.75
-        //        self.view.layoutIfNeeded()
-        
-        //        } completion: { _ in
-        //
-        //        }
-        
+      
         //  MARK: Keyframe Animation
         
         UIView.animateKeyframes(withDuration: 0.8, delay: 0, options: .calculationModeCubic) {
@@ -192,6 +189,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as? ProfileTableHeaderView
         headerView?.profileVC = self
+        headerView?.setup(user: user)// Передача данных user в элементы ProfileTableHeaderView
         return headerView
     }
     
@@ -218,6 +216,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
+            
             cell.setup(with: postArray, index: indexPath.row)
             return cell
             

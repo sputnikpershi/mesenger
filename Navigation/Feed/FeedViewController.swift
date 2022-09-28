@@ -18,6 +18,7 @@ class FeedViewController: UIViewController {
         button.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
         return button
     } ()
+    
     private lazy var buttonTwo : UIButton = {
         let button = UIButton(frame: .zero)
         button.backgroundColor = .systemGreen
@@ -29,7 +30,6 @@ class FeedViewController: UIViewController {
     
 
     private lazy var stackview: UIStackView = {
-        
         let stack = UIStackView(frame: .zero)
         stack.axis = .vertical
         stack.spacing = 10
@@ -45,12 +45,11 @@ class FeedViewController: UIViewController {
         self.view.addSubview(self.stackview)
         stackview.addArrangedSubview(buttonOne)
         stackview.addArrangedSubview(buttonTwo)
-
-        
         self.buttonOne.center = self.view.center
         self.tabBarController?.tabBar.backgroundColor = .secondarySystemBackground
         setConstraints()
     }
+    
     
     private func setConstraints () {
         let stackviewConstraints = stackviewConstraints ()
@@ -59,6 +58,7 @@ class FeedViewController: UIViewController {
             stackviewConstraints + buttonsConstraints
         )
     }
+    
 
     private func  stackviewConstraints () -> [NSLayoutConstraint] {
         let centerXAnchor = self.stackview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
@@ -69,11 +69,13 @@ class FeedViewController: UIViewController {
         return [centerXAnchor, centerYAnchor, leadingAnchor, trailingAnchor]
     }
     
+    
     private func buttonsConstraints () -> [NSLayoutConstraint] {
         let heightAnchorButtonOne = self.buttonOne.heightAnchor.constraint(equalToConstant: 50)
          let heightAnchorButtonTwo = self.buttonTwo.heightAnchor.constraint(equalToConstant: 50)
         return [heightAnchorButtonOne, heightAnchorButtonTwo]
     }
+    
     
     @objc private func didTapButton() {
         let vc = PostViewController()

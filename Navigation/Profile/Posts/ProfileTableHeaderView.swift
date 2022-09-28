@@ -11,7 +11,7 @@ import UIKit
 class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
-    
+    var user : User?
     private var statusText = ""
     weak var profileVC : ProfileViewController?
     
@@ -24,7 +24,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     private lazy var avatarImage : UIImageView = {
         let avatar = UIImageView()
-        avatar.image = UIImage(named: "cat")
+        avatar.image = user?.image
         avatar.clipsToBounds = true
         avatar.contentMode = .scaleAspectFill
         avatar.layer.borderColor = UIColor.white.cgColor
@@ -41,7 +41,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     private lazy var stackView : UIStackView = {
         let stack = UIStackView(frame: .zero)
         stack.axis = .vertical
-//        stack.backgroundColor = .systemGreen
         stack.distribution = .fillEqually
         stack.spacing = 12
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +49,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     private lazy var nameLabel: UILabel = {
         let name = UILabel(frame: CGRect(x: 0, y: 0, width: 0 , height: 0 ))
-        name.text = "Товарищ Мау"
         name.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         name.textColor = .black
         return name
@@ -59,7 +57,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     private lazy var statusLabel : UILabel = {
         let status = UILabel(frame: .zero)
-        status.text = "Дай мне поесть, человечик..."
         status.numberOfLines = 1
         status.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         status.textColor = .darkGray
@@ -127,7 +124,15 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+     func setup (user: User) {
+        avatarImage.image = user.image
+        nameLabel.text = user.fullName
+        statusLabel.text = user.status
+    }
+    
     private func setViews () {
+
         self.addSubview(self.background)
 
         self.addSubview(self.profileButton)
@@ -177,6 +182,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
      @objc func buttonPressed () {
          if statusText != "" && statusText != " " {
              statusLabel.text = statusText
+//             user?.status = statusText
+
              profileTextField.text = ""
          }
      }
@@ -184,6 +191,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
      
      @objc func statusTextChanged () {
          statusText = profileTextField.text ?? ""
+//         user?.status = statusText
      }
      
      override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

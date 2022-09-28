@@ -20,12 +20,10 @@ class InfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.addSubview(self.alertButton)
         self.view.backgroundColor = .systemYellow
         self.alertButton.center = self.view.center
         self.alertButton.layer.cornerRadius = 10
-        // Do any additional setup after loading the view.
     }
     
     
@@ -37,7 +35,6 @@ class InfoViewController: UIViewController {
         }
         alertController.addAction(blueAction)
         alertController.addAction(redAction)
-        
         self.present(alertController, animated: true)
 
     }
