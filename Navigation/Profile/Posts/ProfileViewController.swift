@@ -12,7 +12,18 @@ class ProfileViewController: UIViewController {
     
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
     
-    var user : User?
+    var user : User
+    
+
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     
     private lazy var tableView: UITableView = {
@@ -178,7 +189,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as? ProfileTableHeaderView
         headerView?.profileVC = self
-        if let user = user { headerView?.setup(user: user)}  // Передача данных user в элементы ProfileTableHeaderView
+        headerView?.setup(user: user)// Передача данных user в элементы ProfileTableHeaderView
         return headerView
     }
     

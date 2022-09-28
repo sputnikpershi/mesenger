@@ -198,44 +198,68 @@ class LogInViewController: UIViewController {
     }
     
     @objc private func  tapButton() {
-        let vc = ProfileViewController()
-        let login = loginTF.text ?? ""
-        let password = pswdTF.text ?? ""
-        let findCurrentUser = CurrentUserService()
-        let findTestUser = TestUserService()
+//        let vc = ProfileViewController()
+//        let login = loginTF.text ?? ""
+//        let password = pswdTF.text ?? ""
+//        let findCurrentUser = CurrentUserService()
+//        let findTestUser = TestUserService()
         
+        
+        
+        
+ #if DEBUG
+         let service = TestUserService()
+ #else
+         let service = CurrentUserService()
+ #endif
+         // Check user login
+        if let user = service.getUser(login: loginTF.text ?? "") {
+             let profileVC = ProfileViewController(user: user)
+             navigationController?.setViewControllers([profileVC], animated: true)
+         } else {
+             let alert = UIAlertController(title: "Unknown login", message: "Please, enter correct user login", preferredStyle: .alert)
+             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+             self.present(alert, animated: true)
+         }
+     }
+    
+    
+    
         
 #if DEBUG       // testUsersData = ["test": "test"]
-        findTestUser.users = testUsers
-        vc.user = findTestUser.searchLogin(login: login)
-        print("test \(vc.user?.fullName ?? "")")
-        makeAuthorization(with: findTestUser)
+//        findTestUser.users = testUsers
+//        vc.user = findTestUser.searchLogin(login: login)
+//        print("test \(vc.user?.fullName ?? "")")
+//        makeAuthorization(with: findTestUser)
 #else          // usersData = ["cat": "12345", "dog": "12345"]
-        findCurrentUser.users = users
-        vc.user = findCurrentUser.searchLogin(login: login)
-        print("release \(vc.user?.fullName)")
-        makeAuthorization(with: findCurrentUser)
+//        findCurrentUser.users = users
+//        vc.user = findCurrentUser.searchLogin(login: login)
+//        print("release \(vc.user?.fullName)")
+//        makeAuthorization(with: findCurrentUser)
 #endif
         
         
-        func  makeAuthorization (with service: UserServiceProtocol) {
-            
-            if service.isRightPassword(with: login, password: password) {
-                print("Authorization was success")
-                vc.modalPresentationStyle = .fullScreen
-                loginButton.alpha = 1
-                self.navigationController?.pushViewController(vc, animated: true)
-            } else {
-                let alertController = UIAlertController(title: "Ошибка", message: "Логин или пароль введен с ошибкой, попробуйте еще раз", preferredStyle: .alert)
-                let ok = UIAlertAction(title: "Понятно", style:.cancel)
-                
-                loginTF.text = ""
-                pswdTF.text = ""
-                
-                alertController.addAction(ok)
-                self.present(alertController, animated: true)
-            }
-        }
-    }
+        
+        
+        
+//        func  makeAuthorization (with service: UserServiceProtocol) {
+//
+//            if service.isRightPassword(with: login, password: password) {
+//                print("Authorization was success")
+//                vc.modalPresentationStyle = .fullScreen
+//                loginButton.alpha = 1
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            } else {
+//                let alertController = UIAlertController(title: "Ошибка", message: "Логин или пароль введен с ошибкой, попробуйте еще раз", preferredStyle: .alert)
+//                let ok = UIAlertAction(title: "Понятно", style:.cancel)
+//
+//                loginTF.text = ""
+//                pswdTF.text = ""
+//
+//                alertController.addAction(ok)
+//                self.present(alertController, animated: true)
+//            }
+//        }
+//    }
 }
 
