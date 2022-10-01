@@ -18,12 +18,9 @@ class PhotosViewController: UIViewController {
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
-        //      layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.sectionInset =  UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-        
         return layout
     }()
-    
     
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView (frame: .zero, collectionViewLayout: self.layout)
@@ -44,7 +41,6 @@ class PhotosViewController: UIViewController {
     }
     
     private func setNavigationBar () {
-        //      self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.title = "Photo gallery"
     }
@@ -53,9 +49,7 @@ class PhotosViewController: UIViewController {
         self.view.addSubview(self.collectionView)
     }
     
-    
     private func setConstraints () {
-        
         NSLayoutConstraint.activate([
             self.collectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
             self.collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -71,15 +65,13 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
         photosArray.count
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as? PhotosCollectionViewCell else {
-            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DefaultCell", for: indexPath)
             cell.backgroundColor = .green
             return cell
         }
-        
         cell.backgroundColor = .brown
         cell.setup(with: photosArray, index: indexPath.row)
         return cell
@@ -88,13 +80,10 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let insets  = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset ?? .zero
         let interItemSpacing = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing ?? 0
-        
-        
         let width = collectionView.bounds.width - (Constants.numberOfItemsInLine - 1) * interItemSpacing - insets.left - insets.right
         let itemWidth = width / Constants.numberOfItemsInLine
         let height   = itemWidth
         print ("🤪  - Height: \(height)\n  - Width \(itemWidth)\n - Insets: \(insets)\n -  interItem: \(interItemSpacing)\n  \n")
-        
         return CGSize(width: itemWidth, height: height)
     }
 }

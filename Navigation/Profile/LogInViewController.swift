@@ -9,7 +9,7 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
-    
+    var loginDelegate : LoginViewControllerDelegate?
     let setColor: UIColor = UIColor(red: 0.28, green: 0.52, blue: 0.80, alpha: 1.00)
     
     private lazy var scrollView: UIScrollView = {
@@ -43,8 +43,6 @@ class LogInViewController: UIViewController {
         return line
     }()
     
-    
-    
     private lazy var loginTF: UITextField = {
         let login = UITextField ()
         login.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +51,6 @@ class LogInViewController: UIViewController {
         login.autocapitalizationType = .none
         return login
     } ()
-    
     
     private lazy var pswdTF: UITextField = {
         let pswd = UITextField ()
@@ -64,7 +61,6 @@ class LogInViewController: UIViewController {
         pswd.isSecureTextEntry = true
         return pswd
     } ()
-    
     
     private lazy var loginButton : UIButton  = {
         let button = UIButton ()
@@ -83,15 +79,14 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loginButton.alpha = 0.8
-        if #available(iOS 13.0, *) {
-            overrideUserInterfaceStyle = .light
-        }
+        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
         setViews()
         setConstraints()
         self.setGesture()
     }
+    
     
     private func setViews () {
         self.view.addSubview(self.scrollView)
@@ -106,6 +101,8 @@ class LogInViewController: UIViewController {
         self.view.addSubview(self.loginTF)
         self.view.addSubview(self.pswdTF)
     }
+    
+    
     private func setConstraints() {
         NSLayoutConstraint.activate([
             self.iconImage.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 120),
@@ -181,6 +178,7 @@ class LogInViewController: UIViewController {
         }
     }
     
+    
     @objc private func didShowKeyboard (_ notification: Notification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]  as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -192,74 +190,30 @@ class LogInViewController: UIViewController {
         }
     }
     
+    
     @objc private func didHideKeyboard (_ notification: Notification) {
         self.hideKeyboard()
         self.scrollView.setContentOffset(.zero, animated: true )
     }
     
+    
     @objc private func  tapButton() {
-//        let vc = ProfileViewController()
-//        let login = loginTF.text ?? ""
-//        let password = pswdTF.text ?? ""
-//        let findCurrentUser = CurrentUserService()
-//        let findTestUser = TestUserService()
+        let login =  self.loginTF.text ?? ""
+        let passwd =  self.pswdTF.text ?? ""
+        print("login \(login) - pswd \(passwd)")
+        //        let checkLogin = loginDelegate?.check(login: login, password: passwd) ?? false
+        let checkLogin = MyLoginFactory().makeLoginInspector().check(login: login, password: passwd)
         
-        
-        
-        
- #if DEBUG
-         let service = TestUserService()
- #else
-         let service = CurrentUserService()
- #endif
-         // Check user login
-        if let user = service.getUser(login: loginTF.text ?? "") {
-             let profileVC = ProfileViewController(user: user)
-             navigationController?.setViewControllers([profileVC], animated: true)
-         } else {
-             let alert = UIAlertController(title: "Unknown login", message: "Please, enter correct user login", preferredStyle: .alert)
-             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-             self.present(alert, animated: true)
-         }
-     }
-    
-    
-    
-        
-#if DEBUG       // testUsersData = ["test": "test"]
-//        findTestUser.users = testUsers
-//        vc.user = findTestUser.searchLogin(login: login)
-//        print("test \(vc.user?.fullName ?? "")")
-//        makeAuthorization(with: findTestUser)
-#else          // usersData = ["cat": "12345", "dog": "12345"]
-//        findCurrentUser.users = users
-//        vc.user = findCurrentUser.searchLogin(login: login)
-//        print("release \(vc.user?.fullName)")
-//        makeAuthorization(with: findCurrentUser)
-#endif
-        
-        
-        
-        
-        
-//        func  makeAuthorization (with service: UserServiceProtocol) {
-//
-//            if service.isRightPassword(with: login, password: password) {
-//                print("Authorization was success")
-//                vc.modalPresentationStyle = .fullScreen
-//                loginButton.alpha = 1
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            } else {
-//                let alertController = UIAlertController(title: "Ошибка", message: "Логин или пароль введен с ошибкой, попробуйте еще раз", preferredStyle: .alert)
-//                let ok = UIAlertAction(title: "Понятно", style:.cancel)
-//
-//                loginTF.text = ""
-//                pswdTF.text = ""
-//
-//                alertController.addAction(ok)
-//                self.present(alertController, animated: true)
-//            }
-//        }
-//    }
+        if  checkLogin {
+            print(true)
+            let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "bug")!, status: "Я тебя тестирую на начие багов")
+            let profileVC = ProfileViewController(user:  user)
+            navigationController?.setViewControllers([profileVC], animated: true)
+        } else {
+            let alert = UIAlertController(title: "Unknown login", message: "Please, enter correct user login", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            self.present(alert, animated: true)
+        }
+    }
 }
 

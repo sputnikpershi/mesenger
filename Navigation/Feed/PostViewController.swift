@@ -23,6 +23,7 @@ class PostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         self.view.backgroundColor = .orange
         if let postTitle = postTitle { titleLabel.text = postTitle }
         let barButton = UIBarButtonItem(title: "Details", style: .plain, target: self, action: #selector(self.didSelectedButton))

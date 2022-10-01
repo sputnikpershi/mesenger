@@ -55,7 +55,6 @@ class ProfileViewController: UIViewController {
     private lazy var backgroundView: UIView = {
         let background = UIView()
         background.backgroundColor = .black
-
         background.alpha = 0
         background.translatesAutoresizingMaskIntoConstraints = false
         return background
@@ -82,7 +81,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         
 #if DEBUG
         tableView.backgroundColor = .systemRed
