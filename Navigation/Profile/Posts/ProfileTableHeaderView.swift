@@ -54,7 +54,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         return name
     }()
     
-    
     private lazy var statusLabel : UILabel = {
         let status = UILabel(frame: .zero)
         status.numberOfLines = 1
@@ -71,7 +70,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
     
     private lazy var viewTF: UIView = {
         let view = UIView (frame: .zero)
@@ -115,7 +113,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         self.avatarImage.leadingAnchor.constraint(equalTo:  self.leadingAnchor, constant:  16)
         self.avatarImageTopConstraint =
         self.avatarImage.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16)
-        
+        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         setConstraints()
         setGestureRecornizer()
     }
@@ -131,10 +129,9 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         statusLabel.text = user.status
     }
     
+    
     private func setViews () {
-
         self.addSubview(self.background)
-
         self.addSubview(self.profileButton)
         self.addSubview(self.stackView)
         self.stackView.addArrangedSubview(nameLabel)
@@ -144,10 +141,10 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         self.addSubview(self.avatarImage)
     }
     
+    
     private func setConstraints () {
         
         NSLayoutConstraint.activate([
-            
             avatarImageWidthConstraint, avatarImageHeightConstraint, avatarImageLeadingConstraint, avatarImageTopConstraint,
             
             self.stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 27),
@@ -182,8 +179,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
      @objc func buttonPressed () {
          if statusText != "" && statusText != " " {
              statusLabel.text = statusText
-//             user?.status = statusText
-
              profileTextField.text = ""
          }
      }
@@ -191,7 +186,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
      
      @objc func statusTextChanged () {
          statusText = profileTextField.text ?? ""
-//         user?.status = statusText
      }
      
      override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -203,12 +197,10 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     private func setGestureRecornizer() {
         avatarImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTapAction)))
-
     }
     
     
     @objc func handleTapAction () {
-        
          self.profileVC?.animateAvatar(ava: self.avatarImage)
     }
     

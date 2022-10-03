@@ -20,6 +20,7 @@ class InfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         self.view.addSubview(self.alertButton)
         self.view.backgroundColor = .systemYellow
         self.alertButton.center = self.view.center

@@ -57,6 +57,7 @@ class PostTableViewCell: UITableViewCell {
         stack.backgroundColor = .systemOrange
         return stack
     }()
+    
     private lazy var imageStackView : UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -67,6 +68,7 @@ class PostTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         setViews()
         setConstraints()
         
@@ -74,22 +76,17 @@ class PostTableViewCell: UITableViewCell {
     
    private func setViews () {
        self.addSubview(self.stackView)
-
        stackView.addArrangedSubview(self.authorLabel)
        stackView.addArrangedSubview(self.imageStackView)
        stackView.addArrangedSubview(self.descriptionTextView)
        stackView.addArrangedSubview(self.likesLabel)
        stackView.addArrangedSubview(self.viewsLabel)
-       
        self.addSubview(self.authorLabel)
        self.addSubview(self.imageStackView)
-       
        imageStackView.addArrangedSubview(self.postImage)
-
        self.addSubview(self.descriptionTextView)
        self.addSubview(self.likesLabel)
        self.addSubview(self.viewsLabel)
-
     }
     
     private func setConstraints () {
@@ -100,28 +97,23 @@ class PostTableViewCell: UITableViewCell {
             self.stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            
             self.authorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             self.authorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
             self.authorLabel.widthAnchor.constraint(equalTo: self.widthAnchor),
-            
             
             self.imageStackView.topAnchor.constraint(equalTo: self.authorLabel.bottomAnchor, constant: 12),
             self.imageStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier:  1),
             self.imageStackView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1),
             
-
             self.descriptionTextView.topAnchor.constraint(equalTo: imageStackView.bottomAnchor, constant: 16),
             self.descriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             self.descriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            
             
             self.likesLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
             self.likesLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             self.likesLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
 //            self.likesLabel.heightAnchor.constraint(equalToConstant: 40),
             self.likesLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
-            
             
             self.viewsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
             self.viewsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
@@ -130,9 +122,11 @@ class PostTableViewCell: UITableViewCell {
         ])
     }
     
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
     
     func setup(with viewModel: [Post], index: Int) {
         self.authorLabel.text = viewModel[index].authorLabel

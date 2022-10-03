@@ -34,6 +34,7 @@ class PhotosTableViewCell: UITableViewCell {
 
         return image
     }()
+    
     private lazy var secondImage : UIImageView = {
         let image = UIImageView ()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -41,6 +42,7 @@ class PhotosTableViewCell: UITableViewCell {
 
         return image
     }()
+    
     private lazy var thirdImage : UIImageView = {
         let image = UIImageView ()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -48,6 +50,7 @@ class PhotosTableViewCell: UITableViewCell {
 
         return image
     }()
+    
     private lazy var fourthImage : UIImageView = {
         let image = UIImageView ()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -58,6 +61,7 @@ class PhotosTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         setViews()
         setConstraints()
     }
@@ -74,6 +78,7 @@ class PhotosTableViewCell: UITableViewCell {
         self.addSubview(self.thirdImage)
         self.addSubview(self.fourthImage)
     }
+    
     
     private func setConstraints () {
         
@@ -111,13 +116,14 @@ class PhotosTableViewCell: UITableViewCell {
             self.fourthImage.heightAnchor.constraint(equalTo: firstImage.heightAnchor, multiplier: 1),
             self.fourthImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12)
         ])
-
     }
+    
     
     private func setProperties (with image: UIImageView) {
         image.layer.cornerRadius = 6
         image.clipsToBounds = true
     }
+    
     
     func setup(with viewModel: [Photos]) {
         self.firstImage.image = UIImage(named: viewModel[0].image)

@@ -15,10 +15,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
         guard let windowScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: windowScene)
-        let navController = UINavigationController(rootViewController: FeedViewController())
-        let profileItemController = UINavigationController(rootViewController: LogInViewController() ) // LogInViewController()ProfileViewController
+        let feedController = UINavigationController(rootViewController: FeedViewController())
+        let loginVC = LogInViewController()
+//        let loginInspector = LoginInspector()
+        let myInspector = MyLoginFactory().makeLoginInspector()
+
+        loginVC.loginDelegate = myInspector
+        let loginController = UINavigationController(rootViewController: loginVC ) // LogInViewController()ProfileViewController
+        
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [navController, profileItemController]
+        tabBarController.viewControllers = [feedController, loginController]
         tabBarController.viewControllers?.enumerated().forEach{
             $1.tabBarItem.title = $0 == 0 ? "Feed" : "Profile"
             $1.tabBarItem.image = $0 == 0 ? UIImage(systemName: "doc.append.fill.rtl") : UIImage(systemName: "person.circle")

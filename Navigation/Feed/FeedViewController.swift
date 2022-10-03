@@ -40,6 +40,7 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         self.view.backgroundColor = .systemGray3
         self.navigationItem.title = "Feed"
         self.view.addSubview(self.stackview)
