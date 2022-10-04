@@ -23,3 +23,5 @@ func convertFromStringToPhotos (with array : [String] ) -> [Photos]{
  
 var photoGallery = Array(1...20).map { String($0)}
 var photosArray  = convertFromStringToPhotos(with: photoGallery)
+var imageArray = [UIImage]()
+
