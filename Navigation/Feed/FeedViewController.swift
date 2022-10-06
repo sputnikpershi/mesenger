@@ -9,26 +9,18 @@ import UIKit
 
 class FeedViewController: UIViewController {
     
-    private lazy var buttonOne : UIButton = {
-        let button = UIButton(frame: .zero)
-        button.backgroundColor = .orange
-        
-        button.layer.cornerRadius = 10
-        button.setTitle("Post", for: .normal)
-        button.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
-        return button
-    } ()
     
-    private lazy var buttonTwo : UIButton = {
-        let button = UIButton(frame: .zero)
-        button.backgroundColor = .systemGreen
-        button.layer.cornerRadius = 10
-        button.setTitle("Post", for: .normal)
-        button.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
-        return button
-    } ()
+    private lazy var buttonOne = CustomButton(titleButton: "Posing", cornerRadius: 10, background: .cyan) {}
     
-
+    
+    private lazy var buttonTwo = CustomButton(titleButton: "Post 2", cornerRadius: 10, background: .brown) {
+        [weak self] in
+        let vc = InfoViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
     private lazy var stackview: UIStackView = {
         let stack = UIStackView(frame: .zero)
         stack.axis = .vertical
@@ -40,6 +32,13 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        buttonOne.tapButtonOne = { [weak self] in
+            let vc = PostViewController()
+            vc.postTitle = "My first Post"
+            vc.modalPresentationStyle = .fullScreen
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+        
         if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         self.view.backgroundColor = .systemGray3
         self.navigationItem.title = "Feed"
@@ -60,20 +59,19 @@ class FeedViewController: UIViewController {
         )
     }
     
-
+    
     private func  stackviewConstraints () -> [NSLayoutConstraint] {
         let centerXAnchor = self.stackview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         let centerYAnchor = self.stackview.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         let leadingAnchor = self.stackview.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
         let trailingAnchor = self.stackview.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-
         return [centerXAnchor, centerYAnchor, leadingAnchor, trailingAnchor]
     }
     
     
     private func buttonsConstraints () -> [NSLayoutConstraint] {
         let heightAnchorButtonOne = self.buttonOne.heightAnchor.constraint(equalToConstant: 50)
-         let heightAnchorButtonTwo = self.buttonTwo.heightAnchor.constraint(equalToConstant: 50)
+        let heightAnchorButtonTwo = self.buttonTwo.heightAnchor.constraint(equalToConstant: 50)
         return [heightAnchorButtonOne, heightAnchorButtonTwo]
     }
     
@@ -84,5 +82,5 @@ class FeedViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(vc, animated: true)
     }
-  
+    
 }
