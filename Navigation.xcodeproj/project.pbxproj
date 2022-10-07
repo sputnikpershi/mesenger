@@ -17,6 +17,9 @@
 		14643E3728E6EAB1003478D6 /* Checker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14643E3628E6EAB1003478D6 /* Checker.swift */; };
 		1485CDBE28EC0256004A4CD5 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 1485CDBD28EC0256004A4CD5 /* iOSIntPackage */; };
 		1485CDC028EE80CC004A4CD5 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1485CDBF28EE80CC004A4CD5 /* CustomButton.swift */; };
+		1485CDC328EFC890004A4CD5 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1485CDC228EFC890004A4CD5 /* FeedModel.swift */; };
+		1485CDC828EFD41E004A4CD5 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1485CDC728EFD41E004A4CD5 /* CustomTextField.swift */; };
+		1485CDCA28EFD72D004A4CD5 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1485CDC928EFD72D004A4CD5 /* CustomLabel.swift */; };
 		14FBC31D28E1795300D41C4C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FBC31C28E1795300D41C4C /* User.swift */; };
 		4F40772B28A8A40C0040E680 /* ProfileTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F40772A28A8A40C0040E680 /* ProfileTableHeaderView.swift */; };
 		4F40772E28A8BDB20040E680 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F40772D28A8BDB20040E680 /* PostTableViewCell.swift */; };
@@ -81,6 +84,9 @@
 		145D9C8228CECB05008B2665 /* StorageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceTests.swift; sourceTree = "<group>"; };
 		14643E3628E6EAB1003478D6 /* Checker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checker.swift; sourceTree = "<group>"; };
 		1485CDBF28EE80CC004A4CD5 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		1485CDC228EFC890004A4CD5 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
+		1485CDC728EFD41E004A4CD5 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		1485CDC928EFD72D004A4CD5 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		14FBC31C28E1795300D41C4C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4F33CB6A28950D5F00319B6D /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		4F40772A28A8A40C0040E680 /* ProfileTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableHeaderView.swift; sourceTree = "<group>"; };
@@ -158,6 +164,32 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		1485CDC428EFD09D004A4CD5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1485CDC228EFC890004A4CD5 /* FeedModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1485CDC528EFD0B8004A4CD5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1485CDBF28EE80CC004A4CD5 /* CustomButton.swift */,
+				1485CDC728EFD41E004A4CD5 /* CustomTextField.swift */,
+				1485CDC928EFD72D004A4CD5 /* CustomLabel.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1485CDC628EFD0C3004A4CD5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4F7F590D288EC1EA00138DF2 /* FeedViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		4F40772C28A8B5D80040E680 /* Posts */ = {
 			isa = PBXGroup;
 			children = (
@@ -183,10 +215,11 @@
 		4F4F25AB289F4FB500C225E4 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				4F7F590D288EC1EA00138DF2 /* FeedViewController.swift */,
+				1485CDC628EFD0C3004A4CD5 /* Controller */,
 				4F7F5911288EC64B00138DF2 /* PostViewController.swift */,
 				4F7F5913288EDF6700138DF2 /* InfoViewController.swift */,
-				1485CDBF28EE80CC004A4CD5 /* CustomButton.swift */,
+				1485CDC528EFD0B8004A4CD5 /* View */,
+				1485CDC428EFD09D004A4CD5 /* Model */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -402,11 +435,14 @@
 			files = (
 				4F7F5912288EC64B00138DF2 /* PostViewController.swift in Sources */,
 				14643E3728E6EAB1003478D6 /* Checker.swift in Sources */,
+				1485CDCA28EFD72D004A4CD5 /* CustomLabel.swift in Sources */,
+				1485CDC328EFC890004A4CD5 /* FeedModel.swift in Sources */,
 				4F7F58FA288E5AE400138DF2 /* AppDelegate.swift in Sources */,
 				4F7F5914288EDF6700138DF2 /* InfoViewController.swift in Sources */,
 				1485CDC028EE80CC004A4CD5 /* CustomButton.swift in Sources */,
 				4F7F5910288EC1F800138DF2 /* ProfileViewController.swift in Sources */,
 				4F7F590E288EC1EA00138DF2 /* FeedViewController.swift in Sources */,
+				1485CDC828EFD41E004A4CD5 /* CustomTextField.swift in Sources */,
 				4F40773228AD1B5C0040E680 /* Photos.swift in Sources */,
 				14FBC31D28E1795300D41C4C /* User.swift in Sources */,
 				4F7F58FC288E5AE400138DF2 /* SceneDelegate.swift in Sources */,

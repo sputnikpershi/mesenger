@@ -11,14 +11,13 @@ class CustomButton: UIButton {
     var titleButton : String
     var cornerRadius: CGFloat
     var background: UIColor
-    var tapButtonOne: (() -> Void)? // сделал реализацию двух кнопок двумя картежами, по разному
-    var tapButtonTwo : () -> Void
+    var tapAction : () -> Void
     
     init(titleButton: String,cornerRadius: CGFloat, background: UIColor, taping: @escaping () -> Void ) {
         self.titleButton = titleButton
         self.cornerRadius = cornerRadius
         self.background = background
-        self.tapButtonTwo = taping
+        self.tapAction = taping
         super.init(frame: .zero)
         setup()
     }
@@ -32,16 +31,15 @@ class CustomButton: UIButton {
     func setup () {
         self.setTitle(titleButton, for: .normal)
         self.layer.cornerRadius = cornerRadius
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = background
         self.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
     
     
     @objc private func didTapButton() {
-        tapButtonOne?()
-        tapButtonTwo()
+        tapAction()
     }
-    
 }
 
 
