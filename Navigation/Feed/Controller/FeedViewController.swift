@@ -53,8 +53,8 @@ class FeedViewController: UIViewController {
         checkGuessButton.tapAction = {
             [weak self] in
             let word = self?.textField.text ?? ""
-            let checkModel = FeedModel(word: word)
-            if checkModel.check() {
+            let checkModel = FeedModel()
+            if checkModel.check(word: word) {
                 self?.indicatorLabel.textColor = .green
                 self?.textField.text = ""
                 

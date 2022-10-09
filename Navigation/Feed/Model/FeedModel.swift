@@ -8,14 +8,9 @@
 import UIKit
 
 final class FeedModel {
-    var word: String
     let secretWord = "text"
     
-    init(word: String) {
-        self.word = word
-    }
-    
-     func check() -> Bool {
+    func check(word: String) -> Bool {
          if word != "" {
              return word == secretWord ? true : false
          }
