@@ -27,7 +27,6 @@ class User {
 }
 
 
-
 final class TestUserService: UserServiceProtocol {
 
     let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "bug")!, status: "Я тебя тестирую на начие багов")

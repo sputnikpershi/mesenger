@@ -11,6 +11,10 @@ struct Photos {
     var image: String
 }
 
+ enum Constants {
+    static let numberOfItemsInLine : CGFloat = 3
+}
+
 func convertFromStringToPhotos (with array : [String] ) -> [Photos]{
     var arrayPhotos : [Photos] = []
     for i in 0..<array.count {

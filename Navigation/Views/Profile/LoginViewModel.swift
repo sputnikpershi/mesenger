@@ -40,7 +40,6 @@ class LoginInspector : LoginViewControllerDelegate {
     }
 }
 
-
 protocol LoginFactory {
     func makeLoginInspector ()  -> LoginInspector
 }

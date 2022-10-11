@@ -13,8 +13,10 @@ class ProfileViewController: UIViewController {
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
     
     var user : User
-    
 
+//    var profileViewModel = ProfileViewModel()
+    
+    
     init(user: User) {
         self.user = user
         super.init(nibName: nil, bundle: nil)
@@ -113,6 +115,7 @@ class ProfileViewController: UIViewController {
         self.avatarTopConstant = self.avaImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: initialAvatarFrame.minY)
     }
     
+
     private func setConstraints () {
         
         NSLayoutConstraint.activate([
@@ -135,6 +138,7 @@ class ProfileViewController: UIViewController {
             
         ].compactMap({ $0 }))
     }
+    
     
     func animateAvatar (ava: UIImageView) {
       
@@ -213,9 +217,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
             
         } else {
-            
             let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
-            
             cell.setup(with: postArray, index: indexPath.row)
             return cell
             

@@ -7,7 +7,9 @@
 
 import UIKit
 
-class LogInViewController: UIViewController {
+class LogInViewController: UIViewController, Coordinating {
+    var coordinator: Coordinator?
+    
     
     var loginDelegate : LoginViewControllerDelegate?
     let setColor: UIColor = UIColor(red: 0.28, green: 0.52, blue: 0.80, alpha: 1.00)

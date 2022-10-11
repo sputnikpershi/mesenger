@@ -7,12 +7,13 @@
 
 import UIKit
 
-class FeedViewController: UIViewController {
+class FeedViewController: UIViewController, Coordinating {
+    var coordinator: Coordinator?
+    
     
     private lazy var buttonOne : UIButton = {
         let button = UIButton(frame: .zero)
         button.backgroundColor = .orange
-        
         button.layer.cornerRadius = 10
         button.setTitle("Post", for: .normal)
         button.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)

@@ -9,10 +9,6 @@ import UIKit
 
 class PhotosViewController: UIViewController {
     
-    private enum Constants {
-        static let numberOfItemsInLine : CGFloat = 3
-    }
-    
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout =  UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
