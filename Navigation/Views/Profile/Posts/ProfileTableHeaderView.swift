@@ -10,10 +10,13 @@ import UIKit
 
 class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
+    
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
     var user : User?
     private var statusText = ""
     weak var profileVC : ProfileViewController?
+    weak var viewModel: ProfileViewModel?
+
     
     private lazy var background : UIView = {
         let view = UIView(frame: .zero)
@@ -177,6 +180,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     }
     
      @objc func buttonPressed () {
+  //       viewModel?.coordinator?.eventOccured(event: .tapShowStatus)
          if statusText != "" && statusText != " " {
              statusLabel.text = statusText
              profileTextField.text = ""

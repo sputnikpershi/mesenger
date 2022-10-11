@@ -203,13 +203,13 @@ class LogInViewController: UIViewController, Coordinating {
         let login =  self.loginTF.text ?? ""
         let passwd =  self.pswdTF.text ?? ""
         print("login \(login) - pswd \(passwd)")
-        //        let checkLogin = loginDelegate?.check(login: login, password: passwd) ?? false
         let checkLogin = MyLoginFactory().makeLoginInspector().check(login: login, password: passwd)
         
         if  checkLogin {
             print(true)
             let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "bug")!, status: "Я тебя тестирую на начие багов")
-            let profileVC = ProfileViewController(user:  user)
+            let profileVM = ProfileViewModel(user: user)
+            let profileVC = ProfileViewController(viewModel: profileVM)
             navigationController?.setViewControllers([profileVC], animated: true)
         } else {
             let alert = UIAlertController(title: "Unknown login", message: "Please, enter correct user login", preferredStyle: .alert)

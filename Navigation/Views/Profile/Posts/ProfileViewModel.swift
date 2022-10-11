@@ -10,8 +10,19 @@ import Foundation
 
 final class ProfileViewModel {
     
-    var user : User?
+    weak var coordinator: ProfileTabCoordinator?
+    var user : User
     
     
+    init(user: User) {
+        self.user = user
+    }
+    
+    
+    
+    //1 Перенести логику координаторова на кнопки Показать статус
+    //2 Перенести весь контент для хэдера, фото, постов
+    //3 Перенести локику авторизациюю
+
     
 }

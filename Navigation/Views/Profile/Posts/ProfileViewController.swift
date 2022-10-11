@@ -12,20 +12,19 @@ class ProfileViewController: UIViewController {
     
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
     
-    var user : User
-
-//    var profileViewModel = ProfileViewModel()
     
+    private var viewModel : ProfileViewModel?
     
-    init(user: User) {
-        self.user = user
+    // MARK: INIT
+    
+    init(viewModel: ProfileViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     
     private lazy var tableView: UITableView = {
@@ -81,6 +80,8 @@ class ProfileViewController: UIViewController {
     private var avatarLeadingConstant :NSLayoutConstraint?
     private var avatarTopConstant :NSLayoutConstraint?
     
+    // MARK: VIEWDIDLOAD
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
@@ -115,7 +116,7 @@ class ProfileViewController: UIViewController {
         self.avatarTopConstant = self.avaImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: initialAvatarFrame.minY)
     }
     
-
+    
     private func setConstraints () {
         
         NSLayoutConstraint.activate([
@@ -141,7 +142,7 @@ class ProfileViewController: UIViewController {
     
     
     func animateAvatar (ava: UIImageView) {
-      
+        
         //  MARK: Keyframe Animation
         
         UIView.animateKeyframes(withDuration: 0.8, delay: 0, options: .calculationModeCubic) {
@@ -159,7 +160,7 @@ class ProfileViewController: UIViewController {
             UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.8) {
                 self.backButton.alpha = 1
             }
-    
+            
         } completion: { _ in
             
         }
@@ -186,13 +187,14 @@ class ProfileViewController: UIViewController {
     }
 }
 
+// MARK: EXTENSION
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as? ProfileTableHeaderView
         headerView?.profileVC = self
-        headerView?.setup(user: user)// Передача данных user в элементы ProfileTableHeaderView
+        headerView?.setup(user: viewModel!.user)// Передача данных user в элементы ProfileTableHeaderView
         return headerView
     }
     
