@@ -12,6 +12,7 @@ final class ProfileViewModel {
     
     weak var coordinator: ProfileTabCoordinator?
     var user : User
+    var footerText = "Вы несете ответсвенность за каждое слово в публичном пространстве."
     
     
     init(user: User) {

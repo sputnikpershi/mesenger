@@ -11,8 +11,6 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
-    
-    
     private var viewModel : ProfileViewModel?
     
     // MARK: INIT
@@ -36,7 +34,6 @@ class ProfileViewController: UIViewController {
         table.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
         table.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosCell")
         table.register(PostTableViewCell.self, forCellReuseIdentifier: "CustomCell")
-        
         table.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
@@ -49,7 +46,6 @@ class ProfileViewController: UIViewController {
         image.isUserInteractionEnabled = true
         image.clipsToBounds = true
         image.layer.cornerRadius = self.initialAvatarFrame.height/2
-        image.image = UIImage(named: "cat")
         return image
     }()
     
@@ -85,14 +81,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
-        
-#if DEBUG
-        tableView.backgroundColor = .systemRed
-#else
-        tableView.backgroundColor = .systemMint
-#endif
-        
-        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light }
         self.view.backgroundColor = .secondarySystemBackground
         self.tabBarController?.tabBar.backgroundColor = .secondarySystemBackground
         setViews()
@@ -160,14 +148,13 @@ class ProfileViewController: UIViewController {
             UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.8) {
                 self.backButton.alpha = 1
             }
-            
         } completion: { _ in
             
         }
     }
     
+    
     @objc func closeAvatarImage () {
-        
         self.avatarWidthConstant?.constant = self.initialAvatarFrame.width
         self.avatarHeightConstant?.constant = self.initialAvatarFrame.height
         self.avatarLeadingConstant?.constant = self.initialAvatarFrame.minX
@@ -198,8 +185,9 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         return headerView
     }
     
+    
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        "Вы несете ответсвенность за каждое слово в публичном пространстве."
+        viewModel?.footerText
     }
     
     
@@ -207,9 +195,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         1
     }
     
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         postArray.count
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -222,7 +212,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
             cell.setup(with: postArray, index: indexPath.row)
             return cell
-            
         }
     }
     

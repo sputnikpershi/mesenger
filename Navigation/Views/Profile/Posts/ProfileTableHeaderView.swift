@@ -32,10 +32,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         avatar.contentMode = .scaleAspectFill
         avatar.layer.borderColor = UIColor.white.cgColor
         avatar.layer.borderWidth = 3
-//        avatar.layer.masksToBounds = true
         print (avatar.frame.size.height/2)
         avatar.layer.cornerRadius = self.initialAvatarFrame.height/2
-        
         avatar.translatesAutoresizingMaskIntoConstraints = false
         avatar.isUserInteractionEnabled = true
         return avatar
@@ -210,7 +208,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     
     func animateImageView () {
-
         let backView = UIView()
         backView.translatesAutoresizingMaskIntoConstraints = false
         backView.isUserInteractionEnabled = true

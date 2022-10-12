@@ -55,7 +55,6 @@ class PhotosTableViewCell: UITableViewCell {
         let image = UIImageView ()
         image.translatesAutoresizingMaskIntoConstraints = false
         setProperties(with: image)
-
         return image
     }()
     
