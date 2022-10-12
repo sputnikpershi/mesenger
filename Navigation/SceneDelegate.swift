@@ -10,11 +10,11 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    
+
     var applicationCoordinator: ApplicationCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-    
+
         guard let windowScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: windowScene)
 
@@ -22,6 +22,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let applicationCoordinator = ApplicationCoordinator(window: window!)
         applicationCoordinator.start()
         self.applicationCoordinator = applicationCoordinator
+
+
+        loginVC.loginDelegate = myInspector
+        let loginController = UINavigationController(rootViewController: loginVC ) // loginVCProfileViewController
+
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [feedController, loginController]
+        tabBarController.viewControllers?.enumerated().forEach{
+            $1.tabBarItem.title = $0 == 0 ? "Feed" : "Profile"
+            $1.tabBarItem.image = $0 == 0 ? UIImage(systemName: "doc.append.fill.rtl") : UIImage(systemName: "person.circle")
+
+        }
+        self.window?.rootViewController = tabBarController
 
         self.window?.makeKeyAndVisible()
     }
