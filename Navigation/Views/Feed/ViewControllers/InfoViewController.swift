@@ -17,8 +17,7 @@ class InfoViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapButtonAlert), for: .touchUpInside)
         return button
     } ()
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
@@ -31,10 +30,13 @@ class InfoViewController: UIViewController {
     
     @objc private func didTapButtonAlert () {
         let alertController = UIAlertController(title: "", message: "Which tablet you prefer?", preferredStyle: .alert)
-        let blueAction  = UIAlertAction(title: "Blue", style: .cancel) { _ in print("Neo chosed a blue tablet")}
-        let redAction  = UIAlertAction(title: "Red", style: .destructive) { _ in print("Neo chosed a red tablet")}
+        let blueAction  = UIAlertAction(title: "Blue", style: .cancel) { _ in print("Neo chosed a blue tablet")
+        }
+        let redAction  = UIAlertAction(title: "Red", style: .destructive) { _ in print("Neo chosed a red tablet")
+        }
         alertController.addAction(blueAction)
         alertController.addAction(redAction)
         self.present(alertController, animated: true)
+
     }
 }

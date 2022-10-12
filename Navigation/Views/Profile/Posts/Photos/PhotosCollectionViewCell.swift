@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import iOSIntPackage
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
@@ -40,11 +39,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func setup(with image: [UIImage], index: Int) {
-        self.photoImage.image = image[index]
-        let imageProcessor = ImageProcessor()
-        imageProcessor.processImage(sourceImage: self.photoImage.image!, filter: .tonal) { image in
-            self.photoImage.image = image
-        }
+    func setup(with viewModel: [Photos], index: Int) {
+        self.photoImage.image = UIImage(named: viewModel[index].image)
     }
 }

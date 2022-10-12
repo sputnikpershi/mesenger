@@ -6,18 +6,8 @@
 //
 
 import UIKit
-import iOSIntPackage
 
 class PhotosViewController: UIViewController {
-    
-
-    private lazy var facade = ImagePublisherFacade()
-    private lazy var arrayOfImage = [UIImage]()
-    private lazy var profileImages = [UIImage]()
-    
-    private enum Constants {
-        static let numberOfItemsInLine : CGFloat = 3
-    }
     
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout =  UICollectionViewFlowLayout()
@@ -44,25 +34,6 @@ class PhotosViewController: UIViewController {
         setNavigationBar()
         self.setViews()
         self.setConstraints()
-        self.setImages()
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.facade.subscribe(self)  // Подписка на наблюдателя
-    }
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.facade.removeSubscription(for: self) // Удаление наблюдателя из подписки
-    }
-    
-
-    private func setImages () {
-        photoGallery.forEach { profileImages.append((UIImage(named: $0)!)) }
-        facade.addImagesWithTimer(time: 0.5, repeat: 20, userImages: profileImages)
     }
     
     private func setNavigationBar () {
@@ -70,11 +41,9 @@ class PhotosViewController: UIViewController {
         self.navigationItem.title = "Photo gallery"
     }
     
-    
     private func setViews () {
         self.view.addSubview(self.collectionView)
     }
-    
     
     private func setConstraints () {
         NSLayoutConstraint.activate([
@@ -87,12 +56,9 @@ class PhotosViewController: UIViewController {
 }
 
 
-// MARK: EXTENSIONS
-
-
 extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        arrayOfImage.count
+        photosArray.count
     }
     
     
@@ -103,8 +69,7 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
             return cell
         }
         cell.backgroundColor = .brown
-        //        cell.setup(with: photosArray, index: indexPath.row)
-        cell.setup(with: arrayOfImage, index: indexPath.row)
+        cell.setup(with: photosArray, index: indexPath.row)
         return cell
     }
     
@@ -116,12 +81,5 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
         let height   = itemWidth
         print ("🤪  - Height: \(height)\n  - Width \(itemWidth)\n - Insets: \(insets)\n -  interItem: \(interItemSpacing)\n  \n")
         return CGSize(width: itemWidth, height: height)
-    }
-}
-
-extension PhotosViewController: ImageLibrarySubscriber {
-    func receive(images: [UIImage]) {
-        arrayOfImage = images
-        collectionView.reloadData()
     }
 }
