@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Navigation
 //
-//  Created by Krime Loma    on 7/25/22.
+//  Created by Kiryl Rakk    on 7/25/22.
 //
 
 import UIKit
