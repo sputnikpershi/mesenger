@@ -42,6 +42,7 @@ class ProfileViewController: UIViewController {
     private lazy var avaImage: UIImageView = {
         let image = UIImageView()
         image.alpha = 0
+        image.image = viewModel?.user.image
         image.translatesAutoresizingMaskIntoConstraints = false
         image.isUserInteractionEnabled = true
         image.clipsToBounds = true
@@ -103,7 +104,6 @@ class ProfileViewController: UIViewController {
         self.avatarLeadingConstant = self.avaImage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: initialAvatarFrame.minX)
         self.avatarTopConstant = self.avaImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: initialAvatarFrame.minY)
     }
-    
     
     private func setConstraints () {
         
