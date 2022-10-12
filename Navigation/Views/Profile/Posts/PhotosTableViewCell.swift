@@ -124,10 +124,10 @@ class PhotosTableViewCell: UITableViewCell {
     }
     
     
-    func setup(with viewModel: [Photos]) {
-        self.firstImage.image = UIImage(named: viewModel[0].image)
-        self.secondImage.image = UIImage(named: viewModel[1].image)
-        self.thirdImage.image = UIImage(named: viewModel[2].image)
-        self.fourthImage.image = UIImage(named: viewModel[3].image)
+    func setup(with viewModel: [UIImage]) {
+        self.firstImage.image = viewModel[0]
+        self.secondImage.image = viewModel[1]
+        self.thirdImage.image = viewModel[2]
+        self.fourthImage.image = viewModel[3]
     }
 }

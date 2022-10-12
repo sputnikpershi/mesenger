@@ -29,7 +29,7 @@ class User {
 
 final class TestUserService: UserServiceProtocol {
 
-    let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "bug")!, status: "Я тебя тестирую на начие багов")
+    let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
 
     func getUser(login: String) -> User? {
         login == user.login ? user : nil
@@ -48,6 +48,6 @@ final class CurrentUserService: UserServiceProtocol {
 
 
 var users = [User(login: "cat", fullName: "Товарищъ Мяу", image: UIImage(named: "cat")!, status: "Коженный, ты где?"), User(login: "dog", fullName: "Товарищъ Гау", image: UIImage(named: "dog")!, status: "В поисках новых друзей")]
-var testUsers = [User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "bug")!, status: "Я тебя тестирую на начие багов")]
+var testUsers = [User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")]
 var usersData = ["cat": "12345", "dog": "12345"]
 var testUsersData = ["test": "test"]

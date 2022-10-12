@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import iOSIntPackage
 
 class PhotosViewController: UIViewController {
+    
+    var processImages : [UIImage] = []
+
     
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout =  UICollectionViewFlowLayout()
@@ -36,6 +40,17 @@ class PhotosViewController: UIViewController {
         self.setConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+       
+        
+    }
+    
     private func setNavigationBar () {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.title = "Photo gallery"
@@ -55,10 +70,11 @@ class PhotosViewController: UIViewController {
     }
 }
 
+    // MARK: EXTENSION
 
 extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        photosArray.count
+        return photosArray.count
     }
     
     
@@ -78,8 +94,7 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
         let interItemSpacing = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing ?? 0
         let width = collectionView.bounds.width - (Constants.numberOfItemsInLine - 1) * interItemSpacing - insets.left - insets.right
         let itemWidth = width / Constants.numberOfItemsInLine
-        let height   = itemWidth
-        print ("🤪  - Height: \(height)\n  - Width \(itemWidth)\n - Insets: \(insets)\n -  interItem: \(interItemSpacing)\n  \n")
+        let height = itemWidth
         return CGSize(width: itemWidth, height: height)
     }
 }
