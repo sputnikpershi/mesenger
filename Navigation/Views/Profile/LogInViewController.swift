@@ -8,9 +8,8 @@
 import UIKit
 
 class LogInViewController: UIViewController, Coordinating {
+    
     var coordinator: Coordinator?
-    
-    
     var loginDelegate : LoginViewControllerDelegate?
     let setColor: UIColor = UIColor(red: 0.28, green: 0.52, blue: 0.80, alpha: 1.00)
     
@@ -48,7 +47,7 @@ class LogInViewController: UIViewController, Coordinating {
     private lazy var loginTF: UITextField = {
         let login = UITextField ()
         login.translatesAutoresizingMaskIntoConstraints = false
-        login.placeholder = "Email or phone"
+        login.placeholder = "Email or phone (test)"
         login.textColor = .black
         login.autocapitalizationType = .none
         return login
@@ -57,7 +56,7 @@ class LogInViewController: UIViewController, Coordinating {
     private lazy var pswdTF: UITextField = {
         let pswd = UITextField ()
         pswd.translatesAutoresizingMaskIntoConstraints = false
-        pswd.placeholder = "Password"
+        pswd.placeholder = "Password (test)"
         pswd.textColor = .black
         pswd.autocapitalizationType = .none
         pswd.isSecureTextEntry = true
@@ -77,7 +76,8 @@ class LogInViewController: UIViewController, Coordinating {
         return button
     } ()
     
-    
+    // MARK: VIEWDIDLOAD
+
     override func viewDidLoad() {
         super.viewDidLoad()
         loginButton.alpha = 0.8
@@ -87,6 +87,12 @@ class LogInViewController: UIViewController, Coordinating {
         setViews()
         setConstraints()
         self.setGesture()
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.loginTF.becomeFirstResponder()
     }
     
     
@@ -142,12 +148,6 @@ class LogInViewController: UIViewController, Coordinating {
             self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
-    }
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.loginTF.becomeFirstResponder()
     }
     
     
@@ -207,7 +207,7 @@ class LogInViewController: UIViewController, Coordinating {
         
         if  checkLogin {
             print(true)
-            let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "bug")!, status: "Я тебя тестирую на начие багов")
+            let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
             let profileVM = ProfileViewModel(user: user)
             let profileVC = ProfileViewController(viewModel: profileVM)
             navigationController?.setViewControllers([profileVC], animated: true)

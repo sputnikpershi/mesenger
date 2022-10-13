@@ -210,7 +210,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
-            cell.setup(with: postArray, index: indexPath.row)
+            cell.setup(with: postArray, index: indexPath.row) // загрузка информацией cell через массив postArray
             return cell
         }
     }

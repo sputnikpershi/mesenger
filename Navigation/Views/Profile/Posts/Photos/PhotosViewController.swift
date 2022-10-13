@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import iOSIntPackage
 
 class PhotosViewController: UIViewController {
+    
+    var processImages : [UIImage] = []
     
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout =  UICollectionViewFlowLayout()
@@ -31,9 +34,34 @@ class PhotosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ImageProcessorConvert ()
         setNavigationBar()
         self.setViews()
         self.setConstraints()
+    }
+    
+    private func ImageProcessorConvert () {
+        let startDate = Date()
+            ImageProcessor().processImagesOnThread(sourceImages: photosArray, filter: .sepia(intensity: 1.0), qos: .background) { [weak self] images in
+                photosArray = images
+                    .compactMap { $0 }
+                    .map { UIImage(cgImage: $0) }
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+                print("Process time: \(Date().timeIntervalSince(startDate)) seconds")
+            }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+       
+        
     }
     
     private func setNavigationBar () {
@@ -55,10 +83,11 @@ class PhotosViewController: UIViewController {
     }
 }
 
+    // MARK: EXTENSION
 
 extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        photosArray.count
+        return photosArray.count
     }
     
     
@@ -78,8 +107,7 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
         let interItemSpacing = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing ?? 0
         let width = collectionView.bounds.width - (Constants.numberOfItemsInLine - 1) * interItemSpacing - insets.left - insets.right
         let itemWidth = width / Constants.numberOfItemsInLine
-        let height   = itemWidth
-        print ("🤪  - Height: \(height)\n  - Width \(itemWidth)\n - Insets: \(insets)\n -  interItem: \(interItemSpacing)\n  \n")
+        let height = itemWidth
         return CGSize(width: itemWidth, height: height)
     }
 }

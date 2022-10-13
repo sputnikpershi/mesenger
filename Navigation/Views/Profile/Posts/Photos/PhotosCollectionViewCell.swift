@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import iOSIntPackage
+
 
 class PhotosCollectionViewCell: UICollectionViewCell {
+    
+    var startTime: TimeInterval = 0
     
     private lazy var photoImage : UIImageView = {
         let image = UIImageView ()
@@ -25,6 +29,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
+    
     private func setViews() {
         self.addSubview(self.photoImage)
     }
@@ -39,7 +44,29 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func setup(with viewModel: [Photos], index: Int) {
-        self.photoImage.image = UIImage(named: viewModel[index].image)
+    func setup(with image: [UIImage], index: Int) {
+        
+        
+        self.photoImage.image = image[index]
+        //
+        //        let imageProcessot = ImageProcessor()
+        //        startTime = Date().timeIntervalSince1970
+        //
+        //        imageProcessot.processImagesOnThread(sourceImages: [image[index]], filter: .bloom(intensity: 10), qos: .utility) { cgImage in DispatchQueue.main.sync {
+        //
+        //            cgImage.forEach { cgImage in
+        //                if let image = cgImage {
+        //                    self.photoImage.image = UIImage(cgImage: image)
+        //                }
+        //            }
+        //        }
+        //            let endTime = Date().timeIntervalSince1970    // 1512538956.57195 seconds
+        //            let elapsedTime = Float(endTime - self.startTime)
+        //            print(elapsedTime)
+        //
+        //        }
+        //
+        //    }
+        
     }
-}
+    }
