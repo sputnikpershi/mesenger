@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Navigation
 //
-//  Created by Krime Loma    on 7/25/22.
+//  Created by Kiryl Rakk    on 7/25/22.
 //
 
 import UIKit
@@ -14,6 +14,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let loginVC = LogInViewController()
+        let loginInspector = LoginInspector()
+        loginVC.loginDelegate = loginInspector
+        
         return true
     }
 
