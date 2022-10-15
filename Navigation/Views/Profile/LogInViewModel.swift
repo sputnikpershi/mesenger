@@ -16,8 +16,8 @@ protocol LoginViewControllerDelegate {
 final class Checker {
     static var shared = Checker()
     #if DEBUG
-    private var login = "test"
-    private var password = "test"
+     var login = "test"
+     var password = ""
     #else
     private var login = "cat"
     private var password = "12345"
@@ -51,6 +51,7 @@ struct MyLoginFactory: LoginFactory {
     }
 }
 
-//let myInspector = MyLoginFactory().makeLoginInspector()
+
+
 
 
