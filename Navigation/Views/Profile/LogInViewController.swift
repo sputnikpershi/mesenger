@@ -14,15 +14,9 @@ class LogInViewController: UIViewController, Coordinating {
     let cuncurrentQueue = DispatchQueue(label: "com.app.concurrent", attributes: [.concurrent])
     var loginDelegate : LoginViewControllerDelegate?
     let setColor: UIColor = UIColor(red: 0.28, green: 0.52, blue: 0.80, alpha: 1.00)
-    var globalPswd : String?
-    var brutePswd: String?
+   
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .medium)
-        indicator.color = .systemPurple
-        return indicator
-    }()
-    
+ 
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView ()
         scroll.backgroundColor = .white
@@ -86,33 +80,33 @@ class LogInViewController: UIViewController, Coordinating {
         button.addTarget(self, action: #selector(self.tapButton), for: .touchUpInside)
         return button
     } ()
-    
-    
-    private lazy var bruteButton = BruteButton(title: "Подобрать пароль", color: .black) {    [weak self] in
-      
-        self?.activityIndicator.startAnimating()
-
-        self?.groupQueue.enter()
-        self?.cuncurrentQueue.sync {
-            let generatedPassword = BruteForce().generatePassword(length: 3)
-            self?.globalPswd = generatedPassword
-            self?.groupQueue.leave()
-        }
-        
-        self?.groupQueue.enter()
-        self?.cuncurrentQueue.async {
-            self?.brutePswd =  BruteForce().bruteForce(passwordToUnlock: self?.globalPswd ?? "")
-            self?.groupQueue.leave()
-        }
-
-        self?.groupQueue.notify(queue: .main) {
-            self?.pswdTF.text = self?.brutePswd
-            self?.activityIndicator.stopAnimating()
-            print("finished")
-        }
-
-        
-    }
+//
+//
+//    private lazy var bruteButton = BruteButton(title: "Подобрать пароль", color: .black) {    [weak self] in
+//
+//        self?.activityIndicator.startAnimating()
+//
+//        self?.groupQueue.enter()
+//        self?.cuncurrentQueue.sync {
+//            let generatedPassword = BruteForce().generatePassword(length: 3)
+//            self?.globalPswd = generatedPassword
+//            self?.groupQueue.leave()
+//        }
+//
+//        self?.groupQueue.enter()
+//        self?.cuncurrentQueue.async {
+//            self?.brutePswd =  BruteForce().bruteForce(passwordToUnlock: self?.globalPswd ?? "")
+//            self?.groupQueue.leave()
+//        }
+//
+//        self?.groupQueue.notify(queue: .main) {
+//            self?.pswdTF.text = self?.brutePswd
+//            self?.activityIndicator.stopAnimating()
+//            print("finished")
+//        }
+//
+//
+//    }
     
     // MARK: VIEWDIDLOAD
 
@@ -140,18 +134,14 @@ class LogInViewController: UIViewController, Coordinating {
         self.scrollView.addSubview(stackView)
         self.scrollView.addSubview(iconImage)
         self.scrollView.addSubview(loginButton)
-        self.scrollView.addSubview(activityIndicator)
 
         self.stackView.addArrangedSubview(lineStackView)
         self.stackView.addArrangedSubview(loginTF)
         self.stackView.addArrangedSubview(pswdTF)
-        self.stackView.addArrangedSubview(activityIndicator)
 
         self.view.addSubview(self.lineStackView)
         self.view.addSubview(self.loginTF)
         self.view.addSubview(self.pswdTF)
-        self.view.addSubview(self.bruteButton)
-        self.view.addSubview(self.activityIndicator)
     }
     
     
@@ -186,19 +176,13 @@ class LogInViewController: UIViewController, Coordinating {
             self.loginButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.loginButton.widthAnchor.constraint(equalTo: self.stackView.widthAnchor),
             self.loginButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            self.bruteButton.bottomAnchor.constraint(equalTo: self.stackView.topAnchor,constant: -20),
-            self.bruteButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            
+        
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             
-            self.activityIndicator.trailingAnchor.constraint(equalTo: self.pswdTF.trailingAnchor),
-            self.activityIndicator.bottomAnchor.constraint(equalTo: self.pswdTF.bottomAnchor),
-            self.activityIndicator.topAnchor.constraint(equalTo: self.pswdTF.topAnchor),
-
+        
 
 
             
@@ -222,20 +206,20 @@ class LogInViewController: UIViewController, Coordinating {
         NotificationCenter.default.addObserver(self, selector: #selector(self.didShowKeyboard(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didHideKeyboard(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.didWroteLoginAndPswd), name: UITextField.textDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didWroteLoginAndPswd), name: UITextField.textDidChangeNotification, object: nil)
     }
     
     
-//    @objc private func didWroteLoginAndPswd () {
-//        if loginTF.hasText && pswdTF.hasText {
-//            loginButton.alpha = 1
-//            loginButton.isEnabled = true
-//        } else {
-//            loginButton.alpha = 0.8
-//            loginButton.isEnabled = false
-//        }
-//    }
-//
+    @objc private func didWroteLoginAndPswd () {
+        if loginTF.hasText && pswdTF.hasText {
+            loginButton.alpha = 1
+            loginButton.isEnabled = true
+        } else {
+            loginButton.alpha = 0.8
+            loginButton.isEnabled = false
+        }
+    }
+
     
     @objc private func didShowKeyboard (_ notification: Notification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]  as? NSValue {
@@ -260,11 +244,11 @@ class LogInViewController: UIViewController, Coordinating {
         let login =  self.loginTF.text ?? ""
         let passwd =  self.pswdTF.text ?? ""
         print("login \(login) - pswd \(passwd)")
-       // let checkLogin = MyLoginFactory().makeLoginInspector().check(login: login, password: passwd)
+        let checkLogin = MyLoginFactory().makeLoginInspector().check(login: login, password: passwd)
         
         
         
-        if  self.loginTF.text == "test" && self.pswdTF.text == globalPswd {
+        if  checkLogin {
             print(true)
             let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
             let profileVM = ProfileViewModel(user: user)
