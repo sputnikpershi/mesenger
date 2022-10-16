@@ -8,8 +8,6 @@
 import UIKit
 protocol UserServiceProtocol {
     func getUser(login: String) -> User?
-//    func searchLogin (login: String) -> User?
-//    func isRightPassword (with login: String, password: String) -> Bool
 }
 
 class User {
@@ -28,7 +26,6 @@ class User {
 
 
 final class TestUserService: UserServiceProtocol {
-
     let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
 
     func getUser(login: String) -> User? {
@@ -44,8 +41,6 @@ final class CurrentUserService: UserServiceProtocol {
         login == user.login ? user : nil
     }
 }
-
-
 
 var users = [User(login: "cat", fullName: "Товарищъ Мяу", image: UIImage(named: "cat")!, status: "Коженный, ты где?"), User(login: "dog", fullName: "Товарищъ Гау", image: UIImage(named: "dog")!, status: "В поисках новых друзей")]
 var testUsers = [User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")]
