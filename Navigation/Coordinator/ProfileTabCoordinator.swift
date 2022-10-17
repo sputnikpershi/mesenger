@@ -25,7 +25,7 @@ class ProfileTabCoordinator: Coordinator {
     }
     
     func start () {
-        rootViewController.setViewControllers([ScreenViewController()], animated: false)
+        rootViewController.setViewControllers([LogInViewController()], animated: false)
     }
 }
 
