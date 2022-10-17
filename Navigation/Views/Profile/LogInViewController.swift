@@ -80,33 +80,6 @@ class LogInViewController: UIViewController, Coordinating {
         button.addTarget(self, action: #selector(self.tapButton), for: .touchUpInside)
         return button
     } ()
-//
-//
-//    private lazy var bruteButton = BruteButton(title: "Подобрать пароль", color: .black) {    [weak self] in
-//
-//        self?.activityIndicator.startAnimating()
-//
-//        self?.groupQueue.enter()
-//        self?.cuncurrentQueue.sync {
-//            let generatedPassword = BruteForce().generatePassword(length: 3)
-//            self?.globalPswd = generatedPassword
-//            self?.groupQueue.leave()
-//        }
-//
-//        self?.groupQueue.enter()
-//        self?.cuncurrentQueue.async {
-//            self?.brutePswd =  BruteForce().bruteForce(passwordToUnlock: self?.globalPswd ?? "")
-//            self?.groupQueue.leave()
-//        }
-//
-//        self?.groupQueue.notify(queue: .main) {
-//            self?.pswdTF.text = self?.brutePswd
-//            self?.activityIndicator.stopAnimating()
-//            print("finished")
-//        }
-//
-//
-//    }
     
     // MARK: VIEWDIDLOAD
 
@@ -181,11 +154,7 @@ class LogInViewController: UIViewController, Coordinating {
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
-        
-
-
-            
+    
         ])
     }
     
