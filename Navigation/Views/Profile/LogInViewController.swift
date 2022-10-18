@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+
 class LogInViewController: UIViewController, Coordinating {
     
     var coordinator: Coordinator?
@@ -14,9 +16,9 @@ class LogInViewController: UIViewController, Coordinating {
     let cuncurrentQueue = DispatchQueue(label: "com.app.concurrent", attributes: [.concurrent])
     var loginDelegate : LoginViewControllerDelegate?
     let setColor: UIColor = UIColor(red: 0.28, green: 0.52, blue: 0.80, alpha: 1.00)
-   
     
- 
+    
+    
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView ()
         scroll.backgroundColor = .white
@@ -52,7 +54,6 @@ class LogInViewController: UIViewController, Coordinating {
         let login = UITextField ()
         login.translatesAutoresizingMaskIntoConstraints = false
         login.placeholder = "Email or phone (test)"
-        login.text = "test"
         login.textColor = .black
         login.autocapitalizationType = .none
         return login
@@ -82,7 +83,7 @@ class LogInViewController: UIViewController, Coordinating {
     } ()
     
     // MARK: VIEWDIDLOAD
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loginButton.alpha = 0.8
@@ -107,11 +108,11 @@ class LogInViewController: UIViewController, Coordinating {
         self.scrollView.addSubview(stackView)
         self.scrollView.addSubview(iconImage)
         self.scrollView.addSubview(loginButton)
-
+        
         self.stackView.addArrangedSubview(lineStackView)
         self.stackView.addArrangedSubview(loginTF)
         self.stackView.addArrangedSubview(pswdTF)
-
+        
         self.view.addSubview(self.lineStackView)
         self.view.addSubview(self.loginTF)
         self.view.addSubview(self.pswdTF)
@@ -149,12 +150,12 @@ class LogInViewController: UIViewController, Coordinating {
             self.loginButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.loginButton.widthAnchor.constraint(equalTo: self.stackView.widthAnchor),
             self.loginButton.heightAnchor.constraint(equalToConstant: 50),
-        
+            
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-    
+            
         ])
     }
     
@@ -175,20 +176,20 @@ class LogInViewController: UIViewController, Coordinating {
         NotificationCenter.default.addObserver(self, selector: #selector(self.didShowKeyboard(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didHideKeyboard(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didWroteLoginAndPswd), name: UITextField.textDidChangeNotification, object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(self.didWroteLoginAndPswd), name: UITextField.textDidChangeNotification, object: nil)
     }
     
     
-    @objc private func didWroteLoginAndPswd () {
-        if loginTF.hasText && pswdTF.hasText {
-            loginButton.alpha = 1
-            loginButton.isEnabled = true
-        } else {
-            loginButton.alpha = 0.8
-            loginButton.isEnabled = false
-        }
-    }
-
+    //    @objc private func didWroteLoginAndPswd () {
+    //        if loginTF.hasText && pswdTF.hasText {
+    //            loginButton.alpha = 1
+    //            loginButton.isEnabled = true
+    //        } else {
+    //            loginButton.alpha = 0.8
+    //            loginButton.isEnabled = false
+    //        }
+    //    }
+    
     
     @objc private func didShowKeyboard (_ notification: Notification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]  as? NSValue {
@@ -208,25 +209,47 @@ class LogInViewController: UIViewController, Coordinating {
     }
     
     
+    @objc private func  tapButton() throws{
+        do {
+            guard (try checkErrorLogin()) != nil else { preconditionFailure("Logic of login action has problem") }
+        }
+        catch LogingError.wrongData{
+            let alert = UIAlertController(title: "Unknown login", message: "Please, enter correct user and login", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            self.present(alert, animated: true)
+        }
+        catch LogingError.emptyField {
+            let alert = UIAlertController(title: "Empty Fields", message: "Please, enter  user and login", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            self.present(alert, animated: true)
+        }
+        catch LogingError.errorNetwork {
+            let alert = UIAlertController(title: "Network Error", message: "Please, try later", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            self.present(alert, animated: true)
+        }
+    }
     
-    @objc private func  tapButton() {
+    
+    private func checkErrorLogin () throws {
         let login =  self.loginTF.text ?? ""
         let passwd =  self.pswdTF.text ?? ""
         print("login \(login) - pswd \(passwd)")
         let checkLogin = MyLoginFactory().makeLoginInspector().check(login: login, password: passwd)
         
         
-        
-        if  checkLogin {
-            print(true)
-            let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
-            let profileVM = ProfileViewModel(user: user)
-            let profileVC = ProfileViewController(viewModel: profileVM)
-            navigationController?.setViewControllers([profileVC], animated: true)
+        if loginTF.hasText && pswdTF.hasText {
+            if  checkLogin {
+                print(true)
+                let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
+                let profileVM = ProfileViewModel(user: user)
+                let profileVC = ProfileViewController(viewModel: profileVM)
+                navigationController?.setViewControllers([profileVC], animated: true)
+            } else {
+                throw LogingError.wrongData
+            }
         } else {
-            let alert = UIAlertController(title: "Unknown login", message: "Please, enter correct user login", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-            self.present(alert, animated: true)
+            throw LogingError.emptyField
         }
     }
 }

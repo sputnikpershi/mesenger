@@ -23,6 +23,10 @@ class FeedViewModel {
         }
         return false
     }
-    
-    
+}
+
+
+enum FeedError: Error {
+    case emptyField
+    case wrongData
 }

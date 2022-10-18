@@ -46,3 +46,10 @@ var users = [User(login: "cat", fullName: "Товарищъ Мяу", image: UIIm
 var testUsers = [User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")]
 var usersData = ["cat": "12345", "dog": "12345"]
 var testUsersData = ["test": "test"]
+
+
+enum LogingError: Error {
+    case emptyField
+    case wrongData
+    case errorNetwork
+}

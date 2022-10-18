@@ -45,7 +45,21 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         setSubViews()
         setConstraints()
-        setCheckButtonAction ()
+        setCheckButtonAction  { result in
+            
+            switch result {
+            case .success(let isSuccess):
+                print("Success have written. status: ", isSuccess)
+            case .failure(let error):
+                switch error {
+                case .emptyField:
+                    print("Empty Field")
+                case .wrongData:
+                    print("Wrong text")
+                }
+           
+            }
+        }
         customizingVC()
     }
     
@@ -67,19 +81,31 @@ class FeedViewController: UIViewController {
         self.view.addSubview(self.indicatorLabel)
     }
     
-    func setCheckButtonAction () {
+    func setCheckButtonAction (completion: @escaping (Result<Bool,FeedError>) -> ()) {
         checkGuessButton.action = { [weak self] in
+            
             let word = self?.textField.text ?? ""
             let check = self?.viewModel?.check(word: word) ?? false
+
             if check {
                 self?.indicatorLabel.textColor = .green
                 self?.textField.text = ""
+                completion(.success(true))
             } else {
-                self?.indicatorLabel.textColor = .red
-                self?.textField.text = ""
+                if word == "" {
+                    completion(.failure(.emptyField))
+                } else {
+                    self?.indicatorLabel.textColor = .red
+                    self?.textField.text = ""
+                    completion(.failure(.wrongData))
+                }
             }
+            
         }
     }
+    
+   
+    
     
     
     private func setConstraints () {
