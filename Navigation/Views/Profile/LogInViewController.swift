@@ -211,7 +211,7 @@ class LogInViewController: UIViewController, Coordinating {
     
     @objc private func  tapButton() throws{
         do {
-            guard (try checkErrorLogin()) != nil else { preconditionFailure("Logic of login action has problem") }
+            guard (try checkErrorLogin()) != nil else{ preconditionFailure("Logic of login action has problem") }
         }
         catch LogingError.wrongData{
             let alert = UIAlertController(title: "Unknown login", message: "Please, enter correct user and login", preferredStyle: .alert)
@@ -231,7 +231,7 @@ class LogInViewController: UIViewController, Coordinating {
     }
     
     
-    private func checkErrorLogin () throws {
+    private func checkErrorLogin () throws -> Bool?{
         let login =  self.loginTF.text ?? ""
         let passwd =  self.pswdTF.text ?? ""
         print("login \(login) - pswd \(passwd)")
@@ -251,6 +251,7 @@ class LogInViewController: UIViewController, Coordinating {
         } else {
             throw LogingError.emptyField
         }
+        return nil
     }
 }
 

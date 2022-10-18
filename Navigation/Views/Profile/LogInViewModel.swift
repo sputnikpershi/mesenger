@@ -17,7 +17,7 @@ final class Checker {
     static var shared = Checker()
     #if DEBUG
      var login = "test"
-     var password = ""
+     var password = "test"
     #else
     private var login = "cat"
     private var password = "12345"
