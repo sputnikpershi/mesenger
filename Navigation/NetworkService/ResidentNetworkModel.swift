@@ -7,6 +7,16 @@
 
 import Foundation
 
+struct Resident: Decodable {
+    var name: String
+}
+
+struct PlanetAnswer: Decodable {
+    var name : String
+    var rotation_period : String
+    var orbital_period : String
+    var residents: [String]
+}
 
 func residentNetwork(for urlString: String, completion: ((_ requestString: String?)->())? ) {
     

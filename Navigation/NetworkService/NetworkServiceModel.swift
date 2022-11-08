@@ -78,7 +78,6 @@ func requestOne(for urlString: String, completion: ((_ requestString: String?)->
                 }
             }
             
-            
             catch {
                 print(error.localizedDescription)
             }

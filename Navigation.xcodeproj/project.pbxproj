@@ -28,7 +28,6 @@
 		145D9C8828CECB05008B2665 /* StorageService.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 145D9C7228CECB05008B2665 /* StorageService.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		14643E3728E6EAB1003478D6 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14643E3628E6EAB1003478D6 /* LogInViewModel.swift */; };
 		14673AF52918C148006FEC03 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14673AF42918C148006FEC03 /* SnapKit */; };
-		14673AF72918D83C006FEC03 /* PlanetNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14673AF62918D83C006FEC03 /* PlanetNetworkModel.swift */; };
 		14673AFB29194200006FEC03 /* ResidentNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14673AFA29194200006FEC03 /* ResidentNetworkModel.swift */; };
 		14FBC31D28E1795300D41C4C /* LogInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FBC31C28E1795300D41C4C /* LogInModel.swift */; };
 		4F40772B28A8A40C0040E680 /* ProfileTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F40772A28A8A40C0040E680 /* ProfileTableHeaderView.swift */; };
@@ -102,7 +101,6 @@
 		145D9C7B28CECB05008B2665 /* StorageServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StorageServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		145D9C8228CECB05008B2665 /* StorageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceTests.swift; sourceTree = "<group>"; };
 		14643E3628E6EAB1003478D6 /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
-		14673AF62918D83C006FEC03 /* PlanetNetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetNetworkModel.swift; sourceTree = "<group>"; };
 		14673AFA29194200006FEC03 /* ResidentNetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResidentNetworkModel.swift; sourceTree = "<group>"; };
 		14FBC31C28E1795300D41C4C /* LogInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInModel.swift; sourceTree = "<group>"; };
 		4F33CB6A28950D5F00319B6D /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 			isa = PBXGroup;
 			children = (
 				14261E332913534F00990765 /* NetworkServiceModel.swift */,
-				14673AF62918D83C006FEC03 /* PlanetNetworkModel.swift */,
 				14673AFA29194200006FEC03 /* ResidentNetworkModel.swift */,
 			);
 			path = NetworkService;
@@ -466,7 +463,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1415DDD028F577AE00433703 /* FeedViewModel.swift in Sources */,
-				14673AF72918D83C006FEC03 /* PlanetNetworkModel.swift in Sources */,
 				1415DDA228F292C900433703 /* ApplicationCoordinator.swift in Sources */,
 				1415DDA028F292B800433703 /* Coordinator.swift in Sources */,
 				14643E3728E6EAB1003478D6 /* LogInViewModel.swift in Sources */,
