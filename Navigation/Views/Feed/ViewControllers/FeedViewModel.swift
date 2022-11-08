@@ -13,16 +13,11 @@ class FeedViewModel {
     let titlePost = "First screen"
     let titleInfo = "Second screen"
     
-    func buttonAction (event: Event) {
-        coordinator?.eventOccured(event: event)
-    }
-    
+  
     func check(word: String) -> Bool {
         if word != "" {
             return word == secretWord ? true : false
         }
         return false
     }
-    
-    
 }

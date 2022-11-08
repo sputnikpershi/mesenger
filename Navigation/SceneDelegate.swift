@@ -19,11 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = UIWindow(windowScene: windowScene)
 
         
-        // launch network service
-        guard let appConfiguration = AppConfiguration.allCases.randomElement() else { return }
-         let randomUrl = appConfiguration.rawValue as String
-        print("\(randomUrl) \n")
-        NetworkService.request(for: appConfiguration)
+        
         
         
         // launch app coordinator of the entire application
