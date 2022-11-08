@@ -57,28 +57,6 @@ class FeedViewController: UIViewController {
         setLayer()
     }
     
-    
-    func setNetwork () {
-        requestOne(for: NetworkConfiguration.urlOne.rawValue) { requestString in
-            DispatchQueue.main.async {
-                if let requestString {
-                    self.setIndicator.stopAnimating()
-                    self.textLabel.text = "TITLE : \(requestString)"
-                }
-            }
-        }
-        
-        planetNetwork(for: NetworkConfiguration.urlTwo.rawValue) { requestString in
-            DispatchQueue.main.async {
-                self.residentsTable.reloadData()
-                self.setPlanetIndicator.stopAnimating()
-                if let requestString {
-                    self.planetLabel.text = "ORBITAL PERIOD: \(requestString)" }
-            }
-        }
-    }
-    
-    
     func setLayer() {
         self.view.addSubview(textLabel)
         self.view.addSubview(planetLabel)
@@ -117,6 +95,8 @@ class FeedViewController: UIViewController {
     }
 }
 
+//: MARK: TABLE DELEGATE
+
 
 extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -149,8 +129,32 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+}
+
+
+//: MARK: NETWORK
+extension FeedViewController {
     
-    // NETWORK
+    func setNetwork () {
+        requestOne(for: NetworkConfiguration.urlOne.rawValue) { requestString in
+            DispatchQueue.main.async {
+                if let requestString {
+                    self.setIndicator.stopAnimating()
+                    self.textLabel.text = "TITLE : \(requestString)"
+                }
+            }
+        }
+        
+        
+        planetNetwork(for: NetworkConfiguration.urlTwo.rawValue) { requestString in
+            DispatchQueue.main.async {
+                self.residentsTable.reloadData()
+                self.setPlanetIndicator.stopAnimating()
+                if let requestString {
+                    self.planetLabel.text = "ORBITAL PERIOD: \(requestString)" }
+            }
+        }
+    }
     
     
     func planetNetwork(for urlString: String, completion: ((_ requestString: String?)->())? ) {
@@ -192,6 +196,4 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         }
         task.resume()
     }
-    
-    
 }

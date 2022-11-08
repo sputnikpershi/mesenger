@@ -16,7 +16,6 @@
 		1415DDAF28F50B1200433703 /* ProfileTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1415DDAE28F50B1200433703 /* ProfileTabCoordinator.swift */; };
 		1415DDCC28F551E200433703 /* PhotosModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1415DDCB28F551E200433703 /* PhotosModelView.swift */; };
 		1415DDCE28F5583800433703 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1415DDCD28F5583800433703 /* ProfileViewModel.swift */; };
-		1415DDD028F577AE00433703 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1415DDCF28F577AE00433703 /* FeedViewModel.swift */; };
 		1415DDDA28F64F4200433703 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F33CB6A28950D5F00319B6D /* PostModel.swift */; };
 		1415DDDD28F65B9800433703 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 1415DDDC28F65B9800433703 /* iOSIntPackage */; };
 		14261E342913534F00990765 /* NetworkServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14261E332913534F00990765 /* NetworkServiceModel.swift */; };
@@ -93,7 +92,6 @@
 		1415DDAE28F50B1200433703 /* ProfileTabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabCoordinator.swift; sourceTree = "<group>"; };
 		1415DDCB28F551E200433703 /* PhotosModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosModelView.swift; sourceTree = "<group>"; };
 		1415DDCD28F5583800433703 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
-		1415DDCF28F577AE00433703 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		14261E332913534F00990765 /* NetworkServiceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceModel.swift; sourceTree = "<group>"; };
 		145D9C7228CECB05008B2665 /* StorageService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StorageService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		145D9C7428CECB05008B2665 /* StorageService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StorageService.h; sourceTree = "<group>"; };
@@ -179,16 +177,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		1415DDD928F594F600433703 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				1415DDCF28F577AE00433703 /* FeedViewModel.swift */,
-				4F7F590D288EC1EA00138DF2 /* FeedViewController.swift */,
-				1415DDAC28F50B0100433703 /* FeedTabCoordinator.swift */,
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
 		14261E322913534000990765 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,7 +231,9 @@
 		4F4F25AB289F4FB500C225E4 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				1415DDD928F594F600433703 /* ViewControllers */,
+				14261E322913534000990765 /* NetworkService */,
+				4F7F590D288EC1EA00138DF2 /* FeedViewController.swift */,
+				1415DDAC28F50B0100433703 /* FeedTabCoordinator.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -271,7 +261,6 @@
 		4F7F58F8288E5AE400138DF2 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				14261E322913534000990765 /* NetworkService */,
 				1415DDC928F5464E00433703 /* Views */,
 				1415DD9E28F292A400433703 /* Coordinator */,
 				4F7F58F9288E5AE400138DF2 /* AppDelegate.swift */,
@@ -462,7 +451,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1415DDD028F577AE00433703 /* FeedViewModel.swift in Sources */,
 				1415DDA228F292C900433703 /* ApplicationCoordinator.swift in Sources */,
 				1415DDA028F292B800433703 /* Coordinator.swift in Sources */,
 				14643E3728E6EAB1003478D6 /* LogInViewModel.swift in Sources */,

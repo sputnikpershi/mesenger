@@ -10,11 +10,9 @@ import UIKit
 
 class FeedTabCoordinator: Coordinator {
     var rootViewController = UINavigationController()
-    var viewModel = FeedViewModel()
     
     
     func start () {
-        viewModel.coordinator = self
         rootViewController.setViewControllers([FeedViewController()], animated: false)
     }
 }

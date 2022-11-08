@@ -40,14 +40,10 @@ func residentNetwork(for urlString: String, completion: ((_ requestString: Strin
             return
         }
         
-        
         do {
             let resident = try JSONDecoder().decode(Resident.self, from: data)
-           
             completion?(resident.name)
-
         }
-        
         catch {
             print("Error Do-catch block")
         }
