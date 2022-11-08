@@ -119,6 +119,11 @@ class FeedViewController: UIViewController {
 
 
 extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        "Residents of Tatooine"
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return residentsArray.count
     }
