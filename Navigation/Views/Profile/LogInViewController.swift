@@ -64,7 +64,7 @@ class LogInViewController: UIViewController {
     private lazy var loginTF: UITextField = {
         let login = UITextField ()
         login.translatesAutoresizingMaskIntoConstraints = false
-        login.placeholder = "Email or phone (test)"
+        login.placeholder = "Email"
         login.textColor = .black
         login.autocapitalizationType = .none
         return login
@@ -73,7 +73,7 @@ class LogInViewController: UIViewController {
     private lazy var pswdTF: UITextField = {
         let pswd = UITextField ()
         pswd.translatesAutoresizingMaskIntoConstraints = false
-        pswd.placeholder = "Password (test)"
+        pswd.placeholder = "Password"
         pswd.textColor = .black
         pswd.autocapitalizationType = .none
         pswd.isSecureTextEntry = true
@@ -259,9 +259,9 @@ class LogInViewController: UIViewController {
     
     func showCreateAcccount(_ email: String, password: String) {
         print("Create account")
-        let alert = UIAlertController(title: "Unknown login", message: "Would u like to create account", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Create", style: .default, handler: { _ in
+        let alert = UIAlertController(title: "Ваш аккаунт еще не зарегистрирован", message: "Хотите зарегистрироваться?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Зарегистрировать", style: .default, handler: { _ in
             self.loadIndicator.startAnimating()
             self.signUp(email, password: password)
         }))
@@ -320,9 +320,7 @@ extension LogInViewController: CheckerServiceProtocol {
                 }
                 return
             }
-            
             strongSelf.loadIndicator.stopAnimating()
-            
             print("You have sign up")
             self?.showAccount()
         }
