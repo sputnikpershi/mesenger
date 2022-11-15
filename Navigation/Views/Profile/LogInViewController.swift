@@ -10,7 +10,7 @@ import SnapKit
 import Firebase
 
 protocol CheckerServiceProtocol {
-    func sighIn(_ email: String, password: String)
+    func signIn(_ email: String, password: String)
     func signUp(_ email: String, password: String)
 }
 
@@ -253,7 +253,7 @@ class LogInViewController: UIViewController {
         self.loadIndicator.startAnimating()
         let login =  self.loginTF.text ?? ""
         let passwd =  self.pswdTF.text ?? ""
-        sighIn(login, password: passwd)
+        signIn(login, password: passwd)
     }
     
     
@@ -292,7 +292,7 @@ class LogInViewController: UIViewController {
 extension LogInViewController: CheckerServiceProtocol {
     
     
-    func sighIn(_ email: String, password: String) {
+    func signIn(_ email: String, password: String) {
         print(email, password)
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard let strongSelf = self else { return }
