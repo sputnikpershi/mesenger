@@ -97,7 +97,6 @@ class FeedViewController: UIViewController {
 
 //: MARK: TABLE DELEGATE
 
-
 extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

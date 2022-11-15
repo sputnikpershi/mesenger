@@ -6,22 +6,33 @@
 //
 
 import UIKit
+import SnapKit
+import Firebase
 
-class LogInViewController: UIViewController, Coordinating {
+protocol CheckerServiceProtocol {
+    func sighIn(_ email: String, password: String)
+    func signUp(_ email: String, password: String)
+}
+
+class LogInViewController: UIViewController {
     
-    var coordinator: Coordinator?
+    var coordinator : ProfileTabCoordinator?
     let groupQueue = DispatchGroup()
     let cuncurrentQueue = DispatchQueue(label: "com.app.concurrent", attributes: [.concurrent])
     var loginDelegate : LoginViewControllerDelegate?
     let setColor: UIColor = UIColor(red: 0.28, green: 0.52, blue: 0.80, alpha: 1.00)
-   
     
- 
+    
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView ()
         scroll.backgroundColor = .white
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
+    }()
+    
+    private lazy var loadIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        return indicator
     }()
     
     private lazy var  iconImage : UIImageView = {
@@ -41,6 +52,7 @@ class LogInViewController: UIViewController, Coordinating {
         return stack
     } ()
     
+    
     private lazy var lineStackView : UIView = {
         let line = UIView()
         line.backgroundColor = .lightGray
@@ -48,11 +60,11 @@ class LogInViewController: UIViewController, Coordinating {
         return line
     }()
     
+    
     private lazy var loginTF: UITextField = {
         let login = UITextField ()
         login.translatesAutoresizingMaskIntoConstraints = false
         login.placeholder = "Email or phone (test)"
-        login.text = "test"
         login.textColor = .black
         login.autocapitalizationType = .none
         return login
@@ -68,10 +80,22 @@ class LogInViewController: UIViewController, Coordinating {
         return pswd
     } ()
     
+    private lazy var registrationLabel: UILabel = {
+        let label = UILabel()
+        let underlineText = NSAttributedString(string: "Хотите зарегистрироваться?",
+                                               attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
+        label.attributedText = underlineText
+        label.alpha = 0
+        label.textColor = .black
+        label.isUserInteractionEnabled = true
+        return label
+    }()
+    
+    
     private lazy var loginButton : UIButton  = {
         let button = UIButton ()
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
-        button.setTitle("Log In", for: .normal)
+        button.setTitle("Авторизироваться", for: .normal)
         button.clipsToBounds = true
         button.layer.cornerRadius = 10
         button.isEnabled = true
@@ -82,10 +106,14 @@ class LogInViewController: UIViewController, Coordinating {
     } ()
     
     // MARK: VIEWDIDLOAD
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        if Auth.auth().currentUser != nil {
+            showAccount()
+        }
         loginButton.alpha = 0.8
+        loginButton.isEnabled = true
         if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
@@ -94,6 +122,7 @@ class LogInViewController: UIViewController, Coordinating {
         self.setGesture()
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.pswdTF.becomeFirstResponder()
@@ -101,24 +130,42 @@ class LogInViewController: UIViewController, Coordinating {
     }
     
     
+    
     private func setViews () {
         self.view.addSubview(self.scrollView)
         self.view.addSubview(self.iconImage)
         self.scrollView.addSubview(stackView)
         self.scrollView.addSubview(iconImage)
+        self.scrollView.addSubview(registrationLabel)
         self.scrollView.addSubview(loginButton)
-
+        
         self.stackView.addArrangedSubview(lineStackView)
         self.stackView.addArrangedSubview(loginTF)
         self.stackView.addArrangedSubview(pswdTF)
-
+        
         self.view.addSubview(self.lineStackView)
         self.view.addSubview(self.loginTF)
         self.view.addSubview(self.pswdTF)
+        self.view.addSubview(self.loadIndicator)
     }
     
     
     private func setConstraints() {
+        
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        loadIndicator.snp.makeConstraints { make in
+            make.trailing.equalTo(self.loginButton.snp.trailing).offset(-16)
+            make.centerY.equalTo(self.loginButton.snp.centerY)
+        }
+        
+        registrationLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(self.stackView.snp.top).offset(-30)
+        }
+        
         NSLayoutConstraint.activate([
             self.iconImage.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 120),
             self.iconImage.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
@@ -149,12 +196,6 @@ class LogInViewController: UIViewController, Coordinating {
             self.loginButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.loginButton.widthAnchor.constraint(equalTo: self.stackView.widthAnchor),
             self.loginButton.heightAnchor.constraint(equalToConstant: 50),
-        
-            self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-    
         ])
     }
     
@@ -188,7 +229,7 @@ class LogInViewController: UIViewController, Coordinating {
             loginButton.isEnabled = false
         }
     }
-
+    
     
     @objc private func didShowKeyboard (_ notification: Notification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]  as? NSValue {
@@ -208,26 +249,86 @@ class LogInViewController: UIViewController, Coordinating {
     }
     
     
-    
     @objc private func  tapButton() {
+        self.loadIndicator.startAnimating()
         let login =  self.loginTF.text ?? ""
         let passwd =  self.pswdTF.text ?? ""
-        print("login \(login) - pswd \(passwd)")
-        let checkLogin = MyLoginFactory().makeLoginInspector().check(login: login, password: passwd)
+        sighIn(login, password: passwd)
+    }
+    
+    
+    func showCreateAcccount(_ email: String, password: String) {
+        print("Create account")
+        let alert = UIAlertController(title: "Unknown login", message: "Would u like to create account", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Create", style: .default, handler: { _ in
+            self.loadIndicator.startAnimating()
+            self.signUp(email, password: password)
+        }))
+        self.loadIndicator.stopAnimating()
+        self.present(alert, animated: true)
+    }
+    
+    
+    func showAccount() {
+        print("Show account")
+        loginTF.text = ""
+        pswdTF.text = ""
+        let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
+        let profileVM = ProfileViewModel(user: user)
+        navigationController?.pushViewController(ProfileViewController(viewModel: profileVM), animated: true)
+    }
+    
+    
+    func showAllertAutherization(text: String) {
+        let alert = UIAlertController(title: "Autherization error", message: text , preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
+        self.present(alert, animated: true)
+        self.loadIndicator.stopAnimating()
+    }
+}
+
+
+extension LogInViewController: CheckerServiceProtocol {
+    
+    
+    func sighIn(_ email: String, password: String) {
+        print(email, password)
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            guard let strongSelf = self else { return }
+            guard error == nil else  {
+                strongSelf.showCreateAcccount(email, password: password)
+                return
+            }
+            print("You have signed un")
+            strongSelf.showAccount()
+        }
         
         
-        
-        if  checkLogin {
-            print(true)
-            let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
-            let profileVM = ProfileViewModel(user: user)
-            let profileVC = ProfileViewController(viewModel: profileVM)
-            navigationController?.setViewControllers([profileVC], animated: true)
-        } else {
-            let alert = UIAlertController(title: "Unknown login", message: "Please, enter correct user login", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-            self.present(alert, animated: true)
+    }
+    
+    func signUp(_ email: String, password: String) {
+        Auth.auth().createUser(withEmail: email, password: password) {  [weak self] authResult, error in
+            guard let strongSelf = self else { return }
+            strongSelf.loadIndicator.startAnimating()
+            
+            guard error == nil else  {
+                print("Creationg failed")
+                let text = error?.localizedDescription
+                if let text {
+                    strongSelf.showAllertAutherization(text: text)
+                }
+                return
+            }
+            
+            strongSelf.loadIndicator.stopAnimating()
+            
+            print("You have sign up")
+            self?.showAccount()
         }
     }
 }
+
+
+
 

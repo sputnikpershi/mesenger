@@ -12,9 +12,7 @@ import Combine
 class ApplicationCoordinator: Coordinator {
     var window: UIWindow
     var childCoordinator = [Coordinator]()
-   // let hasSeenOnboarding =  CurrentValueSubject<Bool, Never>(false)
-   // var subscriptions = Set<AnyCancellable>()  // save information
-    
+   
     init (window: UIWindow) {
         self.window = window
     }
@@ -22,12 +20,10 @@ class ApplicationCoordinator: Coordinator {
     
     
     func start() {
-        
         let mainCoordinator  = MainCoordinator()
         mainCoordinator.start()
         self.childCoordinator = [mainCoordinator]
         self.window.rootViewController = mainCoordinator.rootViewController
-        
     }
     
     

@@ -7,6 +7,8 @@
 
 import Foundation
 import UIKit
+import SnapKit
+import Firebase
 
 class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
@@ -97,6 +99,15 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
+    private lazy var logOutButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12)
+        button.setTitle("Log out", for: .normal)
+        button.addTarget(self, action: #selector(logOutAction), for: .touchUpInside)
+        return  button
+    }()
+    
     private var avatarImageWidthConstraint: NSLayoutConstraint?
     private var avatarImageHeightConstraint: NSLayoutConstraint?
     private var avatarImageLeadingConstraint: NSLayoutConstraint?
@@ -140,10 +151,15 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         self.addSubview(self.viewTF)
         self.addSubview(self.profileTextField)
         self.addSubview(self.avatarImage)
+        self.addSubview(self.logOutButton)
     }
     
     
     private func setConstraints () {
+        logOutButton.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+        }
         
         NSLayoutConstraint.activate([
             avatarImageWidthConstraint, avatarImageHeightConstraint, avatarImageLeadingConstraint, avatarImageTopConstraint,
@@ -178,13 +194,12 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     }
     
      @objc func buttonPressed () {
-  //       viewModel?.coordinator?.eventOccured(event: .tapShowStatus)
          if statusText != "" && statusText != " " {
              statusLabel.text = statusText
              profileTextField.text = ""
          }
+
      }
-     
      
      @objc func statusTextChanged () {
          statusText = profileTextField.text ?? ""
@@ -215,5 +230,10 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         backView.backgroundColor = .red
         backView.alpha = 0.5
         self.addSubview(backView)
+    }
+    
+   @objc func logOutAction () {
+       self.profileVC?.logOutAction()
+       print("header log out")
     }
 }
