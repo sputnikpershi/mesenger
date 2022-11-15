@@ -18,7 +18,6 @@
 		1415DDCE28F5583800433703 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1415DDCD28F5583800433703 /* ProfileViewModel.swift */; };
 		1415DDDA28F64F4200433703 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F33CB6A28950D5F00319B6D /* PostModel.swift */; };
 		1415DDDD28F65B9800433703 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 1415DDDC28F65B9800433703 /* iOSIntPackage */; };
-		14261E342913534F00990765 /* NetworkServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14261E332913534F00990765 /* NetworkServiceModel.swift */; };
 		1458989B2922371300852A25 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1458989A2922371300852A25 /* FirebaseAuth */; };
 		1458989D2922371300852A25 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1458989C2922371300852A25 /* FirebaseFirestore */; };
 		1458989F2922900300852A25 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1458989E2922900300852A25 /* GoogleService-Info.plist */; };
@@ -30,7 +29,6 @@
 		145D9C8828CECB05008B2665 /* StorageService.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 145D9C7228CECB05008B2665 /* StorageService.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		14643E3728E6EAB1003478D6 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14643E3628E6EAB1003478D6 /* LogInViewModel.swift */; };
 		14673AF52918C148006FEC03 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14673AF42918C148006FEC03 /* SnapKit */; };
-		14673AFB29194200006FEC03 /* ResidentNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14673AFA29194200006FEC03 /* ResidentNetworkModel.swift */; };
 		14FBC31D28E1795300D41C4C /* LogInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FBC31C28E1795300D41C4C /* LogInModel.swift */; };
 		4F40772B28A8A40C0040E680 /* ProfileTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F40772A28A8A40C0040E680 /* ProfileTableHeaderView.swift */; };
 		4F40772E28A8BDB20040E680 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F40772D28A8BDB20040E680 /* PostTableViewCell.swift */; };
@@ -95,7 +93,6 @@
 		1415DDAE28F50B1200433703 /* ProfileTabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabCoordinator.swift; sourceTree = "<group>"; };
 		1415DDCB28F551E200433703 /* PhotosModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosModelView.swift; sourceTree = "<group>"; };
 		1415DDCD28F5583800433703 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
-		14261E332913534F00990765 /* NetworkServiceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceModel.swift; sourceTree = "<group>"; };
 		1458989E2922900300852A25 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		145D9C7228CECB05008B2665 /* StorageService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StorageService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		145D9C7428CECB05008B2665 /* StorageService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StorageService.h; sourceTree = "<group>"; };
@@ -103,7 +100,6 @@
 		145D9C7B28CECB05008B2665 /* StorageServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StorageServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		145D9C8228CECB05008B2665 /* StorageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceTests.swift; sourceTree = "<group>"; };
 		14643E3628E6EAB1003478D6 /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
-		14673AFA29194200006FEC03 /* ResidentNetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResidentNetworkModel.swift; sourceTree = "<group>"; };
 		14FBC31C28E1795300D41C4C /* LogInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInModel.swift; sourceTree = "<group>"; };
 		4F33CB6A28950D5F00319B6D /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		4F40772A28A8A40C0040E680 /* ProfileTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableHeaderView.swift; sourceTree = "<group>"; };
@@ -182,15 +178,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		14261E322913534000990765 /* NetworkService */ = {
-			isa = PBXGroup;
-			children = (
-				14261E332913534F00990765 /* NetworkServiceModel.swift */,
-				14673AFA29194200006FEC03 /* ResidentNetworkModel.swift */,
-			);
-			path = NetworkService;
-			sourceTree = "<group>";
-		};
 		145D9C7328CECB05008B2665 /* StorageService */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,7 +224,6 @@
 		4F4F25AB289F4FB500C225E4 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				14261E322913534000990765 /* NetworkService */,
 				4F7F590D288EC1EA00138DF2 /* FeedViewController.swift */,
 				1415DDAC28F50B0100433703 /* FeedTabCoordinator.swift */,
 			);
@@ -466,10 +452,8 @@
 				1415DDA028F292B800433703 /* Coordinator.swift in Sources */,
 				14643E3728E6EAB1003478D6 /* LogInViewModel.swift in Sources */,
 				4F7F58FA288E5AE400138DF2 /* AppDelegate.swift in Sources */,
-				14261E342913534F00990765 /* NetworkServiceModel.swift in Sources */,
 				1415DDCE28F5583800433703 /* ProfileViewModel.swift in Sources */,
 				1415DDAF28F50B1200433703 /* ProfileTabCoordinator.swift in Sources */,
-				14673AFB29194200006FEC03 /* ResidentNetworkModel.swift in Sources */,
 				4F7F5910288EC1F800138DF2 /* ProfileViewController.swift in Sources */,
 				4F7F590E288EC1EA00138DF2 /* FeedViewController.swift in Sources */,
 				4F40773228AD1B5C0040E680 /* Photos.swift in Sources */,
