@@ -19,3 +19,15 @@ final class ProfileViewModel {
     }
 
 }
+
+
+
+final class Singletone {
+    static var shared = Singletone()
+    
+     var isFirstTime = false
+    
+
+    private init () {}
+    
+}

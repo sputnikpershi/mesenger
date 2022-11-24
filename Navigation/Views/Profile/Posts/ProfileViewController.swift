@@ -5,13 +5,15 @@
 //  Created by Krime Loma    on 7/25/22.
 //
 import StorageService
-
 import UIKit
+import Firebase
 
 class ProfileViewController: UIViewController {
     
+    var coordinator : ProfileTabCoordinator?
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
     private var viewModel : ProfileViewModel?
+    
     
     // MARK: INIT
     
@@ -106,7 +108,6 @@ class ProfileViewController: UIViewController {
     }
     
     private func setConstraints () {
-        
         NSLayoutConstraint.activate([
             self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -127,7 +128,6 @@ class ProfileViewController: UIViewController {
             
         ].compactMap({ $0 }))
     }
-    
     
     func animateAvatar (ava: UIImageView) {
         
@@ -153,7 +153,6 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    
     @objc func closeAvatarImage () {
         self.avatarWidthConstant?.constant = self.initialAvatarFrame.width
         self.avatarHeightConstant?.constant = self.initialAvatarFrame.height
@@ -172,6 +171,25 @@ class ProfileViewController: UIViewController {
             
         }
     }
+    
+    
+    func logOutAction () {
+        do {
+            try Auth.auth().signOut()
+            print(" log out")
+            
+            let firstLogin = Singletone.shared.isFirstTime
+            if  firstLogin {
+                self.navigationController?.popToRootViewController(animated: true)
+            } else {
+                self.navigationController?.pushViewController(LogInViewController(), animated: true)
+            }
+            
+        }
+        catch {
+            print("Error Log Out")
+        }
+     }
 }
 
 // MARK: EXTENSION
@@ -222,4 +240,9 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
+
+
 }
+
+

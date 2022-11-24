@@ -31,7 +31,7 @@ class MainCoordinator: Coordinator {
         let profileVC = profileCoordinator.rootViewController
         profileVC.tabBarItem = UITabBarItem(title: "Post", image: UIImage(systemName:  "person.circle"), selectedImage: UIImage(systemName:  "person.circle.fill"))
         
-        rootViewController.viewControllers = [feedVC, profileVC]
+        rootViewController.viewControllers = [profileVC, feedVC]
     }
     
     
