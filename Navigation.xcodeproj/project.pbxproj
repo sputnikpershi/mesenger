@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14103469292F44300081FB25 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 14103468292F44300081FB25 /* KeychainAccess */; };
 		1415DDA028F292B800433703 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1415DD9F28F292B800433703 /* Coordinator.swift */; };
 		1415DDA228F292C900433703 /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1415DDA128F292C900433703 /* ApplicationCoordinator.swift */; };
 		1415DDA628F4FDB000433703 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1415DDA528F4FDB000433703 /* OnboardingCoordinator.swift */; };
@@ -141,6 +142,7 @@
 			files = (
 				14673AF52918C148006FEC03 /* SnapKit in Frameworks */,
 				145D9C8728CECB05008B2665 /* StorageService.framework in Frameworks */,
+				14103469292F44300081FB25 /* KeychainAccess in Frameworks */,
 				1415DDDD28F65B9800433703 /* iOSIntPackage in Frameworks */,
 				1458989D2922371300852A25 /* FirebaseFirestore in Frameworks */,
 				1458989B2922371300852A25 /* FirebaseAuth in Frameworks */,
@@ -348,6 +350,7 @@
 				14673AF42918C148006FEC03 /* SnapKit */,
 				1458989A2922371300852A25 /* FirebaseAuth */,
 				1458989C2922371300852A25 /* FirebaseFirestore */,
+				14103468292F44300081FB25 /* KeychainAccess */,
 			);
 			productName = Navigation;
 			productReference = 4F7F58F6288E5AE400138DF2 /* Navigation.app */;
@@ -388,6 +391,7 @@
 				1415DDDB28F65B9800433703 /* XCRemoteSwiftPackageReference "iOSIntPackage" */,
 				14673AF32918C148006FEC03 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				145898992922371300852A25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				14103467292F44300081FB25 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = 4F7F58F7288E5AE400138DF2 /* Products */;
 			projectDirPath = "";
@@ -808,6 +812,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		14103467292F44300081FB25 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		1415DDDB28F65B9800433703 /* XCRemoteSwiftPackageReference "iOSIntPackage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TrueMax/iOSIntPackage.git";
@@ -835,6 +847,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		14103468292F44300081FB25 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14103467292F44300081FB25 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
 		1415DDDC28F65B9800433703 /* iOSIntPackage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1415DDDB28F65B9800433703 /* XCRemoteSwiftPackageReference "iOSIntPackage" */;
