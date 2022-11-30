@@ -126,8 +126,7 @@ class LogInViewController: UIViewController {
         setViews()
         setConstraints()
         self.setGesture()
-        print(Realm.Configuration.defaultConfiguration.fileURL)
-    }
+          }
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -286,7 +285,6 @@ class LogInViewController: UIViewController {
         let alert = UIAlertController(title: "Autherization error", message: text , preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
         self.present(alert, animated: true)
-        //        self.loadIndicator.stopAnimating()
     }
 }
 
@@ -314,38 +312,38 @@ extension LogInViewController: CheckerServiceProtocol {
     
     
     // Authorization with Farebase
+
     
+  //   func signIn(_ email: String, password: String) {
+//        print(email, password)
+//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+//            guard let strongSelf = self else { return }
+//            guard error == nil else  {
+//                strongSelf.showCreateAcccount(email, password: password)
+//                return
+//            }
+//            print("You have signed un")
+//            strongSelf.showAccount()
+//        }
+//    }
     
-    //   func signIn(_ email: String, password: String) {
-    //        print(email, password)
-    //        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-    //            guard let strongSelf = self else { return }
-    //            guard error == nil else  {
-    //                strongSelf.showCreateAcccount(email, password: password)
-    //                return
-    //            }
-    //            print("You have signed un")
-    //            strongSelf.showAccount()
-    //        }
-    //    }
-    
-    //  func signUp(_ email: String, password: String) {
-    //        Auth.auth().createUser(withEmail: email, password: password) {  [weak self] authResult, error in
-    //            guard let strongSelf = self else { return }
-    //            strongSelf.loadIndicator.startAnimating()
-    //
-    //            guard error == nil else  {
-    //                print("Creationg failed")
-    //                let text = error?.localizedDescription
-    //                if let text {
-    //                    strongSelf.showAllertAutherization(text: text)
-    //                }
-    //                return
-    //            }
-    //            strongSelf.loadIndicator.stopAnimating()
-    //            print("You have sign up")
-    //            self?.showAccount()
-    //        }
+  //  func signUp(_ email: String, password: String) {
+//        Auth.auth().createUser(withEmail: email, password: password) {  [weak self] authResult, error in
+//            guard let strongSelf = self else { return }
+//            strongSelf.loadIndicator.startAnimating()
+//
+//            guard error == nil else  {
+//                print("Creationg failed")
+//                let text = error?.localizedDescription
+//                if let text {
+//                    strongSelf.showAllertAutherization(text: text)
+//                }
+//                return
+//            }
+//            strongSelf.loadIndicator.stopAnimating()
+//            print("You have sign up")
+//            self?.showAccount()
+//        }
     // }
 }
 
