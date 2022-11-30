@@ -40,15 +40,13 @@ class ProfileTabCoordinator: Coordinator {
     
     func start () {
         let profileVM = ProfileViewModel(user: user)
-
+        let userDefault = UserDefaults.standard
         
-        if Auth.auth().currentUser == nil {
-
-            rootViewController = UINavigationController(rootViewController: LogInViewController())
-        }
-        else {
+        if userDefault.bool(forKey: "hasLogedIn")  { //Auth.auth().currentUser == nil
             rootViewController = UINavigationController(rootViewController: ProfileViewController(viewModel: profileVM))
         }
+        else {
+            rootViewController = UINavigationController(rootViewController: LogInViewController())        }
     }
 }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		140FA67129362E2400D6F612 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 140FA67029362E2400D6F612 /* Realm */; };
+		140FA67329362E2400D6F612 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 140FA67229362E2400D6F612 /* RealmSwift */; };
 		14103469292F44300081FB25 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 14103468292F44300081FB25 /* KeychainAccess */; };
 		1415DDA028F292B800433703 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1415DD9F28F292B800433703 /* Coordinator.swift */; };
 		1415DDA228F292C900433703 /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1415DDA128F292C900433703 /* ApplicationCoordinator.swift */; };
@@ -140,6 +142,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				140FA67329362E2400D6F612 /* RealmSwift in Frameworks */,
+				140FA67129362E2400D6F612 /* Realm in Frameworks */,
 				14673AF52918C148006FEC03 /* SnapKit in Frameworks */,
 				145D9C8728CECB05008B2665 /* StorageService.framework in Frameworks */,
 				14103469292F44300081FB25 /* KeychainAccess in Frameworks */,
@@ -351,6 +355,8 @@
 				1458989A2922371300852A25 /* FirebaseAuth */,
 				1458989C2922371300852A25 /* FirebaseFirestore */,
 				14103468292F44300081FB25 /* KeychainAccess */,
+				140FA67029362E2400D6F612 /* Realm */,
+				140FA67229362E2400D6F612 /* RealmSwift */,
 			);
 			productName = Navigation;
 			productReference = 4F7F58F6288E5AE400138DF2 /* Navigation.app */;
@@ -392,6 +398,7 @@
 				14673AF32918C148006FEC03 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				145898992922371300852A25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				14103467292F44300081FB25 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				140FA66F29362E2400D6F612 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 4F7F58F7288E5AE400138DF2 /* Products */;
 			projectDirPath = "";
@@ -812,6 +819,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		140FA66F29362E2400D6F612 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		14103467292F44300081FB25 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
@@ -847,6 +862,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		140FA67029362E2400D6F612 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 140FA66F29362E2400D6F612 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		140FA67229362E2400D6F612 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 140FA66F29362E2400D6F612 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		14103468292F44300081FB25 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 14103467292F44300081FB25 /* XCRemoteSwiftPackageReference "KeychainAccess" */;

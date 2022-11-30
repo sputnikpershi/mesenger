@@ -174,22 +174,20 @@ class ProfileViewController: UIViewController {
     
     
     func logOutAction () {
-        do {
-            try Auth.auth().signOut()
-            print(" log out")
-            
-            let firstLogin = Singletone.shared.isFirstTime
-            if  firstLogin {
-                self.navigationController?.popToRootViewController(animated: true)
-            } else {
-                self.navigationController?.pushViewController(LogInViewController(), animated: true)
-            }
-            
+        let userDefault = UserDefaults.standard
+        print(" log out")
+        let hasLogedIn = userDefault.bool(forKey: "hasLogedIn")    //    Singletone.shared.isFirstTime
+        if  hasLogedIn {
+            self.navigationController?.popToRootViewController(animated: true)
+            userDefault.set(false, forKey: "hasLogedIn")
+        } else {
+            print("1")
+            self.navigationController?.pushViewController(LogInViewController(), animated: true)
+            userDefault.set(false, forKey: "hasLogedIn")
         }
-        catch {
-            print("Error Log Out")
-        }
-     }
+        print(userDefault.bool(forKey: "hasLogedIn"))
+        
+    }
 }
 
 // MARK: EXTENSION
@@ -241,8 +239,8 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-
-
+    
+    
 }
 
 
