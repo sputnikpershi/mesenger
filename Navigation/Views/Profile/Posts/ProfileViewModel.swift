@@ -9,25 +9,13 @@ import Foundation
 
 
 final class ProfileViewModel {
-    
     weak var coordinator: ProfileTabCoordinator?
     var user : User
     var footerText = "Вы несете ответсвенность за каждое слово в публичном пространстве."
-    
     init(user: User) {
         self.user = user
     }
-
 }
 
 
 
-final class Singletone {
-    static var shared = Singletone()
-    
-     var isFirstTime = false
-    
-
-    private init () {}
-    
-}

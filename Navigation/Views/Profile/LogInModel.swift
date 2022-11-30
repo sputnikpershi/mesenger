@@ -6,8 +6,29 @@
 //
 
 import UIKit
+import KeychainAccess
+import RealmSwift
+
 protocol UserServiceProtocol {
     func getUser(login: String) -> User?
+}
+
+class UserLogin: Object {
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var login: String = ""
+}
+
+class ServiceLogIn  {
+    let realm = try! Realm()
+    func saveLogIngData(login: String, password: String) {
+        let keyChain = Keychain()
+        let userLogin = UserLogin()
+        userLogin.login = login
+        try! realm.write {
+            realm.add(userLogin)
+            keyChain[login] = password
+        }
+    }
 }
 
 class User {
@@ -42,7 +63,4 @@ final class CurrentUserService: UserServiceProtocol {
     }
 }
 
-var users = [User(login: "cat", fullName: "Товарищъ Мяу", image: UIImage(named: "cat")!, status: "Коженный, ты где?"), User(login: "dog", fullName: "Товарищъ Гау", image: UIImage(named: "dog")!, status: "В поисках новых друзей")]
-var testUsers = [User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")]
-var usersData = ["cat": "12345", "dog": "12345"]
-var testUsersData = ["test": "test"]
+

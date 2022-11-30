@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Firebase
+import RealmSwift
+import KeychainAccess
 
 protocol CheckerServiceProtocol {
     func signIn(_ email: String, password: String)
@@ -16,6 +18,10 @@ protocol CheckerServiceProtocol {
 
 class LogInViewController: UIViewController {
     
+    let userDefault = UserDefaults.standard
+    let user = ServiceLogIn()
+    let realm = try! Realm()
+    let keyChain = Keychain()
     var coordinator : ProfileTabCoordinator?
     let groupQueue = DispatchGroup()
     let cuncurrentQueue = DispatchQueue(label: "com.app.concurrent", attributes: [.concurrent])
@@ -120,7 +126,7 @@ class LogInViewController: UIViewController {
         setViews()
         setConstraints()
         self.setGesture()
-    }
+          }
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -128,8 +134,6 @@ class LogInViewController: UIViewController {
         self.pswdTF.becomeFirstResponder()
         self.pswdTF.isSecureTextEntry = false
     }
-    
-    
     
     private func setViews () {
         self.view.addSubview(self.scrollView)
@@ -148,7 +152,6 @@ class LogInViewController: UIViewController {
         self.view.addSubview(self.pswdTF)
         self.view.addSubview(self.loadIndicator)
     }
-    
     
     private func setConstraints() {
         
@@ -198,7 +201,6 @@ class LogInViewController: UIViewController {
             self.loginButton.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
-    
     
     private  func setGesture () {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
@@ -250,7 +252,6 @@ class LogInViewController: UIViewController {
     
     
     @objc private func  tapButton() {
-        self.loadIndicator.startAnimating()
         let login =  self.loginTF.text ?? ""
         let passwd =  self.pswdTF.text ?? ""
         signIn(login, password: passwd)
@@ -284,47 +285,66 @@ class LogInViewController: UIViewController {
         let alert = UIAlertController(title: "Autherization error", message: text , preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
         self.present(alert, animated: true)
-        self.loadIndicator.stopAnimating()
     }
 }
 
 
 extension LogInViewController: CheckerServiceProtocol {
     
-    
     func signIn(_ email: String, password: String) {
-        print(email, password)
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-            guard let strongSelf = self else { return }
-            guard error == nil else  {
-                strongSelf.showCreateAcccount(email, password: password)
-                return
-            }
-            print("You have signed un")
-            strongSelf.showAccount()
+        let users = realm.objects(UserLogin.self)
+        if users.contains(where: { user in
+            user.login == email && keyChain[user.login] == password
+        }) {
+            userDefault.set(true, forKey: "hasLogedIn")
+            self.showAccount()
+        } else {
+            showCreateAcccount(email, password: password)
         }
-        
-        
     }
     
     func signUp(_ email: String, password: String) {
-        Auth.auth().createUser(withEmail: email, password: password) {  [weak self] authResult, error in
-            guard let strongSelf = self else { return }
-            strongSelf.loadIndicator.startAnimating()
-            
-            guard error == nil else  {
-                print("Creationg failed")
-                let text = error?.localizedDescription
-                if let text {
-                    strongSelf.showAllertAutherization(text: text)
-                }
-                return
-            }
-            strongSelf.loadIndicator.stopAnimating()
-            print("You have sign up")
-            self?.showAccount()
-        }
+        user.saveLogIngData(login: email, password: password)
+        self.showAccount()
+        userDefault.set(true, forKey: "hasLogedIn")
     }
+    
+    
+    
+    // Authorization with Farebase
+
+    
+  //   func signIn(_ email: String, password: String) {
+//        print(email, password)
+//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+//            guard let strongSelf = self else { return }
+//            guard error == nil else  {
+//                strongSelf.showCreateAcccount(email, password: password)
+//                return
+//            }
+//            print("You have signed un")
+//            strongSelf.showAccount()
+//        }
+//    }
+    
+  //  func signUp(_ email: String, password: String) {
+//        Auth.auth().createUser(withEmail: email, password: password) {  [weak self] authResult, error in
+//            guard let strongSelf = self else { return }
+//            strongSelf.loadIndicator.startAnimating()
+//
+//            guard error == nil else  {
+//                print("Creationg failed")
+//                let text = error?.localizedDescription
+//                if let text {
+//                    strongSelf.showAllertAutherization(text: text)
+//                }
+//                return
+//            }
+//            strongSelf.loadIndicator.stopAnimating()
+//            print("You have sign up")
+//            self?.showAccount()
+//        }
+    // }
 }
 
 
