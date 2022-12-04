@@ -23,7 +23,6 @@ class PhotosTableViewCell: UITableViewCell {
         icon.image = UIImage(systemName: "arrow.right")
         icon.tintColor = .black
         icon.translatesAutoresizingMaskIntoConstraints = false
-
         return icon
     }()
     

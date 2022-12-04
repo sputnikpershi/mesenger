@@ -16,7 +16,7 @@ class MainCoordinator: Coordinator {
         rootViewController.tabBar.tintColor = .systemBlue
         rootViewController.tabBar.backgroundColor = .systemGray6
     }
-
+    
     func start() {
         let feedCoordinator = FeedTabCoordinator()
         feedCoordinator.start()
@@ -24,14 +24,19 @@ class MainCoordinator: Coordinator {
         let feedVC = feedCoordinator.rootViewController
         feedVC.tabBarItem = UITabBarItem(title: "Feed", image: UIImage(systemName: "doc.append.rtl"), selectedImage: UIImage(systemName: "doc.append.fill.rtl"))
         
-        
         let profileCoordinator = ProfileTabCoordinator()
         profileCoordinator.start()
         self.childCoordinators.append(profileCoordinator)
         let profileVC = profileCoordinator.rootViewController
         profileVC.tabBarItem = UITabBarItem(title: "Post", image: UIImage(systemName:  "person.circle"), selectedImage: UIImage(systemName:  "person.circle.fill"))
         
-        rootViewController.viewControllers = [profileVC, feedVC]
+        let likeCoordinator = LikeCoordinator()
+        likeCoordinator.start()
+        self.childCoordinators.append(likeCoordinator)
+        let likeVC = likeCoordinator.rootViewController
+        likeVC.tabBarItem = UITabBarItem(title: "Like", image: UIImage(systemName:  "heart.square"), selectedImage: UIImage(systemName:  "heart.square.fill"))
+        
+        rootViewController.viewControllers = [profileVC, feedVC, likeVC]
     }
     
     

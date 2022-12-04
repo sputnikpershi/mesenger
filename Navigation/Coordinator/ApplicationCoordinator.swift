@@ -18,17 +18,12 @@ class ApplicationCoordinator: Coordinator {
     }
     
     
-    
     func start() {
         let mainCoordinator  = MainCoordinator()
         mainCoordinator.start()
         self.childCoordinator = [mainCoordinator]
         self.window.rootViewController = mainCoordinator.rootViewController
     }
-    
-    
-    
-    
 }
 
 

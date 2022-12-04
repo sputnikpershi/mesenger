@@ -1,20 +1,31 @@
 //
-//  PostTableViewCell.swift
+//  LIkeTableViewCell.swift
 //  Navigation
 //
-//  Created by Krime Loma    on 8/14/22.
+//  Created by Kiryl Rakk on 2/12/22.
 //
 
 import UIKit
-import StorageService
-import SnapKit
 
-class PostTableViewCell: UITableViewCell {
+class LIkeTableViewCell: UITableViewCell {
     
-    var isLiked: Bool = false
+    weak var delegate : MyCellDelegate?
     var index : Int?
-    let context = CoreDataManager.shared.persistentContainer.viewContext
+    var isLiked: Bool = false
     let coreDataManager: CoreDataManager = CoreDataManager.shared
+    var postData: [PostData]?
+    let context = CoreDataManager.shared.persistentContainer.viewContext
+    
+    lazy var likeImage : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.tintColor = .white
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.isUserInteractionEnabled = true
+        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
+        return button
+    }()
     
     private lazy var authorLabel: UILabel = {
         let author = UILabel()
@@ -22,17 +33,6 @@ class PostTableViewCell: UITableViewCell {
         author.numberOfLines = 2
         author.translatesAutoresizingMaskIntoConstraints  = false
         return author
-    }()
-    
-    private lazy var likeImage : UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = .white
-        button.isUserInteractionEnabled = true
-        button.contentHorizontalAlignment = .fill
-        button.contentVerticalAlignment = .fill
-        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
-        return button
     }()
     
     private lazy var descriptionTextView: UILabel = {
@@ -82,7 +82,6 @@ class PostTableViewCell: UITableViewCell {
         stack.backgroundColor = .black
         return stack
     }()
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -145,45 +144,33 @@ class PostTableViewCell: UITableViewCell {
         ])
     }
     
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    
-    func setup(with viewModel: [Post], index: Int) {
+    func setup(with viewModel: [PostData], index: Int) {
         self.authorLabel.text = viewModel[index].authorLabel
-        self.postImage.image = UIImage(named: viewModel[index].image)
+        self.postImage.image = UIImage(named: viewModel[index].image ?? "")
         self.descriptionTextView.text = viewModel[index].descriptionLabel
         self.likesLabel.text = "Likes : \(viewModel[index].likes)"
         self.viewsLabel.text = "Views : \(viewModel[index].views)"
         self.isLiked = viewModel[index].isLiked
-        print(index)
+        if viewModel[index].isLiked {
+            self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            self.likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
+        print(isLiked)
     }
     
+    
     @objc func likeActionTap () {
-       
         guard let index = self.index else { return }
-        
-        self.isLiked.toggle()
-        
-        if isLiked {
-            coreDataManager.likePost(originalPost: postArray[index])
-            likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        } else {
-            
-            //getting array from core data
-            let corePosts = coreDataManager.posts
-            //getting index in core data array
-            let indexForDeletePost = corePosts.firstIndex { corePost in
-                corePost.authorLabel == postArray[index].authorLabel &&
-                corePost.descriptionLabel == postArray[index].descriptionLabel
-           }
-            //deleting post in core data
-            if let index = indexForDeletePost {
-                coreDataManager.unlike(post: corePosts[index])
-            }
-            likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
-        }
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+        let corePosts = coreDataManager.posts
+        coreDataManager.unlike(post: corePosts[index])
+        delegate?.reloadData()
     }
+    
 }
+
