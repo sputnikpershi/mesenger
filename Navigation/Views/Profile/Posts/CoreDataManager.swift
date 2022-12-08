@@ -56,19 +56,24 @@ class CoreDataManager {
     
     func likePost(originalPost: Post) {
         print("some")
-        let post = PostData(context: persistentContainer.viewContext)
-        post.authorLabel = originalPost.authorLabel
-        post.image = originalPost.image
-        post.views = Int32(originalPost.views)
-        post.descriptionLabel = originalPost.descriptionLabel
-        post.likes = Int32(originalPost.likes)
-        post.isLiked = originalPost.isLiked
-        saveContext()
-        reloadData()
-        print("was added at index")
-        print(posts.count)
+        persistentContainer.performBackgroundTask { backgroundContext in
+            let post = PostData(context: backgroundContext)
+            post.authorLabel = originalPost.authorLabel
+            post.image = originalPost.image
+            post.views = Int32(originalPost.views)
+            post.descriptionLabel = originalPost.descriptionLabel
+            post.likes = Int32(originalPost.likes)
+            post.isLiked = true
+            do {
+                try      backgroundContext.save()
 
-
+            } catch {
+                print(error)
+            }
+            self.reloadData()
+            print("was added at index")
+            print(self.posts.count)
+        }
     }
     
     func unlike (post: PostData) {

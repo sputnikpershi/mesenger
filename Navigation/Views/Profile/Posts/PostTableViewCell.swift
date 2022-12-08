@@ -156,7 +156,18 @@ class PostTableViewCell: UITableViewCell {
         self.descriptionTextView.text = viewModel[index].descriptionLabel
         self.likesLabel.text = "Likes : \(viewModel[index].likes)"
         self.viewsLabel.text = "Views : \(viewModel[index].views)"
-        self.isLiked = viewModel[index].isLiked
+        
+        let posts = coreDataManager.posts
+        let indexPost = posts.firstIndex { post in
+            post.descriptionLabel == self.descriptionTextView.text
+        }
+        if let index = indexPost {
+            self.isLiked = posts[index].isLiked
+        }
+        
+        if isLiked {
+            likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        }
         print(index)
     }
     
