@@ -15,7 +15,7 @@ class PostTableViewCell: UITableViewCell {
     var index : Int?
     let context = CoreDataManager.shared.persistentContainer.viewContext
     let coreDataManager: CoreDataManager = CoreDataManager.shared
-    
+    var posts = [PostData]()
     private lazy var authorLabel: UILabel = {
         let author = UILabel()
         author.font = UIFont.boldSystemFont(ofSize: 20)
@@ -93,6 +93,7 @@ class PostTableViewCell: UITableViewCell {
     
     private func setViews () {
         self.addSubview(self.stackView)
+        self.posts = coreDataManager.posts
         stackView.addArrangedSubview(self.authorLabel)
         stackView.addArrangedSubview(self.imageStackView)
         stackView.addArrangedSubview(self.descriptionTextView)
@@ -110,6 +111,7 @@ class PostTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.postImage.snp.bottom).offset(-8)
             make.height.width.equalTo(35)
         }
+        
     }
     
     private func setConstraints () {
@@ -157,7 +159,7 @@ class PostTableViewCell: UITableViewCell {
         self.likesLabel.text = "Likes : \(viewModel[index].likes)"
         self.viewsLabel.text = "Views : \(viewModel[index].views)"
         
-        let posts = coreDataManager.posts
+        self.posts = coreDataManager.posts
         let indexPost = posts.firstIndex { post in
             post.descriptionLabel == self.descriptionTextView.text
         }
@@ -172,7 +174,8 @@ class PostTableViewCell: UITableViewCell {
     }
     
     @objc func likeActionTap () {
-       
+        self.posts = coreDataManager.posts
+
         guard let index = self.index else { return }
         
         self.isLiked.toggle()
@@ -180,21 +183,21 @@ class PostTableViewCell: UITableViewCell {
         if isLiked {
             coreDataManager.likePost(originalPost: postArray[index])
             likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+
         } else {
             
             //getting array from core data
-            let corePosts = coreDataManager.posts
             //getting index in core data array
-            let indexForDeletePost = corePosts.firstIndex { corePost in
+            let indexForDeletePost = posts.firstIndex { corePost in
                 corePost.authorLabel == postArray[index].authorLabel &&
                 corePost.descriptionLabel == postArray[index].descriptionLabel
            }
             //deleting post in core data
             if let index = indexForDeletePost {
-                coreDataManager.unlike(post: corePosts[index])
+                coreDataManager.unlike(post: posts[index])
             }
             likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
+
         }
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
     }
 }

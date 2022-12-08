@@ -21,7 +21,6 @@ class CoreDataManager {
         let container = NSPersistentContainer(name: "PostCoreData")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-               
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
@@ -51,7 +50,6 @@ class CoreDataManager {
         self.posts = posts
     }
     
-    
     //like post
     
     func likePost(originalPost: Post) {
@@ -65,8 +63,7 @@ class CoreDataManager {
             post.likes = Int32(originalPost.likes)
             post.isLiked = true
             do {
-                try      backgroundContext.save()
-
+                try backgroundContext.save()
             } catch {
                 print(error)
             }
@@ -74,6 +71,10 @@ class CoreDataManager {
             print("was added at index")
             print(self.posts.count)
         }
+    
+        
+        
+
     }
     
     func unlike (post: PostData) {
@@ -82,8 +83,20 @@ class CoreDataManager {
         reloadData()
         print("was deleted")
         print(posts.count)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+        }
+
     }
     
-  
-   
+    func getFilteredPostsData (authorLabel: String? = nil) -> [PostData]? {
+           let fetchRequest = PostData.fetchRequest()
+           if let authorLabel, authorLabel.count > 0 {
+               fetchRequest.predicate = NSPredicate(format: "authorLabel contains[c] %@", authorLabel)
+           }
+           return (try? persistentContainer.viewContext.fetch(fetchRequest)) ?? []
+       }
+    
+    
+    
 }

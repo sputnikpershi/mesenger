@@ -18,6 +18,8 @@ class LikeViewController: UIViewController {
     let coreDataManager: CoreDataManager = CoreDataManager.shared
     var isLiked  = false
     let context = CoreDataManager.shared.persistentContainer.viewContext
+    var postsData = [PostData]()
+
     
     private lazy var tableView: UITableView = {
         let table = UITableView (frame: .zero, style: .grouped)
@@ -33,12 +35,58 @@ class LikeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "My Likes"
+        self.postsData = coreDataManager.posts
+        setNavigationController ()
         setLayers()
         NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
+        
     }
   
+    private func setNavigationController () {
+            let filterButton =  UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(filteAction))
+            let setDefaultButton = UIBarButtonItem(image: UIImage(systemName: "xmark.seal"), style: .plain, target: self, action: #selector(cleanFilterAction))
+            self.navigationItem.rightBarButtonItems = [setDefaultButton, filterButton]
+        }
+    @objc func filteAction() {
+            let alertController = UIAlertController(title: "Filter", message: "Please enter the name of author in the field below to show you all his posts", preferredStyle: .alert)
+            alertController.addTextField { (textField : UITextField!) -> Void in
+                textField.placeholder = "Enter name"
+            }
+       
+            let saveAction = UIAlertAction(title: "save", style: .default, handler: { alert -> Void in
+                   if let textField = alertController.textFields?[0] {
+                       if textField.text!.count > 0 {
+                           print("Text :: \(textField.text ?? "")")
+                           let author = textField.text
+                         self.postsData = self.coreDataManager.getFilteredPostsData(authorLabel: author) ?? []
+                           DispatchQueue.main.async {
+                               self.tableView.reloadData()
+                           }
+                       }
+                   }
+               })
+            
+            let cancelAction = UIAlertAction(title: "cancel", style: .destructive, handler: {
+                   (action : UIAlertAction!) -> Void in })
+               alertController.addAction(cancelAction)
+               alertController.addAction(saveAction)
+               alertController.preferredAction = saveAction
+               self.present(alertController, animated: true, completion: nil)
+           
+        }
+        
+        @objc func cleanFilterAction() {
+            DispatchQueue.main.async {
+              self.postsData = self.coreDataManager.getFilteredPostsData() ?? []
+                self.tableView.reloadData()
+            }
+        }
+    
+    
     @objc func loadList(notification: NSNotification){
-        self.tableView.reloadData()
+            self.postsData = self.coreDataManager.posts
+            print("reloaded \(self.postsData.count)")
+            self.tableView.reloadData()
     }
     
     private func setLayers() {
@@ -52,7 +100,7 @@ class LikeViewController: UIViewController {
 
 extension LikeViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        coreDataManager.posts.count
+        postsData.count
     }
     
     
@@ -61,7 +109,7 @@ extension LikeViewController : UITableViewDelegate, UITableViewDataSource {
         cell.contentView.isUserInteractionEnabled = false
         cell.delegate = self
         cell.index = indexPath.row
-        cell.setup(with:coreDataManager.posts, index: indexPath.row)
+        cell.setup(with:postsData, index: indexPath.row)
         return cell
     }
     
@@ -73,6 +121,7 @@ extension LikeViewController : UITableViewDelegate, UITableViewDataSource {
 
 extension LikeViewController: MyCellDelegate {
     func reloadData() {
+        self.postsData = coreDataManager.posts
         self.tableView.reloadData()
     }
 }
