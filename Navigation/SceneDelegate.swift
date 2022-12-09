@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = UIWindow(windowScene: windowScene)
 
         let userDefault = UserDefaults.standard
-        print(userDefault.bool(forKey: "hasLogedIn"))
+        print("User had loged in  - \(userDefault.bool(forKey: "hasLogedIn"))")
 
         
         // launch app coordinator of the entire application

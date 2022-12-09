@@ -192,22 +192,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         
         NSLayoutConstraint.activate([
             avatarImageWidthConstraint, avatarImageHeightConstraint, avatarImageLeadingConstraint, avatarImageTopConstraint,
-            
-//            self.nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-//            self.nameLabel.leadingAnchor.constraint(equalTo: self.avatarImage.trailingAnchor, constant: 16),
-//            self.nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-
-//            self.statusLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 27),
-//            self.statusLabel.leadingAnchor.constraint(equalTo: self.avatarImage.trailingAnchor, constant: 16),
-//            self.statusLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-//
-//            self.profileButton.topAnchor.constraint(equalTo:  self.profileTextField.bottomAnchor, constant: 16),
-//            self.profileButton.heightAnchor.constraint(equalToConstant: 50),
-//            self.profileButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-//            self.profileButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.78),
-//
-//            self.profileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-
         ].compactMap({$0}))
     }
     
@@ -216,7 +200,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
              statusLabel.text = statusText
              profileTextField.text = ""
          }
-
      }
      
      @objc func statusTextChanged () {
@@ -252,6 +235,5 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
    @objc func logOutAction () {
        self.profileVC?.logOutAction()
-       print("header log out")
     }
 }

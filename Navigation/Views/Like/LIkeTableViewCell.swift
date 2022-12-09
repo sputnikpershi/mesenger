@@ -161,7 +161,6 @@ class LIkeTableViewCell: UITableViewCell {
         } else {
             self.likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
         }
-        print(isLiked)
     }
     
     

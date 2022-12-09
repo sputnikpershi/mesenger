@@ -53,7 +53,6 @@ class CoreDataManager {
     //like post
     
     func likePost(originalPost: Post) {
-        print("some")
         persistentContainer.performBackgroundTask { backgroundContext in
             let post = PostData(context: backgroundContext)
             post.authorLabel = originalPost.authorLabel
@@ -68,8 +67,8 @@ class CoreDataManager {
                 print(error)
             }
             self.reloadData()
-            print("was added at index")
-            print(self.posts.count)
+            print("post was added at index")
+            print("Numbers of posts in core data now : \(self.posts.count)")
         }
     }
     
@@ -77,11 +76,9 @@ class CoreDataManager {
         persistentContainer.viewContext.delete(post)
         saveContext()
         reloadData()
-        print("was deleted")
-        print(posts.count)
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
-        }
+        print("post was deleted at index")
+        print("Numbers of posts in core data now : \(self.posts.count)")
+       
     }
     
     func getFilteredPostsData (authorLabel: String? = nil) -> [PostData]? {

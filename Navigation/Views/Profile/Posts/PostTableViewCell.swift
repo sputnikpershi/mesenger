@@ -174,7 +174,6 @@ class PostTableViewCell: UITableViewCell {
         } else {
             likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
         }
-        print(index)
     }
     
     @objc func likeActionTap () {
@@ -187,20 +186,21 @@ class PostTableViewCell: UITableViewCell {
         if isLiked {
             group.enter()
             DispatchQueue.main.async {
+                //adding post in core data
                 self.coreDataManager.likePost(originalPost: postArray[index])
                 self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                
             }
             group.leave()
 
         } else {
+            
             group.enter()
             DispatchQueue.main.async {
+                //deleting post in core data
                 let indexForDeletePost = self.posts.firstIndex { corePost in
                     corePost.authorLabel == postArray[index].authorLabel &&
                     corePost.descriptionLabel == postArray[index].descriptionLabel
                }
-                //deleting post in core data
                 if let index = indexForDeletePost {
                     self.coreDataManager.unlike(post: self.posts[index])
                 }
@@ -208,6 +208,7 @@ class PostTableViewCell: UITableViewCell {
             }
             group.leave()
         }
+        //reload data in LikeVewwController
         group.notify(queue: .main) {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
         }
