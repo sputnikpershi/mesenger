@@ -170,6 +170,7 @@ class LIkeTableViewCell: UITableViewCell {
         let corePosts = coreDataManager.posts
         coreDataManager.unlike(post: corePosts[index])
         delegate?.reloadData()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil)
     }
     
 }

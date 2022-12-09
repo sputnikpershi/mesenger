@@ -71,10 +71,6 @@ class CoreDataManager {
             print("was added at index")
             print(self.posts.count)
         }
-    
-        
-        
-
     }
     
     func unlike (post: PostData) {
@@ -86,7 +82,6 @@ class CoreDataManager {
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
         }
-
     }
     
     func getFilteredPostsData (authorLabel: String? = nil) -> [PostData]? {
@@ -96,7 +91,4 @@ class CoreDataManager {
            }
            return (try? persistentContainer.viewContext.fetch(fetchRequest)) ?? []
        }
-    
-    
-    
 }

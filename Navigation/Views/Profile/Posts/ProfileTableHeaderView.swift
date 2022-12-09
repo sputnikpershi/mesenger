@@ -151,15 +151,15 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         self.addSubview(self.viewTF)
         self.addSubview(self.profileTextField)
         self.addSubview(self.avatarImage)
-        self.addSubview(self.logOutButton)
+       // self.addSubview(self.logOutButton)
     }
     
     
     private func setConstraints () {
-        logOutButton.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(16)
-            make.trailing.equalToSuperview().offset(-16)
-        }
+//        logOutButton.snp.makeConstraints { make in
+//            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(16)
+//            make.trailing.equalToSuperview().offset(-16)
+//        }
         
         NSLayoutConstraint.activate([
             avatarImageWidthConstraint, avatarImageHeightConstraint, avatarImageLeadingConstraint, avatarImageTopConstraint,

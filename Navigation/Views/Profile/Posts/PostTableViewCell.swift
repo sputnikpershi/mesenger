@@ -165,39 +165,52 @@ class PostTableViewCell: UITableViewCell {
         }
         if let index = indexPost {
             self.isLiked = posts[index].isLiked
+        } else {
+            self.isLiked = false
         }
         
         if isLiked {
             likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
         }
         print(index)
     }
     
     @objc func likeActionTap () {
         self.posts = coreDataManager.posts
-
+        let group = DispatchGroup()
         guard let index = self.index else { return }
         
         self.isLiked.toggle()
         
         if isLiked {
-            coreDataManager.likePost(originalPost: postArray[index])
-            likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            group.enter()
+            DispatchQueue.main.async {
+                self.coreDataManager.likePost(originalPost: postArray[index])
+                self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                
+            }
+            group.leave()
 
         } else {
-            
-            //getting array from core data
-            //getting index in core data array
-            let indexForDeletePost = posts.firstIndex { corePost in
-                corePost.authorLabel == postArray[index].authorLabel &&
-                corePost.descriptionLabel == postArray[index].descriptionLabel
-           }
-            //deleting post in core data
-            if let index = indexForDeletePost {
-                coreDataManager.unlike(post: posts[index])
+            group.enter()
+            DispatchQueue.main.async {
+                let indexForDeletePost = self.posts.firstIndex { corePost in
+                    corePost.authorLabel == postArray[index].authorLabel &&
+                    corePost.descriptionLabel == postArray[index].descriptionLabel
+               }
+                //deleting post in core data
+                if let index = indexForDeletePost {
+                    self.coreDataManager.unlike(post: self.posts[index])
+                }
+                self.likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
             }
-            likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
-
+            group.leave()
         }
+        group.notify(queue: .main) {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+        }
+
     }
 }

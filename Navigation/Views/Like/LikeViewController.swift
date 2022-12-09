@@ -39,8 +39,9 @@ class LikeViewController: UIViewController {
         setNavigationController ()
         setLayers()
         NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
-        
     }
+    
+ 
   
     private func setNavigationController () {
             let filterButton =  UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(filteAction))
@@ -48,7 +49,7 @@ class LikeViewController: UIViewController {
             self.navigationItem.rightBarButtonItems = [setDefaultButton, filterButton]
         }
     @objc func filteAction() {
-            let alertController = UIAlertController(title: "Filter", message: "Please enter the name of author in the field below to show you all his posts", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Author Filter", message: "Please enter the name of author in the field below to show you all his posts", preferredStyle: .alert)
             alertController.addTextField { (textField : UITextField!) -> Void in
                 textField.placeholder = "Enter name"
             }
@@ -84,9 +85,12 @@ class LikeViewController: UIViewController {
     
     
     @objc func loadList(notification: NSNotification){
+        DispatchQueue.main.async {
             self.postsData = self.coreDataManager.posts
-            print("reloaded \(self.postsData.count)")
+            print("reloaded Like VC")
             self.tableView.reloadData()
+        }
+        
     }
     
     private func setLayers() {
