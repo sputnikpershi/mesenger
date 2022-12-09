@@ -41,19 +41,14 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         return avatar
     }()
 
-    private lazy var stackView : UIStackView = {
-        let stack = UIStackView(frame: .zero)
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
-        stack.spacing = 12
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    } ()
+   
     
     private lazy var nameLabel: UILabel = {
         let name = UILabel(frame: CGRect(x: 0, y: 0, width: 0 , height: 0 ))
         name.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         name.textColor = .black
+        name.translatesAutoresizingMaskIntoConstraints = false
+
         return name
     }()
     
@@ -62,6 +57,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         status.numberOfLines = 1
         status.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         status.textColor = .darkGray
+        status.translatesAutoresizingMaskIntoConstraints = false
+
         return status
     }()
     
@@ -69,6 +66,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         let textField = UITextField(frame: .zero)
         textField.textColor = .black
         textField.font?.withSize(15)
+        textField.layer.cornerRadius = 5
+        textField.backgroundColor = .white
         textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -103,7 +102,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         let button = UIButton()
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 12)
-        button.setTitle("Log out", for: .normal)
+        button.setTitle("exit", for: .normal)
         button.addTarget(self, action: #selector(logOutAction), for: .touchUpInside)
         return  button
     }()
@@ -145,51 +144,70 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     private func setViews () {
         self.addSubview(self.background)
         self.addSubview(self.profileButton)
-        self.addSubview(self.stackView)
-        self.stackView.addArrangedSubview(nameLabel)
-        self.stackView.addArrangedSubview(statusLabel)
+        self.addSubview(nameLabel)
+        self.addSubview(statusLabel)
         self.addSubview(self.viewTF)
         self.addSubview(self.profileTextField)
         self.addSubview(self.avatarImage)
-       // self.addSubview(self.logOutButton)
+        self.addSubview(self.logOutButton)
     }
     
     
     private func setConstraints () {
-//        logOutButton.snp.makeConstraints { make in
-//            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(16)
-//            make.trailing.equalToSuperview().offset(-16)
-//        }
+        background.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        logOutButton.snp.makeConstraints { make in
+            make.top.equalTo(self.background.snp.top).offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+        }
+
+        profileTextField.snp.makeConstraints { make in
+            make.top.equalTo(self.statusLabel.snp.bottom).offset(16)
+            make.leading.equalTo(self.avatarImage.snp.trailing).offset(16)
+            make.height.equalTo(40)
+            make.trailing.equalTo(self.snp.trailing).inset(16)
+        }
+        
+        nameLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.background.snp.top).offset(16)
+            make.leading.equalTo(self.avatarImage.snp.trailing).offset(16)
+            make.trailing.equalToSuperview()
+        }
+        
+        statusLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.nameLabel.snp.bottom).offset(16)
+            make.leading.equalTo(self.avatarImage.snp.trailing).offset(16)
+            make.trailing.equalToSuperview()
+        }
+        
+        profileButton.snp.makeConstraints { make in
+            make.top.equalTo(self.profileTextField.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+            make.bottom.equalTo(self.background.snp.bottom)
+        }
+        
         
         NSLayoutConstraint.activate([
             avatarImageWidthConstraint, avatarImageHeightConstraint, avatarImageLeadingConstraint, avatarImageTopConstraint,
             
-            self.stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 27),
-            self.stackView.leadingAnchor.constraint(equalTo: self.avatarImage.trailingAnchor, constant: 16),
-            self.stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            
-            self.viewTF.topAnchor.constraint(equalTo:  self.stackView.bottomAnchor, constant:  16),
-            self.viewTF.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -16),
-            self.viewTF.widthAnchor.constraint(equalTo: self.stackView.widthAnchor),
-            self.viewTF.heightAnchor.constraint(equalToConstant: 40),
-            
-            self.profileTextField.topAnchor.constraint(equalTo:  self.viewTF.topAnchor),
-            self.profileTextField.leadingAnchor.constraint(equalTo: self.viewTF.leadingAnchor, constant: 10),
-            self.profileTextField.trailingAnchor.constraint(equalTo: self.viewTF.trailingAnchor),
-            self.profileTextField.heightAnchor.constraint(equalToConstant: 40),
-            self.profileTextField.widthAnchor.constraint(equalTo: self.viewTF.widthAnchor, constant: -10),
-            
-            self.profileButton.topAnchor.constraint(equalTo:  self.profileTextField.bottomAnchor, constant: 16),
-            self.profileButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            self.profileButton.trailingAnchor.constraint(equalTo: self.stackView.trailingAnchor),
-            self.profileButton.heightAnchor.constraint(equalToConstant: 50),
-            self.profileButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-            self.profileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -16),
+//            self.nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+//            self.nameLabel.leadingAnchor.constraint(equalTo: self.avatarImage.trailingAnchor, constant: 16),
+//            self.nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+
+//            self.statusLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 27),
+//            self.statusLabel.leadingAnchor.constraint(equalTo: self.avatarImage.trailingAnchor, constant: 16),
+//            self.statusLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
 //
-            self.background.topAnchor.constraint(equalTo: self.topAnchor),
-            self.background.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.background.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.background.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+//            self.profileButton.topAnchor.constraint(equalTo:  self.profileTextField.bottomAnchor, constant: 16),
+//            self.profileButton.heightAnchor.constraint(equalToConstant: 50),
+//            self.profileButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+//            self.profileButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.78),
+//
+//            self.profileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+
         ].compactMap({$0}))
     }
     

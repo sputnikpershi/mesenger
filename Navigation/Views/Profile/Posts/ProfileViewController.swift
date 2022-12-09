@@ -33,6 +33,7 @@ class ProfileViewController: UIViewController {
         let table = UITableView (frame: .zero, style: .grouped)
         table.dataSource = self
         table.delegate = self
+        table.tableHeaderView?.translatesAutoresizingMaskIntoConstraints = false 
         table.rowHeight = UITableView.automaticDimension
         table.estimatedRowHeight = 140
         table.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
@@ -201,14 +202,18 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as? ProfileTableHeaderView
         headerView?.profileVC = self
+//        headerView?.translatesAutoresizingMaskIntoConstraints = false 
         headerView?.setup(user: viewModel!.user)// Передача данных user в элементы ProfileTableHeaderView
         return headerView
     }
     
-    
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        viewModel?.footerText
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        200
     }
+    
+//    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+//        viewModel?.footerText
+//    }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
