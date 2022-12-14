@@ -20,6 +20,12 @@ class LikeViewController: UIViewController {
     let context = CoreDataManager.shared.persistentContainer.viewContext
     var postsData = [PostData]()
 
+    private lazy var fetchResultController: NSFetchedResultsController = {
+        let fetchRequest = PostData.fetchRequest()
+        fetchRequest.sortDescriptors = []
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataManager.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        return frc
+    }()
     
     private lazy var tableView: UITableView = {
         let table = UITableView (frame: .zero, style: .grouped)
@@ -38,9 +44,16 @@ class LikeViewController: UIViewController {
         self.postsData = coreDataManager.posts
         setNavigationController ()
         setLayers()
-        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        DispatchQueue.main.async {
+                self.postsData = self.coreDataManager.posts
+                print("reloaded Like VC")
+                self.tableView.reloadData()
+            }
+    }
  
   
     private func setNavigationController () {
@@ -84,14 +97,7 @@ class LikeViewController: UIViewController {
         }
     
     
-    @objc func loadList(notification: NSNotification){
-        DispatchQueue.main.async {
-            self.postsData = self.coreDataManager.posts
-            print("reloaded Like VC")
-            self.tableView.reloadData()
-        }
-        
-    }
+  
     
     private func setLayers() {
         self.view.addSubview(tableView)
@@ -127,5 +133,13 @@ extension LikeViewController: MyCellDelegate {
     func reloadData() {
         self.postsData = coreDataManager.posts
         self.tableView.reloadData()
+    }
+}
+
+
+extension LikeViewController : NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        
     }
 }

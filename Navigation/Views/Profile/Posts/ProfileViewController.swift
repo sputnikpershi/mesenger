@@ -85,7 +85,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "reload"), object: nil)
         if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         self.view.backgroundColor = .secondarySystemBackground
         self.tabBarController?.tabBar.backgroundColor = .secondarySystemBackground
@@ -93,17 +92,13 @@ class ProfileViewController: UIViewController {
         setConstraints()
     }
     
-    @objc func loadList(notification: NSNotification){
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
         DispatchQueue.main.async {
             self.tableView.reloadData()
             print("reload ProfileVC")
         }
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isHidden = true
     }
     
     private func setViews() {
