@@ -47,7 +47,7 @@ class LikeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         try? fetchResultController.performFetch()
-
+        
         DispatchQueue.main.async {
             print("reloaded Like VC")
             self.tableView.reloadData()
@@ -123,7 +123,7 @@ extension LikeViewController : UITableViewDelegate, UITableViewDataSource {
         fetchResultController.sections?[section].numberOfObjects ?? 0
     }
     
-
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! LIkeTableViewCell

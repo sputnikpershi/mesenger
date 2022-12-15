@@ -17,7 +17,6 @@ class ProfileViewController: UIViewController {
     var coreDataManager = CoreDataManager.shared
     var postData = [PostData]()
     
-    
     // MARK: INIT
     
     init(viewModel: ProfileViewModel) {

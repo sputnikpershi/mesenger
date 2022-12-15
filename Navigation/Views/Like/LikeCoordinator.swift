@@ -8,13 +8,10 @@
 import UIKit
 class LikeCoordinator: Coordinator {
     var rootViewController = UINavigationController()
-    
    
     func start() {
         rootViewController.setViewControllers([LikeViewController()], animated: false)
     }
-    
-    
 }
 
 

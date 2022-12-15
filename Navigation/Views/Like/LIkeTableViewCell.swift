@@ -73,12 +73,6 @@ class LIkeTableViewCell: UITableViewCell {
         return views
     }()
     
-    private lazy var stackView : UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.backgroundColor = .systemOrange
-        return stack
-    }()
     
     private lazy var imageStackView : UIStackView = {
         let stack = UIStackView()
@@ -95,12 +89,7 @@ class LIkeTableViewCell: UITableViewCell {
     }
     
     private func setViews () {
-        self.addSubview(self.stackView)
-        stackView.addArrangedSubview(self.authorLabel)
-        stackView.addArrangedSubview(self.imageStackView)
-        stackView.addArrangedSubview(self.descriptionTextView)
-        stackView.addArrangedSubview(self.likesLabel)
-        stackView.addArrangedSubview(self.viewsLabel)
+        
         self.addSubview(self.authorLabel)
         self.addSubview(self.imageStackView)
         imageStackView.addArrangedSubview(self.postImage)
@@ -114,11 +103,6 @@ class LIkeTableViewCell: UITableViewCell {
     
     private func setConstraints () {
         NSLayoutConstraint.activate([
-            
-            self.stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            self.stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
             self.authorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             self.authorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
@@ -186,7 +170,7 @@ class LIkeTableViewCell: UITableViewCell {
     
     
     @objc func likeActionTap () {
-
+        
         if let post {
             coreDataManager.persistentContainer.viewContext.delete(post)
             coreDataManager.saveContext()
