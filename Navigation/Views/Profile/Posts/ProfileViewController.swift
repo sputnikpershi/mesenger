@@ -7,6 +7,7 @@
 import StorageService
 import UIKit
 import Firebase
+import CoreData
 
 class ProfileViewController: UIViewController {
     
@@ -42,6 +43,8 @@ class ProfileViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     } ()
+
+    
     
     private lazy var avaImage: UIImageView = {
         let image = UIImageView()
@@ -232,5 +235,4 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-
 

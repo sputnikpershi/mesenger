@@ -24,6 +24,7 @@ class CoreDataManager {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        container.viewContext.automaticallyMergesChangesFromParent = true 
         return container
     }()
 
@@ -73,10 +74,12 @@ class CoreDataManager {
     }
     
     func unlike (post: PostData) {
+        print("post with name \(post.authorLabel) - \(post.likes) likes")
+
         persistentContainer.viewContext.delete(post)
         saveContext()
         reloadData()
-        print("post was deleted at index")
+        print("post was deleted")
         print("Numbers of posts in core data now : \(self.posts.count)")
        
     }

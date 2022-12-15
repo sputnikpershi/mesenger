@@ -30,4 +30,7 @@ public var postArray = [
                         Post(authorLabel: "tradindView.official",
                              descriptionLabel: "Базирующаяся в Лондоне компания TradingView отметила в октябре 2021 года 237%-ый посетителей с мая 2020-го, поскольку потребители обратили свое внимание на торговлю в условиях пандемического (пандемия коронавируса COVID-19) застоя. За указанный период TradingView сообщила о 400% скачке созданных аккаунтов",
                              image: "trade", likes: 520, views: 6990),
+                        Post(authorLabel: "china.mama",
+                             descriptionLabel: "When you initialize your NSFetchedResultsController make sure to set the sectionNameKeyPath. This value should represent a field of your NSManagedObject that your controller is based on. I wanted my sections to be divided into the Artist names so I passed in name.",
+                             image: "tradechina", likes: 5220, views: 690),
 ]
