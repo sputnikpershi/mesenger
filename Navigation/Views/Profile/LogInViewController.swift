@@ -292,7 +292,7 @@ extension LogInViewController: CheckerServiceProtocol {
     
     func signIn(_ email: String, password: String) {
         
-        print(user.getKey().base64EncodedString())
+        print(user.getKey().hexEncodedString())
         let config = Realm.Configuration(encryptionKey: user.getKey())
         
         do {
@@ -328,3 +328,14 @@ extension LogInViewController: CheckerServiceProtocol {
 
 
 
+extension Data {
+    struct HexEncodingOptions: OptionSet {
+        let rawValue: Int
+        static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
+    }
+
+    func hexEncodedString(options: HexEncodingOptions = []) -> String {
+        let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
+        return self.map { String(format: format, $0) }.joined()
+    }
+}
