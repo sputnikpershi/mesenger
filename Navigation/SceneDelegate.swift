@@ -21,8 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let userDefault = UserDefaults.standard
         print("User had loged in  - \(userDefault.bool(forKey: "hasLogedIn"))")
 
-        
-        // launch app coordinator of the entire application
         let applicationCoordinator = ApplicationCoordinator(window: window!)
         applicationCoordinator.start()
         self.applicationCoordinator = applicationCoordinator
