@@ -86,7 +86,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     private lazy var profileButton : UIButton = {
         let button = UIButton(frame: .zero)
         button.backgroundColor = .systemBlue
-        button.setTitle("Show status", for: .normal)
+        let localizationText = NSLocalizedString("profile-status-button", comment: "")
+        button.setTitle(localizationText, for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOffset = CGSize(width: 4.0, height: 4.0)
         button.layer.masksToBounds = false
@@ -102,7 +103,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         let button = UIButton()
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 12)
-        button.setTitle("exit", for: .normal)
+        let localizationText = NSLocalizedString("profile-logout-button", comment: "")
+        button.setTitle(localizationText, for: .normal)
         button.addTarget(self, action: #selector(logOutAction), for: .touchUpInside)
         return  button
     }()

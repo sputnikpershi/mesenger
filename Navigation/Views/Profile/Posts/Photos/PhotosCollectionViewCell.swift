@@ -45,28 +45,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     
     
     func setup(with image: [UIImage], index: Int) {
-        
-        
         self.photoImage.image = image[index]
-        //
-        //        let imageProcessot = ImageProcessor()
-        //        startTime = Date().timeIntervalSince1970
-        //
-        //        imageProcessot.processImagesOnThread(sourceImages: [image[index]], filter: .bloom(intensity: 10), qos: .utility) { cgImage in DispatchQueue.main.sync {
-        //
-        //            cgImage.forEach { cgImage in
-        //                if let image = cgImage {
-        //                    self.photoImage.image = UIImage(cgImage: image)
-        //                }
-        //            }
-        //        }
-        //            let endTime = Date().timeIntervalSince1970    // 1512538956.57195 seconds
-        //            let elapsedTime = Float(endTime - self.startTime)
-        //            print(elapsedTime)
-        //
-        //        }
-        //
-        //    }
-        
     }
     }

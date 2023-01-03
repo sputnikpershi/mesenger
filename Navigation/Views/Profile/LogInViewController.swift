@@ -69,7 +69,8 @@ class LogInViewController: UIViewController {
     private lazy var loginTF: UITextField = {
         let login = UITextField ()
         login.translatesAutoresizingMaskIntoConstraints = false
-        login.placeholder = "Email"
+        let localizationText = NSLocalizedString("login-email", comment: "")
+        login.placeholder = localizationText
         login.textColor = .black
         login.autocapitalizationType = .none
         return login
@@ -78,7 +79,9 @@ class LogInViewController: UIViewController {
     private lazy var pswdTF: UITextField = {
         let pswd = UITextField ()
         pswd.translatesAutoresizingMaskIntoConstraints = false
-        pswd.placeholder = "Password"
+        let localizationText = NSLocalizedString("login-pswd", comment: "")
+
+        pswd.placeholder = localizationText
         pswd.textColor = .black
         pswd.autocapitalizationType = .none
         pswd.isSecureTextEntry = true
@@ -100,7 +103,9 @@ class LogInViewController: UIViewController {
     private lazy var loginButton : UIButton  = {
         let button = UIButton ()
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
-        button.setTitle("Авторизироваться", for: .normal)
+        let localizationText = NSLocalizedString("login-button",  comment: "")
+
+        button.setTitle(localizationText, for: .normal)
         button.clipsToBounds = true
         button.layer.cornerRadius = 10
         button.isEnabled = true
@@ -258,10 +263,18 @@ class LogInViewController: UIViewController {
     
     
     func showCreateAcccount(_ email: String, password: String) {
+        
         print("Create account")
-        let alert = UIAlertController(title: "Ваш аккаунт еще не зарегистрирован", message: "Хотите зарегистрироваться?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Зарегистрировать", style: .default, handler: { _ in
+        
+        let localizationAlertTitle = NSLocalizedString("alert-title" , comment: "")
+        let localizationAlertMessage = NSLocalizedString("alert-message" , comment: "")
+
+        let localizationAlertCancelButton = NSLocalizedString("alert-cancel" , comment: "")
+        let localizationAlertOkButton = NSLocalizedString("alert-ok" , comment: "")
+
+        let alert = UIAlertController(title: localizationAlertTitle, message: localizationAlertMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localizationAlertCancelButton, style: .cancel))
+        alert.addAction(UIAlertAction(title: localizationAlertOkButton, style: .default, handler: { _ in
             self.loadIndicator.startAnimating()
             self.signUp(email, password: password)
         }))
@@ -274,7 +287,7 @@ class LogInViewController: UIViewController {
         print("Show account")
         loginTF.text = ""
         pswdTF.text = ""
-        let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
+        let user = User(login: "test", fullName: "Кот Тестировщик", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
         let profileVM = ProfileViewModel(user: user)
         navigationController?.pushViewController(ProfileViewController(viewModel: profileVM), animated: true)
     }

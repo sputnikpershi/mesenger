@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  Navigation
+
+  Created by Kiryl Rakk on 3/1/23.
+  
+*/
+
+
+
+"login-button" = "Sign In";
+"login-alert" =  "Would you like to sign up?";
+"login-pswd" = "Password";
+"login-email" = "Email";
+"alert-title" = "There is no login like yours";
+"alert-message" = "Would you like to create a new one?";
+"alert-cancel" = "Sign up";
+"alert-ok" = "Cancel";
+
+
+"profile-status-button" = "Change status";
+"profile-photo-title" = "Photo";
+"profile-logout-button" = "Logout";
+"gallery-title" = "Photo Gallery";
+
+
+"likes-title" = "My likes";
+"tab-like" = "Likes";
+"tab-post"  = "Posts";
+"tab-feed" = "Feed";
