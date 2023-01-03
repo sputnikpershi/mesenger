@@ -12,11 +12,9 @@
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
-			<key>other</key>
-			<string>Views</string>
 			<key>one</key>
 			<string>View</string>
-			<key>few</key>
+			<key>many</key>
 			<string>Views</string>
 		</dict>
 	</dict>

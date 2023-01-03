@@ -12,11 +12,11 @@
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
-			<key>other</key>
-			<string>Просмотров</string>
 			<key>one</key>
 			<string>Просмотр</string>
 			<key>few</key>
+			<string>Просмотров</string>
+			<key>other</key>
 			<string>Просмотров</string>
 		</dict>
 	</dict>
