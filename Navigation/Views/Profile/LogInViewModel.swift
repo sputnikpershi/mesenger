@@ -15,13 +15,13 @@ protocol LoginViewControllerDelegate {
 
 final class Checker {
     static var shared = Checker()
-    #if DEBUG
-     var login = "test"
-     var password = ""
-    #else
+#if DEBUG
+    var login = "test"
+    var password = ""
+#else
     private var login = "cat"
     private var password = "12345"
-    #endif
+#endif
     
     private init () {}
     func check(login: String, password: String) -> Bool {

@@ -7,13 +7,15 @@
 import StorageService
 import UIKit
 import Firebase
+import CoreData
 
 class ProfileViewController: UIViewController {
     
     var coordinator : ProfileTabCoordinator?
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
     private var viewModel : ProfileViewModel?
-    
+    var coreDataManager = CoreDataManager.shared
+    var postData = [PostData]()
     
     // MARK: INIT
     
@@ -40,6 +42,8 @@ class ProfileViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     } ()
+
+    
     
     private lazy var avaImage: UIImageView = {
         let image = UIImageView()
@@ -93,6 +97,10 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            print("reload ProfileVC")
+        }
     }
     
     private func setViews() {
@@ -149,7 +157,6 @@ class ProfileViewController: UIViewController {
                 self.backButton.alpha = 1
             }
         } completion: { _ in
-            
         }
     }
     
@@ -158,17 +165,13 @@ class ProfileViewController: UIViewController {
         self.avatarHeightConstant?.constant = self.initialAvatarFrame.height
         self.avatarLeadingConstant?.constant = self.initialAvatarFrame.minX
         self.avatarTopConstant?.constant = self.initialAvatarFrame.minY
-        
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
-            
             self.avaImage.layer.cornerRadius = self.initialAvatarFrame.height/2
             self.avaImage.alpha = 0
             self.backgroundView.alpha = 0
             self.backButton.alpha = 0
             self.view.layoutIfNeeded()
-            
         } completion: { _ in
-            
         }
     }
     
@@ -181,12 +184,9 @@ class ProfileViewController: UIViewController {
             self.navigationController?.popToRootViewController(animated: true)
             userDefault.set(false, forKey: "hasLogedIn")
         } else {
-            print("1")
             self.navigationController?.pushViewController(LogInViewController(), animated: true)
             userDefault.set(false, forKey: "hasLogedIn")
         }
-        print(userDefault.bool(forKey: "hasLogedIn"))
-        
     }
 }
 
@@ -201,24 +201,16 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         return headerView
     }
     
-    
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        viewModel?.footerText
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        200
     }
-    
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
-    
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        postArray.count
+        postArray.count + 1
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if indexPath.row == .zero {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosCell", for: indexPath) as! PhotosTableViewCell
             cell.setup(with: photosArray)
@@ -226,7 +218,9 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
-            cell.setup(with: postArray, index: indexPath.row) // загрузка информацией cell через массив postArray
+            cell.index = indexPath.row - 1
+            cell.setup(with: postArray, index: indexPath.row - 1 ) 
+            cell.contentView.isUserInteractionEnabled = false
             return cell
         }
     }
@@ -237,10 +231,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             let vc = PhotosViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
-    
 }
-
 

@@ -20,7 +20,6 @@ class LogInViewController: UIViewController {
     
     let userDefault = UserDefaults.standard
     let user = ServiceLogIn()
-    let realm = try! Realm()
     let keyChain = Keychain()
     var coordinator : ProfileTabCoordinator?
     let groupQueue = DispatchGroup()
@@ -126,7 +125,7 @@ class LogInViewController: UIViewController {
         setViews()
         setConstraints()
         self.setGesture()
-          }
+    }
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -292,61 +291,51 @@ class LogInViewController: UIViewController {
 extension LogInViewController: CheckerServiceProtocol {
     
     func signIn(_ email: String, password: String) {
-        let users = realm.objects(UserLogin.self)
-        if users.contains(where: { user in
-            user.login == email && keyChain[user.login] == password
-        }) {
-            userDefault.set(true, forKey: "hasLogedIn")
-            self.showAccount()
-        } else {
-            showCreateAcccount(email, password: password)
+        
+        print(user.getKey().hexEncodedString())
+        let config = Realm.Configuration(encryptionKey: user.getKey())
+        
+        do {
+            // Open the encrypted realm
+            let realm = try Realm(configuration: config) // set Config with encrypted key
+            let users = realm.objects(UserLogin.self)
+            
+            print(users)
+            if users.contains(where: { user in
+                user.login == email && user.password == password
+            }) {
+                userDefault.set(true, forKey: "hasLogedIn")
+                self.showAccount()
+            } else {
+                showCreateAcccount(email, password: password) //show alert to create account
+            }
+            
+            
+        } catch let error as NSError {
+            fatalError("Error opening realm: \(error.localizedDescription)")
         }
+        
     }
     
     func signUp(_ email: String, password: String) {
         user.saveLogIngData(login: email, password: password)
-        self.showAccount()
-        userDefault.set(true, forKey: "hasLogedIn")
+        self.showAccount() //show next ViewController
+        userDefault.set(true, forKey: "hasLogedIn") // save info about first login
     }
     
-    
-    
-    // Authorization with Farebase
-
-    
-  //   func signIn(_ email: String, password: String) {
-//        print(email, password)
-//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-//            guard let strongSelf = self else { return }
-//            guard error == nil else  {
-//                strongSelf.showCreateAcccount(email, password: password)
-//                return
-//            }
-//            print("You have signed un")
-//            strongSelf.showAccount()
-//        }
-//    }
-    
-  //  func signUp(_ email: String, password: String) {
-//        Auth.auth().createUser(withEmail: email, password: password) {  [weak self] authResult, error in
-//            guard let strongSelf = self else { return }
-//            strongSelf.loadIndicator.startAnimating()
-//
-//            guard error == nil else  {
-//                print("Creationg failed")
-//                let text = error?.localizedDescription
-//                if let text {
-//                    strongSelf.showAllertAutherization(text: text)
-//                }
-//                return
-//            }
-//            strongSelf.loadIndicator.stopAnimating()
-//            print("You have sign up")
-//            self?.showAccount()
-//        }
-    // }
 }
 
 
 
 
+extension Data {
+    struct HexEncodingOptions: OptionSet {
+        let rawValue: Int
+        static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
+    }
+
+    func hexEncodedString(options: HexEncodingOptions = []) -> String {
+        let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
+        return self.map { String(format: format, $0) }.joined()
+    }
+}

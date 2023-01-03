@@ -1,38 +1,42 @@
 //
-//  PostTableViewCell.swift
+//  LIkeTableViewCell.swift
 //  Navigation
 //
-//  Created by Krime Loma    on 8/14/22.
+//  Created by Kiryl Rakk on 2/12/22.
 //
 
 import UIKit
-import StorageService
-import SnapKit
+import CoreData
 
-class PostTableViewCell: UITableViewCell {
+class LIkeTableViewCell: UITableViewCell {
     
-    var isLiked: Bool = false
+    weak var delegate : MyCellDelegate?
     var index : Int?
-    let context = CoreDataManager.shared.persistentContainer.viewContext
+    var indexPath : IndexPath?
+    var isLiked: Bool = false
+    var post: PostData?
+    var fetchResultController: NSFetchedResultsController<PostData>?
     let coreDataManager: CoreDataManager = CoreDataManager.shared
-    var posts = [PostData]()
+    var postData: [PostData]?
+    let context = CoreDataManager.shared.persistentContainer.viewContext
+    
+    lazy var likeImage : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.tintColor = .white
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.isUserInteractionEnabled = true
+        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var authorLabel: UILabel = {
         let author = UILabel()
         author.font = UIFont.boldSystemFont(ofSize: 20)
         author.numberOfLines = 2
         author.translatesAutoresizingMaskIntoConstraints  = false
         return author
-    }()
-    
-    private lazy var likeImage : UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = .white
-        button.isUserInteractionEnabled = true
-        button.contentHorizontalAlignment = .fill
-        button.contentVerticalAlignment = .fill
-        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
-        return button
     }()
     
     private lazy var descriptionTextView: UILabel = {
@@ -69,12 +73,6 @@ class PostTableViewCell: UITableViewCell {
         return views
     }()
     
-    private lazy var stackView : UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.backgroundColor = .systemOrange
-        return stack
-    }()
     
     private lazy var imageStackView : UIStackView = {
         let stack = UIStackView()
@@ -82,7 +80,6 @@ class PostTableViewCell: UITableViewCell {
         stack.backgroundColor = .black
         return stack
     }()
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -92,13 +89,7 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private func setViews () {
-        self.addSubview(self.stackView)
-        self.posts = coreDataManager.posts
-        stackView.addArrangedSubview(self.authorLabel)
-        stackView.addArrangedSubview(self.imageStackView)
-        stackView.addArrangedSubview(self.descriptionTextView)
-        stackView.addArrangedSubview(self.likesLabel)
-        stackView.addArrangedSubview(self.viewsLabel)
+        
         self.addSubview(self.authorLabel)
         self.addSubview(self.imageStackView)
         imageStackView.addArrangedSubview(self.postImage)
@@ -106,21 +97,12 @@ class PostTableViewCell: UITableViewCell {
         self.addSubview(self.likesLabel)
         self.addSubview(self.viewsLabel)
         self.addSubview(self.likeImage)
-        likeImage.snp.makeConstraints { make in
-            make.trailing.equalTo(self.postImage.snp.trailing).offset(-8)
-            make.bottom.equalTo(self.postImage.snp.bottom).offset(-8)
-            make.height.width.equalTo(35)
-        }
+        
         
     }
     
     private func setConstraints () {
         NSLayoutConstraint.activate([
-            
-            self.stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            self.stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
             self.authorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             self.authorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
@@ -145,73 +127,56 @@ class PostTableViewCell: UITableViewCell {
             self.viewsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
             self.viewsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
         ])
+        likeImage.snp.makeConstraints { make in
+            make.trailing.equalTo(self.postImage.snp.trailing).offset(-8)
+            make.bottom.equalTo(self.postImage.snp.bottom).offset(-8)
+            make.height.width.equalTo(35)
+        }
     }
+    
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    
-    func setup(with viewModel: [Post], index: Int) {
+    func setup(with viewModel: [PostData], index: Int) {
         self.authorLabel.text = viewModel[index].authorLabel
-        self.postImage.image = UIImage(named: viewModel[index].image)
+        self.postImage.image = UIImage(named: viewModel[index].image ?? "")
         self.descriptionTextView.text = viewModel[index].descriptionLabel
         self.likesLabel.text = "Likes : \(viewModel[index].likes)"
         self.viewsLabel.text = "Views : \(viewModel[index].views)"
-        
-        self.posts = coreDataManager.posts
-        let indexPost = posts.firstIndex { post in
-            post.descriptionLabel == self.descriptionTextView.text
-        }
-        if let index = indexPost {
-            self.isLiked = posts[index].isLiked
+        self.isLiked = viewModel[index].isLiked
+        if viewModel[index].isLiked {
+            self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
-            self.isLiked = false
-        }
-        
-        if isLiked {
-            likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        } else {
-            likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
+            self.likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
         }
     }
     
-    @objc func likeActionTap () {
-        self.posts = coreDataManager.posts
-        let group = DispatchGroup()
-        guard let index = self.index else { return }
-        
-        self.isLiked.toggle()
-        
-        if isLiked {
-            group.enter()
-            DispatchQueue.main.async {
-                //adding post in core data
-                self.coreDataManager.likePost(originalPost: postArray[index])
-                self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            }
-            group.leave()
-
+    
+    func setup(with post: PostData) {
+        self.authorLabel.text = post.authorLabel
+        self.postImage.image = UIImage(named: post.image ?? "")
+        self.descriptionTextView.text = post.descriptionLabel
+        self.likesLabel.text = "Likes : \(post.likes)"
+        self.viewsLabel.text = "Views : \(post.views)"
+        self.isLiked = post.isLiked
+        if post.isLiked {
+            self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
-            
-            group.enter()
-            DispatchQueue.main.async {
-                //deleting post in core data
-                let indexForDeletePost = self.posts.firstIndex { corePost in
-                    corePost.authorLabel == postArray[index].authorLabel &&
-                    corePost.descriptionLabel == postArray[index].descriptionLabel
-               }
-                if let index = indexForDeletePost {
-                    self.coreDataManager.unlike(post: self.posts[index])
-                }
-                self.likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
-            }
-            group.leave()
+            self.likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
         }
-        //reload data in LikeVewwController
-        group.notify(queue: .main) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
-        }
-
     }
+    
+    
+    @objc func likeActionTap () {
+        
+        if let post {
+            coreDataManager.persistentContainer.viewContext.delete(post)
+            coreDataManager.saveContext()
+            delegate?.reloadData()
+        }
+    }
+    
 }
+

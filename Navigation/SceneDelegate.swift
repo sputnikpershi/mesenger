@@ -19,10 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = UIWindow(windowScene: windowScene)
 
         let userDefault = UserDefaults.standard
-        print(userDefault.bool(forKey: "hasLogedIn"))
+        print("User had loged in  - \(userDefault.bool(forKey: "hasLogedIn"))")
 
-        
-        // launch app coordinator of the entire application
         let applicationCoordinator = ApplicationCoordinator(window: window!)
         applicationCoordinator.start()
         self.applicationCoordinator = applicationCoordinator
@@ -53,6 +51,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
+        CoreDataManager.shared.saveContext()
+
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
