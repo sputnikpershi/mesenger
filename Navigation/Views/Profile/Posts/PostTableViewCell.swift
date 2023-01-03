@@ -62,6 +62,7 @@ class PostTableViewCell: UITableViewCell {
     
     private lazy var viewsLabel: UILabel = {
         let views = UILabel()
+        views.numberOfLines = 0
         views.text = "Views : "
         views.textAlignment = .right
         views.font = UIFont.systemFont(ofSize: 16, weight: .regular)
@@ -142,7 +143,7 @@ class PostTableViewCell: UITableViewCell {
             
             self.viewsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
             self.viewsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            self.viewsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
+            self.viewsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.39),
             self.viewsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
         ])
     }
@@ -156,8 +157,13 @@ class PostTableViewCell: UITableViewCell {
         self.authorLabel.text = viewModel[index].authorLabel
         self.postImage.image = UIImage(named: viewModel[index].image)
         self.descriptionTextView.text = viewModel[index].descriptionLabel
-        self.likesLabel.text = "Likes : \(viewModel[index].likes)"
-        self.viewsLabel.text = "Views : \(viewModel[index].views)"
+        let likePluralLocalization = NSLocalizedString("likes-plural", comment: "")
+        let formattedLike = String(format: likePluralLocalization, viewModel[index].likes)
+        self.likesLabel.text = "\(formattedLike) : \(viewModel[index].likes)"
+        
+        let viewPluralLocalization = NSLocalizedString("views-plural", comment: "")
+        let formattedViews = String(format: viewPluralLocalization, viewModel[index].views)
+        self.viewsLabel.text = "\(formattedViews) : \(viewModel[index].views)"
         
         self.posts = coreDataManager.posts
         let indexPost = posts.firstIndex { post in
