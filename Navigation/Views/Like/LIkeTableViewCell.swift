@@ -77,13 +77,13 @@ class LIkeTableViewCell: UITableViewCell {
     private lazy var imageStackView : UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.backgroundColor = .black
+        stack.backgroundColor = UIColor.createColor(lightMode: .black, darkMode: .darkGray)
         return stack
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
+        self.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         setViews()
         setConstraints()
     }

@@ -37,6 +37,7 @@ class LikeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         fetchResultController.delegate = self
         let localizationText = NSLocalizedString("likes-title", comment: "")
         self.title = localizationText

@@ -22,7 +22,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     private lazy var background : UIView = {
         let view = UIView(frame: .zero)
-        view.backgroundColor = .lightGray
+        view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -32,7 +32,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         avatar.image = user?.image
         avatar.clipsToBounds = true
         avatar.contentMode = .scaleAspectFill
-        avatar.layer.borderColor = UIColor.white.cgColor
+        avatar.layer.borderColor = (UIColor.createColor(lightMode: .black, darkMode: .white)).cgColor
         avatar.layer.borderWidth = 3
         print (avatar.frame.size.height/2)
         avatar.layer.cornerRadius = self.initialAvatarFrame.height/2
@@ -46,7 +46,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     private lazy var nameLabel: UILabel = {
         let name = UILabel(frame: CGRect(x: 0, y: 0, width: 0 , height: 0 ))
         name.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        name.textColor = .black
+        name.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         name.translatesAutoresizingMaskIntoConstraints = false
 
         return name
@@ -56,7 +56,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         let status = UILabel(frame: .zero)
         status.numberOfLines = 1
         status.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        status.textColor = .darkGray
+        status.textColor = UIColor.createColor(lightMode: .darkGray, darkMode: .lightGray)
         status.translatesAutoresizingMaskIntoConstraints = false
 
         return status
@@ -67,7 +67,9 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         textField.textColor = .black
         textField.font?.withSize(15)
         textField.layer.cornerRadius = 5
-        textField.backgroundColor = .white
+        textField.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .lightGray)
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.createColor(lightMode: .black, darkMode: .white).cgColor
         textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -101,7 +103,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     private lazy var logOutButton: UIButton = {
         let button = UIButton()
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(UIColor.createColor(lightMode: .black, darkMode: .white), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 12)
         let localizationText = NSLocalizedString("profile-logout-button", comment: "")
         button.setTitle(localizationText, for: .normal)
@@ -126,7 +128,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         self.avatarImage.leadingAnchor.constraint(equalTo:  self.leadingAnchor, constant:  16)
         self.avatarImageTopConstraint =
         self.avatarImage.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16)
-        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         setConstraints()
         setGestureRecornizer()
     }

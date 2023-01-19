@@ -30,7 +30,7 @@ class LogInViewController: UIViewController {
     
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView ()
-        scroll.backgroundColor = .white
+        scroll.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
@@ -71,7 +71,7 @@ class LogInViewController: UIViewController {
         login.translatesAutoresizingMaskIntoConstraints = false
         let localizationText = NSLocalizedString("login-email", comment: "")
         login.placeholder = localizationText
-        login.textColor = .black
+        login.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         login.autocapitalizationType = .none
         return login
     } ()
@@ -82,7 +82,7 @@ class LogInViewController: UIViewController {
         let localizationText = NSLocalizedString("login-pswd", comment: "")
 
         pswd.placeholder = localizationText
-        pswd.textColor = .black
+        pswd.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         pswd.autocapitalizationType = .none
         pswd.isSecureTextEntry = true
         return pswd
@@ -122,9 +122,9 @@ class LogInViewController: UIViewController {
         if Auth.auth().currentUser != nil {
             showAccount()
         }
+        self.view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         loginButton.alpha = 0.8
         loginButton.isEnabled = true
-        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
         setViews()

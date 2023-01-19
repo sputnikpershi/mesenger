@@ -17,7 +17,7 @@
 
 "profile-status-button" = "Изменить статус";
 "profile-photo-title" = "Фото";
-"profile-logout-button" = "Exit";
+"profile-logout-button" = "X";
 "gallery-title" = "Галерея";
 
 "likes-title" = "Мои лайки";
