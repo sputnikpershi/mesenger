@@ -37,8 +37,10 @@ class LikeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         fetchResultController.delegate = self
-        self.title = "My Likes"
+        let localizationText = NSLocalizedString("likes-title", comment: "")
+        self.title = localizationText
         self.view.addSubview(tableView)
         setLayers()
         setNavigationController ()

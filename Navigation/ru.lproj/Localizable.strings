@@ -1,0 +1,26 @@
+/* 
+  Localizable.strings
+  Navigation
+
+  Created by Kiryl Rakk on 3/1/23.
+  
+*/
+
+"login-button" = "Авторизоваться";
+"login-alert" =  "Хотите зарегистрироваться?";
+"login-pswd" = "Пароль";
+"login-email" = "Почта";
+"alert-title" = "Ваш акаунт еще не в базе";
+"alert-message" = "Хотите зарегистрировать его сейчас?";
+"alert-cancel" = "Зарегистрировать";
+"alert-ok" = "Отмена";
+
+"profile-status-button" = "Изменить статус";
+"profile-photo-title" = "Фото";
+"profile-logout-button" = "X";
+"gallery-title" = "Галерея";
+
+"likes-title" = "Мои лайки";
+"tab-like" = "Лайки";
+"tab-post"  = "Посты";
+"tab-feed" = "Новости";

@@ -13,7 +13,8 @@ class PhotosTableViewCell: UITableViewCell {
     private lazy var photoLabel : UILabel = {
         let label = UILabel ()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Photos"
+        let localizationText = NSLocalizedString("profile-photo-title", comment: "")
+        label.text = localizationText
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         return label
     }()
@@ -21,7 +22,7 @@ class PhotosTableViewCell: UITableViewCell {
     private lazy var iconImage : UIImageView = {
         let icon = UIImageView ()
         icon.image = UIImage(systemName: "arrow.right")
-        icon.tintColor = .black
+        icon.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
     }()
@@ -30,7 +31,6 @@ class PhotosTableViewCell: UITableViewCell {
         let image = UIImageView ()
         image.translatesAutoresizingMaskIntoConstraints = false
         setProperties(with: image)
-
         return image
     }()
     
@@ -38,7 +38,6 @@ class PhotosTableViewCell: UITableViewCell {
         let image = UIImageView ()
         image.translatesAutoresizingMaskIntoConstraints = false
         setProperties(with: image)
-
         return image
     }()
     
@@ -46,7 +45,6 @@ class PhotosTableViewCell: UITableViewCell {
         let image = UIImageView ()
         image.translatesAutoresizingMaskIntoConstraints = false
         setProperties(with: image)
-
         return image
     }()
     
@@ -59,7 +57,7 @@ class PhotosTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
+        self.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         setViews()
         setConstraints()
     }

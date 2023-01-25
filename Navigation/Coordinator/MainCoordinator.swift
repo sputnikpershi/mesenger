@@ -22,19 +22,22 @@ class MainCoordinator: Coordinator {
         feedCoordinator.start()
         self.childCoordinators.append(feedCoordinator)
         let feedVC = feedCoordinator.rootViewController
-        feedVC.tabBarItem = UITabBarItem(title: "Feed", image: UIImage(systemName: "doc.append.rtl"), selectedImage: UIImage(systemName: "doc.append.fill.rtl"))
+        let localizationTabFeed = NSLocalizedString("tab-feed", comment: "")
+        feedVC.tabBarItem = UITabBarItem(title: localizationTabFeed, image: UIImage(systemName: "doc.append.rtl"), selectedImage: UIImage(systemName: "doc.append.fill.rtl"))
         
         let profileCoordinator = ProfileTabCoordinator()
         profileCoordinator.start()
         self.childCoordinators.append(profileCoordinator)
         let profileVC = profileCoordinator.rootViewController
-        profileVC.tabBarItem = UITabBarItem(title: "Post", image: UIImage(systemName:  "person.circle"), selectedImage: UIImage(systemName:  "person.circle.fill"))
+        let localizationTabPost = NSLocalizedString("tab-post", comment: "")
+        profileVC.tabBarItem = UITabBarItem(title: localizationTabPost, image: UIImage(systemName:  "person.circle"), selectedImage: UIImage(systemName:  "person.circle.fill"))
         
         let likeCoordinator = LikeCoordinator()
         likeCoordinator.start()
         self.childCoordinators.append(likeCoordinator)
         let likeVC = likeCoordinator.rootViewController
-        likeVC.tabBarItem = UITabBarItem(title: "Like", image: UIImage(systemName:  "heart.square"), selectedImage: UIImage(systemName:  "heart.square.fill"))
+        let localizationTabLike = NSLocalizedString("tab-like", comment: "")
+        likeVC.tabBarItem = UITabBarItem(title: localizationTabLike, image: UIImage(systemName:  "heart.square"), selectedImage: UIImage(systemName:  "heart.square.fill"))
         
         rootViewController.viewControllers = [profileVC, feedVC, likeVC]
     }

@@ -42,7 +42,7 @@ class ProfileViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     } ()
-
+    
     
     
     private lazy var avaImage: UIImageView = {
@@ -87,7 +87,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light}
         self.view.backgroundColor = .secondarySystemBackground
         self.tabBarController?.tabBar.backgroundColor = .secondarySystemBackground
         setViews()
@@ -204,7 +203,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         200
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         postArray.count + 1
     }
@@ -219,7 +218,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
             cell.index = indexPath.row - 1
-            cell.setup(with: postArray, index: indexPath.row - 1 ) 
+            cell.setup(with: postArray, index: indexPath.row - 1 )
             cell.contentView.isUserInteractionEnabled = false
             return cell
         }
@@ -235,3 +234,12 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+extension UIColor {
+    static func createColor(lightMode: UIColor, darkMode: UIColor) -> UIColor {
+        guard #available(iOS 13.0, *) else
+        { return lightMode }
+        return UIColor { (traitCollection) -> UIColor in
+            return traitCollection.userInterfaceStyle == .light ? lightMode : darkMode
+        }
+    }
+}

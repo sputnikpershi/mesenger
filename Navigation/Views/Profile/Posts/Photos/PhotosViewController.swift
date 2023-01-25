@@ -66,7 +66,8 @@ class PhotosViewController: UIViewController {
     
     private func setNavigationBar () {
         self.navigationController?.navigationBar.isHidden = false
-        self.navigationItem.title = "Photo gallery"
+        let localizationText = NSLocalizedString("gallery-title", comment: "")
+        self.navigationItem.title = localizationText
     }
     
     private func setViews () {
