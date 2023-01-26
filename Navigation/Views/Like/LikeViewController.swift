@@ -108,10 +108,7 @@ class LikeViewController: UIViewController {
             print(err)
         }
     }
-    
-    
-    
-    
+   
     private func setLayers() {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -124,7 +121,6 @@ extension LikeViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         fetchResultController.sections?[section].numberOfObjects ?? 0
     }
-    
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

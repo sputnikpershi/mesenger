@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Firebase
 import RealmSwift
 import KeychainAccess
 
@@ -119,9 +118,7 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Auth.auth().currentUser != nil {
-            showAccount()
-        }
+        
         self.view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         loginButton.alpha = 0.8
         loginButton.isEnabled = true
@@ -273,9 +270,8 @@ class LogInViewController: UIViewController {
         let localizationAlertOkButton = NSLocalizedString("alert-ok" , comment: "")
 
         let alert = UIAlertController(title: localizationAlertTitle, message: localizationAlertMessage, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: localizationAlertCancelButton, style: .cancel))
+        alert.addAction(UIAlertAction(title: localizationAlertCancelButton, style: .destructive))
         alert.addAction(UIAlertAction(title: localizationAlertOkButton, style: .default, handler: { _ in
-            self.loadIndicator.startAnimating()
             self.signUp(email, password: password)
         }))
         self.loadIndicator.stopAnimating()
@@ -323,7 +319,6 @@ extension LogInViewController: CheckerServiceProtocol {
                 showCreateAcccount(email, password: password) //show alert to create account
             }
             
-            
         } catch let error as NSError {
             fatalError("Error opening realm: \(error.localizedDescription)")
         }
@@ -337,8 +332,6 @@ extension LogInViewController: CheckerServiceProtocol {
     }
     
 }
-
-
 
 
 extension Data {

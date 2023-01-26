@@ -12,8 +12,8 @@
 "login-email" = "Почта";
 "alert-title" = "Ваш акаунт еще не в базе";
 "alert-message" = "Хотите зарегистрировать его сейчас?";
-"alert-cancel" = "Зарегистрировать";
-"alert-ok" = "Отмена";
+"alert-cancel" = "Отмена";
+"alert-ok" = "Зарегистрировать";
 
 "profile-status-button" = "Изменить статус";
 "profile-photo-title" = "Фото";

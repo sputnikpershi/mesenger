@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseCore
 import CoreData
 
 
@@ -14,7 +13,6 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        FirebaseApp.configure()
         let loginVC = LogInViewController()
         let loginInspector = LoginInspector()
         loginVC.loginDelegate = loginInspector

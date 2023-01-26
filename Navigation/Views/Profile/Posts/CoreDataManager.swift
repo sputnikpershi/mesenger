@@ -74,7 +74,7 @@ class CoreDataManager {
     }
     
     func unlike (post: PostData) {
-        print("post with name \(post.authorLabel) - \(post.likes) likes")
+        print("post with name \(String(describing: post.authorLabel)) - \(post.likes) likes")
 
         persistentContainer.viewContext.delete(post)
         saveContext()

@@ -36,5 +36,176 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F91F7D7-FBF2-492B-91B8-4833F6F7CB57"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NavigationTests/NavigationTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "12"
+            endingLineNumber = "12"
+            landmarkName = "NavigationTests"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "5F91F7D7-FBF2-492B-91B8-4833F6F7CB57 - 1349cc9ecd06af9d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.NavigationTests.statusHelper.getter : Swift.Optional&lt;NavigationTests.StatusHelper&gt;"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/NavigationTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "5F91F7D7-FBF2-492B-91B8-4833F6F7CB57 - e12bb76cc6e6bbc1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.NavigationTests.statusHelper.setter : Swift.Optional&lt;NavigationTests.StatusHelper&gt;"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/NavigationTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "108">
+               </Location>
+               <Location
+                  uuid = "5F91F7D7-FBF2-492B-91B8-4833F6F7CB57 - 5c3c481ca965a8c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.NavigationTests.statusHelper.modify : Swift.Optional&lt;NavigationTests.StatusHelper&gt;"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/NavigationTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "5F91F7D7-FBF2-492B-91B8-4833F6F7CB57 - 991dbf3790709bc7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.NavigationTests.statusHelper.modify : Swift.Optional&lt;NavigationTests.StatusHelper&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/NavigationTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "5F91F7D7-FBF2-492B-91B8-4833F6F7CB57 - cd9b62437b04fc66"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.NavigationTests.init(invocation: Swift.Optional&lt;__C.NSInvocation&gt;) -&gt; NavigationTests.NavigationTests"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/NavigationTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "5F91F7D7-FBF2-492B-91B8-4833F6F7CB57 - 37c7b8f5fdd1f886"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.NavigationTests.init(selector: ObjectiveC.Selector) -&gt; NavigationTests.NavigationTests"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/NavigationTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "5F91F7D7-FBF2-492B-91B8-4833F6F7CB57 - 8a397e10eebbdb20"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.NavigationTests.init() -&gt; NavigationTests.NavigationTests"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/NavigationTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D674A740-B00E-45F2-A257-07D9F981DAB1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Navigation/Views/Profile/LogInViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "329"
+            endingLineNumber = "329"
+            landmarkName = "signUp(_:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "97E0F07E-D534-4F4C-B7C3-4CBDC3ECA682"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Navigation/Views/Profile/LogInViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
+            landmarkName = "signUp(_:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CCB866C6-811E-4B6B-AC93-0D3A83300431"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Navigation/Views/Profile/LogInViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "signUp(_:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

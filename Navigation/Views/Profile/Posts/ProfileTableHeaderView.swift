@@ -8,9 +8,10 @@
 import Foundation
 import UIKit
 import SnapKit
-import Firebase
 
 class ProfileTableHeaderView: UITableViewHeaderFooterView {
+  
+    
     
     
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
@@ -199,11 +200,17 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     }
     
      @objc func buttonPressed () {
-         if statusText != "" && statusText != " " {
-             statusLabel.text = statusText
+         let statusHelper = StatusHelper()
+         
+         
+             statusLabel.text = statusHelper.getStatus(text: statusText) ?? statusLabel.text
              profileTextField.text = ""
-         }
+         
      }
+    
+  
+    
+    
      
      @objc func statusTextChanged () {
          statusText = profileTextField.text ?? ""

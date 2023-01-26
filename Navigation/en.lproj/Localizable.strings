@@ -14,8 +14,8 @@
 "login-email" = "Email";
 "alert-title" = "There is no login like yours";
 "alert-message" = "Would you like to create a new one?";
-"alert-cancel" = "Sign up";
-"alert-ok" = "Cancel";
+"alert-cancel" = "Cancel";
+"alert-ok" = "Sign up";
 
 
 "profile-status-button" = "Change status";
