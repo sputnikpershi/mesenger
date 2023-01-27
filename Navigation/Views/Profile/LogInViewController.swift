@@ -11,8 +11,11 @@ import RealmSwift
 import KeychainAccess
 
 protocol CheckerServiceProtocol {
-    func signIn(_ email: String, password: String)
-    func signUp(_ email: String, password: String)
+    func signIn(_ email: String, password: String) -> String
+    func signUp(_ email: String, password: String) -> String
+    func showAccount()
+    func showCreateAcccount(_ email: String, password: String)
+    func showAllertAutherization(text: String)
 }
 
 class LogInViewController: UIViewController {
@@ -23,7 +26,6 @@ class LogInViewController: UIViewController {
     var coordinator : ProfileTabCoordinator?
     let groupQueue = DispatchGroup()
     let cuncurrentQueue = DispatchQueue(label: "com.app.concurrent", attributes: [.concurrent])
-    var loginDelegate : LoginViewControllerDelegate?
     let setColor: UIColor = UIColor(red: 0.28, green: 0.52, blue: 0.80, alpha: 1.00)
     
     
@@ -79,7 +81,6 @@ class LogInViewController: UIViewController {
         let pswd = UITextField ()
         pswd.translatesAutoresizingMaskIntoConstraints = false
         let localizationText = NSLocalizedString("login-pswd", comment: "")
-
         pswd.placeholder = localizationText
         pswd.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         pswd.autocapitalizationType = .none
@@ -121,7 +122,7 @@ class LogInViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         loginButton.alpha = 0.8
-        loginButton.isEnabled = true
+        loginButton.isEnabled = false
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
         setViews()
@@ -255,24 +256,30 @@ class LogInViewController: UIViewController {
     @objc private func  tapButton() {
         let login =  self.loginTF.text ?? ""
         let passwd =  self.pswdTF.text ?? ""
-        signIn(login, password: passwd)
+        let accountHelper = LoginHelper()
+        accountHelper.delegate = self
+        if self.loginTF.text != "" && self.loginTF.text != " " {
+            accountHelper.signIn(login, password: passwd)
+        } else  {
+            showAllertAutherization(text: "plese enter your login")
+        }
+        
     }
     
     
     func showCreateAcccount(_ email: String, password: String) {
         
         print("Create account")
-        
         let localizationAlertTitle = NSLocalizedString("alert-title" , comment: "")
         let localizationAlertMessage = NSLocalizedString("alert-message" , comment: "")
-
         let localizationAlertCancelButton = NSLocalizedString("alert-cancel" , comment: "")
         let localizationAlertOkButton = NSLocalizedString("alert-ok" , comment: "")
-
         let alert = UIAlertController(title: localizationAlertTitle, message: localizationAlertMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localizationAlertCancelButton, style: .destructive))
         alert.addAction(UIAlertAction(title: localizationAlertOkButton, style: .default, handler: { _ in
-            self.signUp(email, password: password)
+            let accountHelper = LoginHelper()
+            accountHelper.delegate = self
+            accountHelper.signUp(email, password: password)
         }))
         self.loadIndicator.stopAnimating()
         self.present(alert, animated: true)
@@ -299,11 +306,9 @@ class LogInViewController: UIViewController {
 
 extension LogInViewController: CheckerServiceProtocol {
     
-    func signIn(_ email: String, password: String) {
-        
+    func signIn(_ email: String, password: String) -> String{
         print(user.getKey().hexEncodedString())
         let config = Realm.Configuration(encryptionKey: user.getKey())
-        
         do {
             // Open the encrypted realm
             let realm = try Realm(configuration: config) // set Config with encrypted key
@@ -318,17 +323,17 @@ extension LogInViewController: CheckerServiceProtocol {
             } else {
                 showCreateAcccount(email, password: password) //show alert to create account
             }
-            
         } catch let error as NSError {
             fatalError("Error opening realm: \(error.localizedDescription)")
         }
-        
+        return email
     }
     
-    func signUp(_ email: String, password: String) {
+    func signUp(_ email: String, password: String) -> String {
         user.saveLogIngData(login: email, password: password)
         self.showAccount() //show next ViewController
         userDefault.set(true, forKey: "hasLogedIn") // save info about first login
+        return email
     }
     
 }

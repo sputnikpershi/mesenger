@@ -158,11 +158,9 @@ class PostTableViewCell: UITableViewCell {
         let likePluralLocalization = NSLocalizedString("likes-plural", comment: "")
         let formattedLike = String(format: likePluralLocalization, viewModel[index].likes)
         self.likesLabel.text = "\(formattedLike) : \(viewModel[index].likes)"
-        
         let viewPluralLocalization = NSLocalizedString("views-plural", comment: "")
         let formattedViews = String(format: viewPluralLocalization, viewModel[index].views)
         self.viewsLabel.text = "\(formattedViews) : \(viewModel[index].views)"
-        
         self.posts = coreDataManager.posts
         let indexPost = posts.firstIndex { post in
             post.descriptionLabel == self.descriptionTextView.text
@@ -181,41 +179,31 @@ class PostTableViewCell: UITableViewCell {
     }
     
     @objc func likeActionTap () {
+        let likeHelper = LikeHelper()
+        likeHelper.delegate = self
+        likeHelper.likePost(isLiked: &isLiked)
+    }
+}
+
+extension PostTableViewCell: LikeDelegate {
+    
+    func likePost(_ isLike: inout Bool)   {
         self.posts = coreDataManager.posts
-        let group = DispatchGroup()
-        guard let index = self.index else { return }
-        
-        self.isLiked.toggle()
-        
-        if isLiked {
-            group.enter()
-            DispatchQueue.main.async {
-                //adding post in core data
-                self.coreDataManager.likePost(originalPost: postArray[index])
-                self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            }
-            group.leave()
-
+        let index = self.index  ?? 0
+        if isLike {
+            //adding post in core data
+            self.coreDataManager.likePost(originalPost: postArray[index])
+            self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
-            
-            group.enter()
-            DispatchQueue.main.async {
-                //deleting post in core data
-                let indexForDeletePost = self.posts.firstIndex { corePost in
-                    corePost.authorLabel == postArray[index].authorLabel &&
-                    corePost.descriptionLabel == postArray[index].descriptionLabel
-               }
-                if let index = indexForDeletePost {
-                    self.coreDataManager.unlike(post: self.posts[index])
-                }
-                self.likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
+            //deleting post in core data
+            let indexForDeletePost = self.posts.firstIndex { corePost in
+                corePost.authorLabel == postArray[index].authorLabel &&
+                corePost.descriptionLabel == postArray[index].descriptionLabel
             }
-            group.leave()
+            if let index = indexForDeletePost {
+                self.coreDataManager.unlike(post: self.posts[index])
+            }
+            self.likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
         }
-        //reload data in LikeVewwController
-        group.notify(queue: .main) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
-        }
-
     }
 }

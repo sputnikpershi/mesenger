@@ -162,48 +162,207 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D674A740-B00E-45F2-A257-07D9F981DAB1"
+            uuid = "9E3F7384-EE6A-4947-93F2-32DAB2525A6D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Navigation/Views/Profile/LogInViewController.swift"
+            filePath = "Navigation/Views/Profile/AccountHelper.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
-            landmarkName = "signUp(_:password:)"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "signIn(_:password:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "97E0F07E-D534-4F4C-B7C3-4CBDC3ECA682"
+            uuid = "F165DF9B-4B7E-4A79-A338-D5B40B987F8E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Navigation/Views/Profile/LogInViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "330"
-            endingLineNumber = "330"
-            landmarkName = "signUp(_:password:)"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "tapButton()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CCB866C6-811E-4B6B-AC93-0D3A83300431"
+            uuid = "C9503B35-3623-48D3-8D03-FC0A325A86AA"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Navigation/Views/Profile/LogInViewController.swift"
+            filePath = "NavigationTests/LoginTest.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "331"
-            endingLineNumber = "331"
-            landmarkName = "signUp(_:password:)"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "test_empty_field()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C9BBC7BD-BC62-468D-ADC2-ADBAC060A23A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Navigation/Views/Profile/AccountHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "signIn(_:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BBF29EA7-DE80-4114-8E68-1E9C14E0BDAF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Navigation/Views/Profile/Posts/PostTableViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "likePost(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FCB6D804-7EDF-4E1B-8746-D63C37A774D9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NavigationTests/LikeTest.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "test_likestatusAfter_like()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FCB6D804-7EDF-4E1B-8746-D63C37A774D9 - 14294caa402f2ad7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.LikeTest.test_likestatusAfter_like() -&gt; ()"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/LikeTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "744">
+               </Location>
+               <Location
+                  uuid = "FCB6D804-7EDF-4E1B-8746-D63C37A774D9 - 14294caa402f2ad7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.LikeTest.test_likestatusAfter_like() -&gt; ()"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/LikeTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "408">
+               </Location>
+               <Location
+                  uuid = "FCB6D804-7EDF-4E1B-8746-D63C37A774D9 - 14294caa402f2ad7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.LikeTest.test_likestatusAfter_like() -&gt; ()"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/LikeTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "420">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ABE6BA13-F7F8-4A13-931D-48EB7707ADD7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Navigation/Views/Profile/Posts/LikeHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "likePost(isLiked:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "ABE6BA13-F7F8-4A13-931D-48EB7707ADD7 - 412f45e96c0bfdf8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Navigation.LikeHelper.likePost(isLiked: inout Swift.Bool) -&gt; Swift.Optional&lt;Swift.Bool&gt;"
+                  moduleName = "Navigation"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/Navigation/Views/Profile/Posts/LikeHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "ABE6BA13-F7F8-4A13-931D-48EB7707ADD7 - 747f0322ace05ec8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.LikeHelper.likePost(isLiked: inout Swift.Bool) -&gt; Swift.Optional&lt;Swift.Bool&gt;"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/Navigation/Views/Profile/Posts/LikeHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "188">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "29225C90-F192-4B06-8B25-B1F4D0283887"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Navigation/Views/Profile/Posts/LikeHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "likePost(isLiked:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

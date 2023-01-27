@@ -201,17 +201,10 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
      @objc func buttonPressed () {
          let statusHelper = StatusHelper()
-         
-         
              statusLabel.text = statusHelper.getStatus(text: statusText) ?? statusLabel.text
              profileTextField.text = ""
-         
      }
     
-  
-    
-    
-     
      @objc func statusTextChanged () {
          statusText = profileTextField.text ?? ""
      }
@@ -220,8 +213,6 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
          super.touchesBegan(touches, with: event)
          profileTextField.resignFirstResponder()
      }
-    
-    
     
     private func setGestureRecornizer() {
         avatarImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTapAction)))
