@@ -185,8 +185,8 @@
             filePath = "Navigation/Views/Profile/LogInViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
+            startingLineNumber = "297"
+            endingLineNumber = "297"
             landmarkName = "tapButton()"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,6 +298,21 @@
                   startingLineNumber = "33"
                   endingLineNumber = "33"
                   offsetFromSymbolStart = "420">
+               </Location>
+               <Location
+                  uuid = "FCB6D804-7EDF-4E1B-8746-D63C37A774D9 - 14294caa402f2ad7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavigationTests.LikeTest.test_likestatusAfter_like() -&gt; ()"
+                  moduleName = "NavigationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/raak/Documents/GitHub/mesenger/NavigationTests/LikeTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "412">
                </Location>
             </Locations>
          </BreakpointContent>

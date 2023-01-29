@@ -27,7 +27,7 @@ class LogInViewController: UIViewController {
     let groupQueue = DispatchGroup()
     let cuncurrentQueue = DispatchQueue(label: "com.app.concurrent", attributes: [.concurrent])
     let setColor: UIColor = UIColor(red: 0.28, green: 0.52, blue: 0.80, alpha: 1.00)
-    
+    private lazy var localAuthorizationService = LocalAuthorizationService()
     
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView ()
@@ -104,7 +104,7 @@ class LogInViewController: UIViewController {
         let button = UIButton ()
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         let localizationText = NSLocalizedString("login-button",  comment: "")
-
+        
         button.setTitle(localizationText, for: .normal)
         button.clipsToBounds = true
         button.layer.cornerRadius = 10
@@ -115,11 +115,22 @@ class LogInViewController: UIViewController {
         return button
     } ()
     
+    
+    private lazy var faceIDBUtton: UIButton = {
+        let button = UIButton ()
+        button.setTitleColor(.systemBlue, for: .normal)
+        let text = localAuthorizationService.context.biometricType == .faceID ? "Face ID" : "Touch ID"
+        button.setTitle(text, for: .normal)
+        button.addTarget(self, action: #selector(tapFaceIDButton), for: .touchUpInside)
+        return button
+
+    }()
+    
     // MARK: VIEWDIDLOAD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         self.view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         loginButton.alpha = 0.8
         loginButton.isEnabled = false
@@ -153,6 +164,7 @@ class LogInViewController: UIViewController {
         self.view.addSubview(self.loginTF)
         self.view.addSubview(self.pswdTF)
         self.view.addSubview(self.loadIndicator)
+        self.view.addSubview(faceIDBUtton)
     }
     
     private func setConstraints() {
@@ -201,7 +213,13 @@ class LogInViewController: UIViewController {
             self.loginButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.loginButton.widthAnchor.constraint(equalTo: self.stackView.widthAnchor),
             self.loginButton.heightAnchor.constraint(equalToConstant: 50),
+            
         ])
+        
+        faceIDBUtton.snp.makeConstraints { make in
+            make.top.equalTo(self.loginButton.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+        }
     }
     
     private  func setGesture () {
@@ -234,6 +252,19 @@ class LogInViewController: UIViewController {
         }
     }
     
+    @objc func tapFaceIDButton () {
+        let localAuthorizationService = LocalAuthorizationService()
+        localAuthorizationService.vc = self
+        localAuthorizationService.authorizeIfPossible(viewVontroller: self) { result in
+            switch result {
+            case .success(let success):
+                print(success)
+            case .failure(let error):
+                print( "----- \(error)")
+            }
+    
+        }
+    }
     
     @objc private func didShowKeyboard (_ notification: Notification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]  as? NSValue {

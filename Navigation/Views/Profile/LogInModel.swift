@@ -8,6 +8,7 @@
 import UIKit
 import KeychainAccess
 import RealmSwift
+import LocalAuthentication
 
 
 class UserLogin: Object {
@@ -93,5 +94,73 @@ class User {
         self.fullName = fullName
         self.image = image
         self.status = status
+    }
+}
+
+
+class LocalAuthorizationService {
+    let context = LAContext()
+    var error : NSError? = nil
+    var vc : UIViewController?
+    func authorizeIfPossible(viewVontroller : UIViewController,_ authorizationFinished: @escaping (Result<Bool,Error>) -> Void) {
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            authorizationFinished(.success(true))
+            self.context.localizedCancelTitle = "Ввести пароль вручную"
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Использовать вместо пароля") { success, error in
+                DispatchQueue.main.async {
+                    guard success, error == nil else  {
+                        authorizationFinished(.failure(error!))
+                        return
+                    }
+                    let user = User(login: "test", fullName: "Кот Тестировщик", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
+                    let profileVM = ProfileViewModel(user: user)
+                    viewVontroller.navigationController?.pushViewController(ProfileViewController(viewModel: profileVM), animated: true)
+                }
+            }
+        } else {
+            authorizationFinished(.failure(error!))
+            showAlert(text: "Нет доступа для регистрации")
+        }
+    }
+    
+    func showAlert (text: String){
+        let alert = UIAlertController(title: "Error", message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ok", style: .cancel))
+        vc?.present(alert, animated: true)
+    }
+}
+
+
+
+
+extension LAContext {
+    enum BiometricType: String {
+        case none
+        case touchID
+        case faceID
+    }
+
+    var biometricType: BiometricType {
+        var error: NSError?
+
+        guard self.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            // Capture these recoverable error thru Crashlytics
+            return .none
+        }
+
+        if #available(iOS 11.0, *) {
+            switch self.biometryType {
+            case .none:
+                return .none
+            case .touchID:
+                return .touchID
+            case .faceID:
+                return .faceID
+            @unknown default:
+                return .none
+            }
+        } else {
+            return  self.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) ? .touchID : .none
+        }
     }
 }
