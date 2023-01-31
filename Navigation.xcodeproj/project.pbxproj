@@ -28,6 +28,7 @@
 		1485A2A42983C76D006B9045 /* LikeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1485A2A32983C76D006B9045 /* LikeHelper.swift */; };
 		1485A2A52983C76D006B9045 /* LikeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1485A2A32983C76D006B9045 /* LikeHelper.swift */; };
 		1485A2B42983F570006B9045 /* LikeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1485A2B32983F570006B9045 /* LikeTest.swift */; };
+		1499160B2988F03B00404BBC /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1499160A2988F03B00404BBC /* LocalNotificationsService.swift */; };
 		14B6A593293A002F0014CD75 /* LIkeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B6A592293A002F0014CD75 /* LIkeTableViewCell.swift */; };
 		14C8A47A296422D000F54E73 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14C8A47C296422D000F54E73 /* Localizable.strings */; };
 		14C8A48029642D6E00F54E73 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 14C8A48229642D6E00F54E73 /* Localizable.stringsdict */; };
@@ -98,6 +99,7 @@
 		1485A2A32983C76D006B9045 /* LikeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeHelper.swift; sourceTree = "<group>"; };
 		1485A2AA2983F407006B9045 /* LikeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LikeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1485A2B32983F570006B9045 /* LikeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeTest.swift; sourceTree = "<group>"; };
+		1499160A2988F03B00404BBC /* LocalNotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsService.swift; sourceTree = "<group>"; };
 		14B6A592293A002F0014CD75 /* LIkeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LIkeTableViewCell.swift; sourceTree = "<group>"; };
 		14C8A479296422C800F54E73 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		14C8A47B296422D000F54E73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -178,6 +180,14 @@
 				4F7F59162894A17600138DF2 /* Profile */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		149916092988F02100404BBC /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				1499160A2988F03B00404BBC /* LocalNotificationsService.swift */,
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		14E76B842981658400B50E59 /* NavigationTests */ = {
@@ -263,8 +273,9 @@
 			children = (
 				1415DDC928F5464E00433703 /* Views */,
 				1415DD9E28F292A400433703 /* Coordinator */,
-				4F7F58FB288E5AE400138DF2 /* SceneDelegate.swift */,
+				149916092988F02100404BBC /* New Group */,
 				4F7F58F9288E5AE400138DF2 /* AppDelegate.swift */,
+				4F7F58FB288E5AE400138DF2 /* SceneDelegate.swift */,
 				14C8A47C296422D000F54E73 /* Localizable.strings */,
 				4F7F5902288E5AE600138DF2 /* Assets.xcassets */,
 				14C8A48229642D6E00F54E73 /* Localizable.stringsdict */,
@@ -361,7 +372,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					1485A2A92983F407006B9045 = {
 						CreatedOnToolsVersion = 14.1;
@@ -467,6 +478,7 @@
 				144DC27C29810A6500CEF819 /* AppDelegate.swift in Sources */,
 				4F7F5910288EC1F800138DF2 /* ProfileViewController.swift in Sources */,
 				4F7F590E288EC1EA00138DF2 /* FeedViewController.swift in Sources */,
+				1499160B2988F03B00404BBC /* LocalNotificationsService.swift in Sources */,
 				1485A2A42983C76D006B9045 /* LikeHelper.swift in Sources */,
 				4F40773228AD1B5C0040E680 /* Photos.swift in Sources */,
 				14FBC31D28E1795300D41C4C /* LogInModel.swift in Sources */,
@@ -540,6 +552,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YY78XVR2DH;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
@@ -563,6 +576,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YY78XVR2DH;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
