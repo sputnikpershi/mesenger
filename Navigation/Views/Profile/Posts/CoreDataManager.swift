@@ -57,7 +57,7 @@ class CoreDataManager {
         persistentContainer.performBackgroundTask { backgroundContext in
             let post = PostData(context: backgroundContext)
             post.authorLabel = originalPost.authorLabel
-            post.image = originalPost.image
+            post.image =  "cat"//originalPost.image
             post.views = Int32(originalPost.views)
             post.descriptionLabel = originalPost.descriptionLabel
             post.likes = Int32(originalPost.likes)

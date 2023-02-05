@@ -6,14 +6,15 @@
 //
 import UIKit
 import CoreData
+import UniformTypeIdentifiers
 
 class ProfileViewController: UIViewController {
     
     var coordinator : ProfileTabCoordinator?
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
     private var viewModel : ProfileViewModel?
-    var coreDataManager = CoreDataManager.shared
     var postData = [PostData]()
+    var originIndex = Int()
     
     // MARK: INIT
     
@@ -31,6 +32,9 @@ class ProfileViewController: UIViewController {
         let table = UITableView (frame: .zero, style: .grouped)
         table.dataSource = self
         table.delegate = self
+        table.dragInteractionEnabled = true
+        table.dragDelegate = self
+        table.dropDelegate = self
         table.rowHeight = UITableView.automaticDimension
         table.estimatedRowHeight = 140
         table.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
@@ -212,7 +216,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosCell", for: indexPath) as! PhotosTableViewCell
             cell.setup(with: photosArray)
             return cell
-            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
             cell.index = indexPath.row - 1
@@ -230,6 +233,8 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    
 }
 
 extension UIColor {
@@ -241,3 +246,58 @@ extension UIColor {
         }
     }
 }
+
+
+extension ProfileViewController: UITableViewDragDelegate, UITableViewDropDelegate {
+    
+    func tableView(_ tableView: UITableView, canHandle session: UIDropSession) -> Bool {
+        return session.canLoadObjects(ofClass: NSString.self) && session.canLoadObjects(ofClass: UIImage.self)
+    }
+    
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+            return UITableViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
+    }
+   
+    func dragItems(for indexPath: IndexPath) -> [UIDragItem] {
+        let post = postArray[indexPath.row - 1]
+        let titleProvider = NSItemProvider(object: post.authorLabel as NSString)
+        let imageProvider = NSItemProvider(object: post.image!)
+        return [UIDragItem(itemProvider: titleProvider), UIDragItem(itemProvider: imageProvider)]
+    }
+    
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        originIndex = indexPath.row
+        return dragItems(for: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        
+        guard let destinationIndexPath = coordinator.destinationIndexPath else { return }
+        
+        
+        var postLabel = String()
+        coordinator.session.loadObjects(ofClass: String.self) { items in
+            let strings = items as [String]
+            for string in strings {
+                postLabel = string
+                break
+            }
+        }
+        
+        var postImage = UIImage()
+        coordinator.session.loadObjects(ofClass: UIImage.self) { items in
+            let images = items as! [UIImage]
+            for image in images {
+                postImage = image
+                let post = Post(authorLabel: postLabel, descriptionLabel: "Drag&Drop", image: postImage, likes: 0, views: 0)
+                print(" origin index -\(self.originIndex - 1)")
+                print(" destination  index -\(destinationIndexPath.row - 1)")
+                postArray.remove(at: self.originIndex - 1 )
+                postArray.insert(post, at:  destinationIndexPath.row - 1 )
+                break
+            }
+            self.tableView.reloadData()
+        }
+    }
+}
+

@@ -233,8 +233,8 @@
             filePath = "Navigation/Views/Profile/Posts/PostTableViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "likePost(_:)"
             landmarkType = "7">
          </BreakpointContent>

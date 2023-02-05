@@ -75,6 +75,7 @@ class LikeViewController: UIViewController {
             var predicate: NSPredicate?
             if let textField = alertController.textFields?[0] {
                 if let searchText = textField.text, searchText.count > 0 {
+                    coreDataManager.getFilteredPostsData(authorLabel: searchText)
                     predicate = NSPredicate(format: "authorLabel contains[cd] %@", searchText)
                 } else {
                     predicate = nil

@@ -15,6 +15,7 @@ class PostTableViewCell: UITableViewCell {
     let context = CoreDataManager.shared.persistentContainer.viewContext
     let coreDataManager: CoreDataManager = CoreDataManager.shared
     var posts = [PostData]()
+    var originaIndex = Int()
     private lazy var authorLabel: UILabel = {
         let author = UILabel()
         author.font = UIFont.boldSystemFont(ofSize: 20)
@@ -153,7 +154,7 @@ class PostTableViewCell: UITableViewCell {
     
     func setup(with viewModel: [Post], index: Int) {
         self.authorLabel.text = viewModel[index].authorLabel
-        self.postImage.image = UIImage(named: viewModel[index].image)
+        self.postImage.image =  viewModel[index].image
         self.descriptionTextView.text = viewModel[index].descriptionLabel
         let likePluralLocalization = NSLocalizedString("likes-plural", comment: "")
         let formattedLike = String(format: likePluralLocalization, viewModel[index].likes)
@@ -176,6 +177,7 @@ class PostTableViewCell: UITableViewCell {
         } else {
             likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
         }
+        originaIndex = index
     }
     
     @objc func likeActionTap () {
