@@ -255,7 +255,11 @@ extension ProfileViewController: UITableViewDragDelegate, UITableViewDropDelegat
     }
     
     func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-            return UITableViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
+        if tableView.hasActiveDrag {
+                    return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+                } else {
+                    return UITableViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
+                }
     }
    
     func dragItems(for indexPath: IndexPath) -> [UIDragItem] {
@@ -289,11 +293,17 @@ extension ProfileViewController: UITableViewDragDelegate, UITableViewDropDelegat
             let images = items as! [UIImage]
             for image in images {
                 postImage = image
-                let post = Post(authorLabel: postLabel, descriptionLabel: "Drag&Drop", image: postImage, likes: 0, views: 0)
-                print(" origin index -\(self.originIndex - 1)")
-                print(" destination  index -\(destinationIndexPath.row - 1)")
-                postArray.remove(at: self.originIndex - 1 )
-                postArray.insert(post, at:  destinationIndexPath.row - 1 )
+                print(" origin index :\(self.originIndex - 1)")
+                print(" destination  index :\(destinationIndexPath.row - 1)")
+                if coordinator.proposal.operation == .move {
+                    let post = Post(authorLabel: postLabel, descriptionLabel: "Drag&Drop", image: postImage, likes: 0, views: 0)
+                    postArray.remove(at: self.originIndex - 1 )
+                    postArray.insert(post, at:  destinationIndexPath.row - 1 )
+
+                } else if coordinator.proposal.operation == .copy {
+                    let post = Post(authorLabel: "post form nowwhere", descriptionLabel: "Drag&Drop", image: UIImage(named: "cat"), likes: 0, views: 0)
+                    postArray.insert(post, at:  destinationIndexPath.row - 1 )
+                }
                 break
             }
             self.tableView.reloadData()
