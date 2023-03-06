@@ -10,7 +10,6 @@ import iOSIntPackage
 
 class PhotosViewController: UIViewController {
     
-    var processImages : [UIImage] = []
     
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout =  UICollectionViewFlowLayout()
@@ -34,24 +33,12 @@ class PhotosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ImageProcessorConvert ()
         setNavigationBar()
         self.setViews()
         self.setConstraints()
     }
     
-    private func ImageProcessorConvert () {
-        let startDate = Date()
-            ImageProcessor().processImagesOnThread(sourceImages: photosArray, filter: .sepia(intensity: 1.0), qos: .background) { [weak self] images in
-                photosArray = images
-                    .compactMap { $0 }
-                    .map { UIImage(cgImage: $0) }
-                DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
-                }
-                print("Process time: \(Date().timeIntervalSince(startDate)) seconds")
-            }
-    }
+  
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

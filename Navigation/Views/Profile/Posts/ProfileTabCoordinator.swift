@@ -10,7 +10,7 @@ import UIKit
 class ProfileTabCoordinator: Coordinator {
     var rootViewController = UINavigationController()
     var firstLogin = false
-    let user = User(login: "test", fullName: "Тестанутый Тестамес", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
+    let user = User(login: "test", fullName: "golysheva_mary", image: UIImage(named: "avatar")!, status: "Я тебя тестирую на наличие багов")
     
     
     enum Event {

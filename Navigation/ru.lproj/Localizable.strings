@@ -15,8 +15,8 @@
 "alert-cancel" = "Отмена";
 "alert-ok" = "Зарегистрировать";
 
-"profile-status-button" = "Изменить статус";
-"profile-photo-title" = "Фото";
+"profile-status-button" = "Редактировать";
+"profile-photo-title" = "Фотографии";
 "profile-logout-button" = "X";
 "gallery-title" = "Галерея";
 

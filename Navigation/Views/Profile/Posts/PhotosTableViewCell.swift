@@ -9,19 +9,20 @@ import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
 
-    
+    var buttonTapCallback: () -> ()  = { }
+
     private lazy var photoLabel : UILabel = {
         let label = UILabel ()
         label.translatesAutoresizingMaskIntoConstraints = false
         let localizationText = NSLocalizedString("profile-photo-title", comment: "")
         label.text = localizationText
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.font = UIFont(name: "Inter-Medium", size: 16)
         return label
     }()
     
     private lazy var iconImage : UIImageView = {
         let icon = UIImageView ()
-        icon.image = UIImage(systemName: "arrow.right")
+        icon.image = UIImage(named: "next1")
         icon.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
@@ -54,10 +55,39 @@ class PhotosTableViewCell: UITableViewCell {
         setProperties(with: image)
         return image
     }()
+    private lazy var fifthImage : UIImageView = {
+        let image = UIImageView ()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        setProperties(with: image)
+        return image
+    }()
+    
+    private lazy var tableTitleLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Мои записи"
+        label.font = UIFont(name: "Inter-Regular", size: 14)
+        return label
+    } ()
+    
+    private lazy var searchButton : UIButton = {
+        let button = UIButton()
+        button.isUserInteractionEnabled = true
+        button.addTarget(self, action: #selector(searchTapAction), for: .touchUpInside)
+        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        return button
+    } ()
+    private lazy var backgroundColorView : UIView = {
+        let stack = UIView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        return stack
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
+        contentView.addSubview(searchButton)
+
         setViews()
         setConstraints()
     }
@@ -73,6 +103,11 @@ class PhotosTableViewCell: UITableViewCell {
         self.addSubview(self.secondImage)
         self.addSubview(self.thirdImage)
         self.addSubview(self.fourthImage)
+        self.addSubview(self.fifthImage)
+        self.addSubview(backgroundColorView)
+        self.addSubview(tableTitleLabel)
+        self.addSubview(searchButton)
+
     }
     
     
@@ -85,16 +120,13 @@ class PhotosTableViewCell: UITableViewCell {
             
             self.iconImage.centerYAnchor.constraint(equalTo: self.photoLabel.centerYAnchor),
             self.iconImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
-            self.iconImage.heightAnchor.constraint(equalTo: photoLabel.heightAnchor, multiplier: 1),
-            self.iconImage.widthAnchor.constraint(equalTo: self.iconImage.heightAnchor, multiplier: 1.2),
+            self.iconImage.heightAnchor.constraint(equalToConstant: 24),
+            self.iconImage.widthAnchor.constraint(equalToConstant: 24),
             
             self.firstImage.topAnchor.constraint(equalTo: self.photoLabel.bottomAnchor, constant: 12),
             self.firstImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
-
             self.firstImage.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 48)/4),
             self.firstImage.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2),
-            self.firstImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12),
-            
 
             self.secondImage.topAnchor.constraint(equalTo: self.firstImage.topAnchor),
             self.secondImage.leadingAnchor.constraint(equalTo: self.firstImage.trailingAnchor, constant: 8),
@@ -110,8 +142,29 @@ class PhotosTableViewCell: UITableViewCell {
             self.fourthImage.leadingAnchor.constraint(equalTo: self.thirdImage.trailingAnchor, constant: 8),
             self.fourthImage.widthAnchor.constraint(equalTo: self.firstImage.widthAnchor),
             self.fourthImage.heightAnchor.constraint(equalTo: firstImage.heightAnchor, multiplier: 1),
-            self.fourthImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12)
+            self.fourthImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
+           
+            self.fifthImage.topAnchor.constraint(equalTo: self.firstImage.topAnchor),
+            self.fifthImage.leadingAnchor.constraint(equalTo: self.fourthImage.trailingAnchor, constant: 8),
+            self.fifthImage.widthAnchor.constraint(equalTo: self.firstImage.widthAnchor),
+            self.fifthImage.heightAnchor.constraint(equalTo: firstImage.heightAnchor, multiplier: 1),
         ])
+        backgroundColorView.snp.makeConstraints { make in
+            make.top.equalTo(firstImage.snp.bottom).offset(28)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        
+        tableTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(backgroundColorView.snp.top).offset(8)
+            make.leading.equalToSuperview().offset(16)
+            make.bottom.equalTo(backgroundColorView.snp.bottom).offset(-8)
+        }
+        
+        searchButton.snp.makeConstraints { make in
+            make.centerY.equalTo(tableTitleLabel.snp.centerY)
+            make.trailing.equalToSuperview().offset(-16)
+        }
     }
     
     
@@ -126,5 +179,10 @@ class PhotosTableViewCell: UITableViewCell {
         self.secondImage.image = viewModel[1]
         self.thirdImage.image = viewModel[2]
         self.fourthImage.image = viewModel[3]
+        self.fifthImage.image = viewModel[3]
+    }
+    
+    @objc func searchTapAction() {
+        buttonTapCallback() 
     }
 }

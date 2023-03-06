@@ -16,6 +16,20 @@ class PostTableViewCell: UITableViewCell {
     let coreDataManager: CoreDataManager = CoreDataManager.shared
     var posts = [PostData]()
     var originaIndex = Int()
+    private var initialAvatarFrame = CGRect(x: 26, y: 16, width: 60, height: 60)
+
+    
+    private lazy var avatarImage : UIImageView = {
+        let avatar = UIImageView()
+        avatar.image = UIImage(named: "avatar")
+        avatar.clipsToBounds = true
+        avatar.contentMode = .scaleAspectFill
+        avatar.layer.cornerRadius = self.initialAvatarFrame.height/2
+        avatar.translatesAutoresizingMaskIntoConstraints = false
+        avatar.isUserInteractionEnabled = true
+        return avatar
+    }()
+    
     private lazy var authorLabel: UILabel = {
         let author = UILabel()
         author.font = UIFont.boldSystemFont(ofSize: 20)
@@ -23,34 +37,99 @@ class PostTableViewCell: UITableViewCell {
         author.translatesAutoresizingMaskIntoConstraints  = false
         return author
     }()
+    private lazy var authorProfLabel: UILabel = {
+        let author = UILabel()
+        author.text = "Дизайнер"
+        author.textColor = UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1)
+        author.font = UIFont(name: "Inter-Regular", size: 14)
+        author.numberOfLines = 2
+        author.translatesAutoresizingMaskIntoConstraints  = false
+        return author
+    }()
     
-    private lazy var likeImage : UIButton = {
+    private lazy var likesButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = .white
+        button.tintColor = .black
+        button.setTitle(" 40", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
+        return button
+    }()
+    
+    private lazy var commentsButton : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "message"), for: .normal)
+        button.tintColor = .black
+        button.setTitle(" 40", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
+        return button
+    }()
+    
+    private lazy var favouriteButton : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        button.tintColor = .black
+        button.isUserInteractionEnabled = true
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.isUserInteractionEnabled = true
         button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var moreImageButton : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "menu1"), for: .normal)
+        button.isUserInteractionEnabled = true
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+//        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
         return button
     }()
     
     private lazy var descriptionTextView: UILabel = {
         let description = UILabel()
-        description.numberOfLines = 0
-        description.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        description.textColor = .systemGray
+        description.numberOfLines = 4
+        description.font = UIFont(name: "Inter-Regular", size: 14)
+        description.textColor = UIColor(red: 0.149, green: 0.196, blue: 0.22, alpha: 1)
         description.translatesAutoresizingMaskIntoConstraints = false
         return description
     }()
     
+    private lazy var showMoreButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("Показать полностью...", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 12)
+//        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var postImage: UIImageView = {
         let image = UIImageView ()
-        image.contentMode = .scaleAspectFit
+     image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.layer.cornerRadius = 15
+        image.clipsToBounds = true
         image.isUserInteractionEnabled = true
         return image
     }()
+    
+    private lazy var separatorVertical : UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1)
+        return line
+    } ()
+    private lazy var separatorHorizontal : UIView = {
+        let line = UIView()
+        line.backgroundColor = .lightGray
+        return line
+    } ()
     
     private lazy var likesLabel: UILabel = {
         let likes = UILabel()
@@ -70,18 +149,15 @@ class PostTableViewCell: UITableViewCell {
         return views
     }()
     
-    private lazy var stackView : UIStackView = {
-        let stack = UIStackView()
+ 
+    private lazy var backgroundColorView : UIView = {
+        let stack = UIView()
         stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         return stack
     }()
     
-    private lazy var imageStackView : UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.backgroundColor = UIColor.createColor(lightMode: .black, darkMode: .darkGray)
-        return stack
-    }()
+    
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -89,62 +165,149 @@ class PostTableViewCell: UITableViewCell {
         self.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         setViews()
         setConstraints()
+        
+//            self.showMoreButton.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 12)
+        
     }
     
     private func setViews () {
-        self.addSubview(self.stackView)
         self.posts = coreDataManager.posts
-        stackView.addArrangedSubview(self.authorLabel)
-        stackView.addArrangedSubview(self.imageStackView)
-        stackView.addArrangedSubview(self.descriptionTextView)
-        stackView.addArrangedSubview(self.likesLabel)
-        stackView.addArrangedSubview(self.viewsLabel)
+//        stackView.addArrangedSubview(avatarImage)
+//        stackView.addArrangedSubview(authorProfLabel)
+//        stackView.addArrangedSubview(moreImageButton)
+//        stackView.addArrangedSubview(self.authorLabel)
+//        stackView.addArrangedSubview(self.imageStackView)
+//        stackView.addArrangedSubview(self.descriptionTextView)
+//        stackView.addArrangedSubview(self.likesLabel)
+//        stackView.addArrangedSubview(self.viewsLabel)
+        
+        self.addSubview(self.avatarImage)
         self.addSubview(self.authorLabel)
-        self.addSubview(self.imageStackView)
-        imageStackView.addArrangedSubview(self.postImage)
+        self.addSubview(moreImageButton)
+        self.addSubview(authorProfLabel)
+        self.addSubview(self.backgroundColorView)
+        self.addSubview(separatorVertical)
         self.addSubview(self.descriptionTextView)
-        self.addSubview(self.likesLabel)
-        self.addSubview(self.viewsLabel)
-        self.addSubview(self.likeImage)
-        likeImage.snp.makeConstraints { make in
-            make.trailing.equalTo(self.postImage.snp.trailing).offset(-8)
-            make.bottom.equalTo(self.postImage.snp.bottom).offset(-8)
-            make.height.width.equalTo(35)
-        }
+        self.addSubview(showMoreButton)
+        self.addSubview(postImage)
+        self.addSubview(separatorHorizontal)
+//        self.addSubview(self.likesLabel)
+//        self.addSubview(self.viewsLabel)
+        self.addSubview(self.likesButton)
+        self.addSubview(commentsButton)
+        self.addSubview(favouriteButton)
+//
+//
+        
+      
         
     }
     
     private func setConstraints () {
         NSLayoutConstraint.activate([
             
-            self.stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            self.stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+//            self.stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+//            self.stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+//            self.stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+//            self.stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            self.authorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-            self.authorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-            self.authorLabel.widthAnchor.constraint(equalTo: self.widthAnchor),
+//
+//            self.imageStackView.topAnchor.constraint(equalTo: self.avatarImage.bottomAnchor, constant: 12),
+//            self.imageStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier:  1),
+//            self.imageStackView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1),
             
-            self.imageStackView.topAnchor.constraint(equalTo: self.authorLabel.bottomAnchor, constant: 12),
-            self.imageStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier:  1),
-            self.imageStackView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1),
-            
-            self.descriptionTextView.topAnchor.constraint(equalTo: imageStackView.bottomAnchor, constant: 16),
-            self.descriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            self.descriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            
-            self.likesLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
-            self.likesLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            self.likesLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
-            //            self.likesLabel.heightAnchor.constraint(equalToConstant: 40),
-            self.likesLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
-            
-            self.viewsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
-            self.viewsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            self.viewsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.39),
-            self.viewsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
+//            self.descriptionTextView.topAnchor.constraint(equalTo: backgroundColorView.bottomAnchor, constant: 16),
+//            self.descriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+//            self.descriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+//            
+//            self.likesLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
+//            self.likesLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+//            self.likesLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
+//            //            self.likesLabel.heightAnchor.constraint(equalToConstant: 40),
+//            self.likesLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
+//            
+//            self.viewsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
+//            self.viewsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+//            self.viewsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.39),
+//            self.viewsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
         ])
+        
+        avatarImage.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(25)
+            make.leading.equalToSuperview().offset(16)
+            make.height.width.equalTo(60)
+        }
+        authorLabel.snp.makeConstraints { make in
+            make.top.equalTo(avatarImage.snp.top)
+            make.leading.equalTo(avatarImage.snp.trailing).offset(16)
+        }
+        authorProfLabel.snp.makeConstraints { make in
+            make.top.equalTo(authorLabel.snp.bottom).offset(8)
+            make.leading.equalTo(avatarImage.snp.trailing).offset(16)
+        }
+        
+        moreImageButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(38)
+            make.trailing.equalToSuperview().offset(-26)
+            make.height.equalTo(21)
+            make.width.equalTo(5)
+        }
+        backgroundColorView.snp.makeConstraints { make in
+            make.top.equalTo(avatarImage.snp.bottom).offset(12)
+            make.leading.trailing.bottom.equalToSuperview()
+            
+            
+        }
+        
+        separatorVertical.snp.makeConstraints { make in
+            make.top.equalTo(backgroundColorView.snp.top).offset(20)
+            make.width.equalTo(0.5)
+            make.leading.equalTo(backgroundColorView.snp.leading).offset(28)
+            make.bottom.equalTo(backgroundColorView.snp.bottom).offset(-69)
+
+        }
+        
+        descriptionTextView.snp.makeConstraints { make in
+            make.top.equalTo(backgroundColorView.snp.top).offset(10)
+            make.leading.equalTo(backgroundColorView.snp.leading).offset(52)
+            make.trailing.equalTo(backgroundColorView.snp.trailing).offset(-15)
+        }
+        
+        showMoreButton.snp.makeConstraints { make in
+            make.top.equalTo(descriptionTextView.snp.bottom)
+            make.leading.equalTo(separatorVertical.snp.trailing).offset(24)
+        }
+        
+        postImage.snp.makeConstraints { make in
+            make.top.equalTo(showMoreButton.snp.bottom).offset(10)
+            make.leading.equalTo(separatorVertical.snp.trailing).offset(24)
+            make.trailing.equalTo(backgroundColorView.snp.trailing).offset(-24)
+            make.height.equalTo(postImage.snp.width).multipliedBy(0.416)
+        }
+        
+        separatorHorizontal.snp.makeConstraints { make in
+            make.top.equalTo(postImage.snp.bottom).offset(8)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(0.5)
+            make.width.equalToSuperview()
+        }
+        
+        likesButton.snp.makeConstraints { make in
+            make.top.equalTo(separatorHorizontal.snp.bottom).offset(10)
+            make.leading.equalTo(backgroundColorView.snp.leading).offset(52)
+            make.bottom.equalTo(backgroundColorView.snp.bottom).offset(-18)
+        }
+        commentsButton.snp.makeConstraints { make in
+            make.leading.equalTo(likesButton.snp.trailing).offset(16)
+            make.centerY.equalTo(likesButton.snp.centerY)
+        }
+        
+        favouriteButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-18)
+            make.centerY.equalTo(likesButton.snp.centerY)
+        }
+        
+        
     }
     
     required init?(coder: NSCoder) {
@@ -173,9 +336,9 @@ class PostTableViewCell: UITableViewCell {
         }
         
         if isLiked {
-            likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            favouriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         } else {
-            likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
+            favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
         originaIndex = index
     }
@@ -195,7 +358,7 @@ extension PostTableViewCell: LikeDelegate {
         if isLike {
             //adding post in core data
             self.coreDataManager.likePost(originalPost: postArray[index])
-            self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            self.favouriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         } else {
             //deleting post in core data
             let indexForDeletePost = self.posts.firstIndex { corePost in
@@ -205,7 +368,7 @@ extension PostTableViewCell: LikeDelegate {
             if let index = indexForDeletePost {
                 self.coreDataManager.unlike(post: self.posts[index])
             }
-            self.likeImage.setImage(UIImage(systemName: "heart"), for: .normal)
+            self.favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
     }
 }

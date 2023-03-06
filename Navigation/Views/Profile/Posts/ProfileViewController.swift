@@ -11,7 +11,7 @@ import UniformTypeIdentifiers
 class ProfileViewController: UIViewController {
     
     var coordinator : ProfileTabCoordinator?
-    private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 120, height: 120)
+    private var initialAvatarFrame = CGRect(x: 26, y: 16, width: 60, height: 60)
     private var viewModel : ProfileViewModel?
     var postData = [PostData]()
     var originIndex = Int()
@@ -37,6 +37,9 @@ class ProfileViewController: UIViewController {
         table.dropDelegate = self
         table.rowHeight = UITableView.automaticDimension
         table.estimatedRowHeight = 140
+        table.backgroundColor = .white
+        table.separatorStyle = .none
+
         table.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
         table.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosCell")
         table.register(PostTableViewCell.self, forCellReuseIdentifier: "CustomCell")
@@ -158,6 +161,7 @@ class ProfileViewController: UIViewController {
                 self.backButton.alpha = 1
             }
         } completion: { _ in
+            
         }
     }
     
@@ -215,6 +219,9 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == .zero {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosCell", for: indexPath) as! PhotosTableViewCell
             cell.setup(with: photosArray)
+            cell.buttonTapCallback = {
+                print("COmething")
+            }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
@@ -228,7 +235,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            let vc = PhotosViewController()
+            let vc = AlbomsViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)
@@ -275,39 +282,56 @@ extension ProfileViewController: UITableViewDragDelegate, UITableViewDropDelegat
     }
     
     func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-        
-        guard let destinationIndexPath = coordinator.destinationIndexPath else { return }
-        
-        
-        var postLabel = String()
-        coordinator.session.loadObjects(ofClass: String.self) { items in
-            let strings = items as [String]
-            for string in strings {
-                postLabel = string
-                break
-            }
-        }
-        
-        var postImage = UIImage()
-        coordinator.session.loadObjects(ofClass: UIImage.self) { items in
-            let images = items as! [UIImage]
-            for image in images {
-                postImage = image
-                print(" origin index :\(self.originIndex - 1)")
-                print(" destination  index :\(destinationIndexPath.row - 1)")
-                if coordinator.proposal.operation == .move {
-                    let post = Post(authorLabel: postLabel, descriptionLabel: "Drag&Drop", image: postImage, likes: 0, views: 0)
-                    postArray.remove(at: self.originIndex - 1 )
-                    postArray.insert(post, at:  destinationIndexPath.row - 1 )
+       
+        let destinationIndexPath: IndexPath
 
-                } else if coordinator.proposal.operation == .copy {
-                    let post = Post(authorLabel: "post form nowwhere", descriptionLabel: "Drag&Drop", image: UIImage(named: "cat"), likes: 0, views: 0)
-                    postArray.insert(post, at:  destinationIndexPath.row - 1 )
-                }
-                break
-            }
-            self.tableView.reloadData()
-        }
+               if let indexPath = coordinator.destinationIndexPath {
+                   destinationIndexPath = indexPath
+               } else {
+                   // get from last row
+                   let section = tableView.numberOfSections - 1
+                   let row = tableView.numberOfRows(inSection: section)
+                   destinationIndexPath = IndexPath(row: row, section: section)
+               }
+                       
+               let rowInd = destinationIndexPath.row
+               
+               let group = DispatchGroup()
+               
+               var postDescription = String()
+               group.enter()
+               coordinator.session.loadObjects(ofClass: NSString.self) { objects in
+                   let uStrings = objects as! [String]
+                   for uString in uStrings {
+                       postDescription = uString
+                       break
+                   }
+                   group.leave()
+               }
+               
+               var postImage = UIImage()
+               group.enter()
+               coordinator.session.loadObjects(ofClass: UIImage.self) { objects in
+                   let uImages = objects as! [UIImage]
+                   for uImage in uImages {
+                       postImage = uImage
+                       break
+                   }
+                   group.leave()
+               }
+               
+               group.notify(queue: .main) {
+                   // delete moved post if moved
+                   if coordinator.proposal.operation == .move {
+                       postArray.remove(at: self.originIndex)
+                   }
+                   // insert new post
+                   let newPost = Post(authorLabel: "new", descriptionLabel: postDescription,image: postImage , likes: 0, views: 0)
+                   postArray.insert(newPost, at: rowInd - 1)
+                   
+                   tableView.reloadData()
+               }
+        
     }
 }
 
