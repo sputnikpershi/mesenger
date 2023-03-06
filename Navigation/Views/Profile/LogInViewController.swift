@@ -7,13 +7,15 @@
 
 import UIKit
 import SnapKit
-import Firebase
 import RealmSwift
 import KeychainAccess
 
 protocol CheckerServiceProtocol {
-    func signIn(_ email: String, password: String)
-    func signUp(_ email: String, password: String)
+    func signIn(_ email: String, password: String) -> String
+    func signUp(_ email: String, password: String) -> String
+    func showAccount()
+    func showCreateAcccount(_ email: String, password: String)
+    func showAllertAutherization(text: String)
 }
 
 class LogInViewController: UIViewController {
@@ -24,9 +26,8 @@ class LogInViewController: UIViewController {
     var coordinator : ProfileTabCoordinator?
     let groupQueue = DispatchGroup()
     let cuncurrentQueue = DispatchQueue(label: "com.app.concurrent", attributes: [.concurrent])
-    var loginDelegate : LoginViewControllerDelegate?
     let setColor: UIColor = UIColor(red: 0.28, green: 0.52, blue: 0.80, alpha: 1.00)
-    
+    private lazy var localAuthorizationService = LocalAuthorizationService()
     
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView ()
@@ -80,7 +81,6 @@ class LogInViewController: UIViewController {
         let pswd = UITextField ()
         pswd.translatesAutoresizingMaskIntoConstraints = false
         let localizationText = NSLocalizedString("login-pswd", comment: "")
-
         pswd.placeholder = localizationText
         pswd.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         pswd.autocapitalizationType = .none
@@ -104,7 +104,7 @@ class LogInViewController: UIViewController {
         let button = UIButton ()
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         let localizationText = NSLocalizedString("login-button",  comment: "")
-
+        
         button.setTitle(localizationText, for: .normal)
         button.clipsToBounds = true
         button.layer.cornerRadius = 10
@@ -115,16 +115,25 @@ class LogInViewController: UIViewController {
         return button
     } ()
     
+    
+    private lazy var faceIDBUtton: UIButton = {
+        let button = UIButton ()
+        button.setTitleColor(.systemBlue, for: .normal)
+        let text = localAuthorizationService.context.biometricType == .faceID ? "Face ID" : "Touch ID"
+        button.setTitle(text, for: .normal)
+        button.addTarget(self, action: #selector(tapFaceIDButton), for: .touchUpInside)
+        return button
+
+    }()
+    
     // MARK: VIEWDIDLOAD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Auth.auth().currentUser != nil {
-            showAccount()
-        }
+       
         self.view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         loginButton.alpha = 0.8
-        loginButton.isEnabled = true
+        loginButton.isEnabled = false
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
         setViews()
@@ -155,6 +164,7 @@ class LogInViewController: UIViewController {
         self.view.addSubview(self.loginTF)
         self.view.addSubview(self.pswdTF)
         self.view.addSubview(self.loadIndicator)
+        self.view.addSubview(faceIDBUtton)
     }
     
     private func setConstraints() {
@@ -203,7 +213,13 @@ class LogInViewController: UIViewController {
             self.loginButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.loginButton.widthAnchor.constraint(equalTo: self.stackView.widthAnchor),
             self.loginButton.heightAnchor.constraint(equalToConstant: 50),
+            
         ])
+        
+        faceIDBUtton.snp.makeConstraints { make in
+            make.top.equalTo(self.loginButton.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+        }
     }
     
     private  func setGesture () {
@@ -236,6 +252,19 @@ class LogInViewController: UIViewController {
         }
     }
     
+    @objc func tapFaceIDButton () {
+        let localAuthorizationService = LocalAuthorizationService()
+        localAuthorizationService.vc = self
+        localAuthorizationService.authorizeIfPossible(viewVontroller: self) { result in
+            switch result {
+            case .success(let success):
+                print(success)
+            case .failure(let error):
+                print( "----- \(error)")
+            }
+    
+        }
+    }
     
     @objc private func didShowKeyboard (_ notification: Notification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]  as? NSValue {
@@ -258,25 +287,30 @@ class LogInViewController: UIViewController {
     @objc private func  tapButton() {
         let login =  self.loginTF.text ?? ""
         let passwd =  self.pswdTF.text ?? ""
-        signIn(login, password: passwd)
+        let accountHelper = LoginHelper()
+        accountHelper.delegate = self
+        if self.loginTF.text != "" && self.loginTF.text != " " {
+            accountHelper.signIn(login, password: passwd)
+        } else  {
+            showAllertAutherization(text: "plese enter your login")
+        }
+        
     }
     
     
     func showCreateAcccount(_ email: String, password: String) {
         
         print("Create account")
-        
         let localizationAlertTitle = NSLocalizedString("alert-title" , comment: "")
         let localizationAlertMessage = NSLocalizedString("alert-message" , comment: "")
-
         let localizationAlertCancelButton = NSLocalizedString("alert-cancel" , comment: "")
         let localizationAlertOkButton = NSLocalizedString("alert-ok" , comment: "")
-
         let alert = UIAlertController(title: localizationAlertTitle, message: localizationAlertMessage, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: localizationAlertCancelButton, style: .cancel))
+        alert.addAction(UIAlertAction(title: localizationAlertCancelButton, style: .destructive))
         alert.addAction(UIAlertAction(title: localizationAlertOkButton, style: .default, handler: { _ in
-            self.loadIndicator.startAnimating()
-            self.signUp(email, password: password)
+            let accountHelper = LoginHelper()
+            accountHelper.delegate = self
+            accountHelper.signUp(email, password: password)
         }))
         self.loadIndicator.stopAnimating()
         self.present(alert, animated: true)
@@ -303,11 +337,9 @@ class LogInViewController: UIViewController {
 
 extension LogInViewController: CheckerServiceProtocol {
     
-    func signIn(_ email: String, password: String) {
-        
+    func signIn(_ email: String, password: String) -> String{
         print(user.getKey().hexEncodedString())
         let config = Realm.Configuration(encryptionKey: user.getKey())
-        
         do {
             // Open the encrypted realm
             let realm = try Realm(configuration: config) // set Config with encrypted key
@@ -322,23 +354,20 @@ extension LogInViewController: CheckerServiceProtocol {
             } else {
                 showCreateAcccount(email, password: password) //show alert to create account
             }
-            
-            
         } catch let error as NSError {
             fatalError("Error opening realm: \(error.localizedDescription)")
         }
-        
+        return email
     }
     
-    func signUp(_ email: String, password: String) {
+    func signUp(_ email: String, password: String) -> String {
         user.saveLogIngData(login: email, password: password)
         self.showAccount() //show next ViewController
         userDefault.set(true, forKey: "hasLogedIn") // save info about first login
+        return email
     }
     
 }
-
-
 
 
 extension Data {

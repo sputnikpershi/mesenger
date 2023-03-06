@@ -75,6 +75,7 @@ class LikeViewController: UIViewController {
             var predicate: NSPredicate?
             if let textField = alertController.textFields?[0] {
                 if let searchText = textField.text, searchText.count > 0 {
+                    coreDataManager.getFilteredPostsData(authorLabel: searchText)
                     predicate = NSPredicate(format: "authorLabel contains[cd] %@", searchText)
                 } else {
                     predicate = nil
@@ -108,10 +109,7 @@ class LikeViewController: UIViewController {
             print(err)
         }
     }
-    
-    
-    
-    
+   
     private func setLayers() {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -124,7 +122,6 @@ extension LikeViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         fetchResultController.sections?[section].numberOfObjects ?? 0
     }
-    
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -169,6 +166,8 @@ extension LikeViewController : NSFetchedResultsControllerDelegate {
         }
     }
 }
+
+
 
 //
 //

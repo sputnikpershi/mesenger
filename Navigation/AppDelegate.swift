@@ -6,18 +6,15 @@
 //
 
 import UIKit
-import FirebaseCore
 import CoreData
 
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    private lazy var localNotificationsService = LocalNotificationsService()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        FirebaseApp.configure()
-        let loginVC = LogInViewController()
-        let loginInspector = LoginInspector()
-        loginVC.loginDelegate = loginInspector
+        localNotificationsService.registeForLatestUpdatesIfPossible()
         return true
     }
 
