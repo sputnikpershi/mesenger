@@ -6,6 +6,7 @@
 //
 import UIKit
 import CoreData
+import SnapKit
 import UniformTypeIdentifiers
 
 class ProfileViewController: UIViewController {
@@ -28,25 +29,36 @@ class ProfileViewController: UIViewController {
     }
     
     
-    private lazy var tableView: UITableView = {
-        let table = UITableView (frame: .zero, style: .grouped)
-        table.dataSource = self
-        table.delegate = self
-        table.dragInteractionEnabled = true
-        table.dragDelegate = self
-        table.dropDelegate = self
-        table.rowHeight = UITableView.automaticDimension
-        table.estimatedRowHeight = 140
-        table.backgroundColor = .white
-        table.separatorStyle = .none
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.dataSource = self
+        collection.delegate = self
+        collection.register(MainPostsCell.self, forCellWithReuseIdentifier: "cID")
+        collection.register(HeaderCollection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollection.identifier)
+        return collection
+    }()
 
-        table.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
-        table.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosCell")
-        table.register(PostTableViewCell.self, forCellReuseIdentifier: "CustomCell")
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
-    } ()
+    
+//    private lazy var tableView: UITableView = {
+//        let table = UITableView (frame: .zero, style: .grouped)
+//        table.dataSource = self
+//        table.delegate = self
+//        table.dragInteractionEnabled = true
+//        table.dragDelegate = self
+//        table.dropDelegate = self
+//        table.rowHeight = UITableView.automaticDimension
+//        table.estimatedRowHeight = 140
+//        table.backgroundColor = .white
+//        table.separatorStyle = .none
+//
+//        table.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
+//        table.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosCell")
+//        table.register(PostTableViewCell.self, forCellReuseIdentifier: "CustomCell")
+//        table.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
+//        table.translatesAutoresizingMaskIntoConstraints = false
+//        return table
+//    } ()
     
     
     
@@ -96,48 +108,66 @@ class ProfileViewController: UIViewController {
         self.tabBarController?.tabBar.backgroundColor = .secondarySystemBackground
         setViews()
         setConstraints()
+        setNavigation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isHidden = true
+//        self.navigationController?.navigationBar.isHidden = true
         DispatchQueue.main.async {
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
             print("reload ProfileVC")
         }
     }
     
+    private func setNavigation() {
+        let titleView = UILabel()
+        titleView.text = maryAccount.nickname
+        titleView.textColor = .black
+        titleView.font = UIFont(name: "Inter-Medium", size: 16)
+        titleView.frame = CGRect(x: 0, y: 0, width: view.frame.width - 50, height: view.frame.height)
+        navigationItem.titleView = titleView
+        navigationController?.navigationBar.prefersLargeTitles = false
+
+//        title = "some"
+    }
+    
     private func setViews() {
-        self.view.addSubview(self.tableView)
-        self.view.addSubview(self.backgroundView)
-        self.view.addSubview(self.avaImage)
-        self.view.addSubview(self.backButton)
-        
-        self.avatarWidthConstant = self.avaImage.widthAnchor.constraint(equalToConstant: initialAvatarFrame.width)
-        self.avatarHeightConstant = self.avaImage.heightAnchor.constraint(equalToConstant: initialAvatarFrame.height)
-        self.avatarLeadingConstant = self.avaImage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: initialAvatarFrame.minX)
-        self.avatarTopConstant = self.avaImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: initialAvatarFrame.minY)
+//        self.view.addSubview(self.tableView)
+        self.view.addSubview(self.collectionView)
+//        self.view.addSubview(self.avaImage)
+//        self.view.addSubview(self.backButton)
+//
+//        self.avatarWidthConstant = self.avaImage.widthAnchor.constraint(equalToConstant: initialAvatarFrame.width)
+//        self.avatarHeightConstant = self.avaImage.heightAnchor.constraint(equalToConstant: initialAvatarFrame.height)
+//        self.avatarLeadingConstant = self.avaImage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: initialAvatarFrame.minX)
+//        self.avatarTopConstant = self.avaImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: initialAvatarFrame.minY)
     }
     
     private func setConstraints () {
+        
+        collectionView.snp.makeConstraints{ make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalToSuperview()
+        }
         NSLayoutConstraint.activate([
-            self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+//            self.collectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
+//            self.collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+//            self.collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+//            self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             
-            avatarTopConstant, avatarLeadingConstant, avatarWidthConstant, avatarHeightConstant,
-            
-            self.backgroundView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.backgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.backgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.backgroundView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
-            self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            self.backButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
-            self.backButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1),
-            self.backButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1),
-            
+//            avatarTopConstant, avatarLeadingConstant, avatarWidthConstant, avatarHeightConstant,
+//
+//            self.backgroundView.topAnchor.constraint(equalTo: self.view.topAnchor),
+//            self.backgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+//            self.backgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+//            self.backgroundView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+//
+//            self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16),
+//            self.backButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+//            self.backButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1),
+//            self.backButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1),
+//
         ].compactMap({ $0 }))
     }
     
@@ -180,7 +210,6 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    
     func logOutAction () {
         let userDefault = UserDefaults.standard
         print(" log out")
@@ -195,55 +224,96 @@ class ProfileViewController: UIViewController {
     }
 }
 
-// MARK: EXTENSION
 
-extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as? ProfileTableHeaderView
-        headerView?.profileVC = self
-        headerView?.setup(user: viewModel!.user)// Передача данных user в элементы ProfileTableHeaderView
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        200
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        postArray.count + 1
-    }
+
+extension ProfileViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == .zero {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosCell", for: indexPath) as! PhotosTableViewCell
-            cell.setup(with: photosArray)
-            cell.buttonTapCallback = {
-                print("COmething")
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollection.identifier, for: indexPath) as? HeaderCollection else {
+                return UICollectionReusableView()
             }
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
-            cell.index = indexPath.row - 1
-            cell.setup(with: postArray, index: indexPath.row - 1 )
-            cell.contentView.isUserInteractionEnabled = false
-            return cell
+            header.setup(user: maryAccount )
+            return header
         }
+        return UICollectionReusableView()
+
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.width, height: 320)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        maryAccount.posts.count
     }
     
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            let vc = AlbomsViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        tableView.deselectRow(at: indexPath, animated: true)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MainPostsCell
+        cell.setup(with: maryAccount.posts, index: indexPath.row)
+        return cell
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 400)
+    }
 }
 
+
+
+
+
+// MARK: EXTENSION
+//
+//extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+//
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as? ProfileTableHeaderView
+//        headerView?.profileVC = self
+//        headerView?.setup(user: viewModel!.user)// Передача данных user в элементы ProfileTableHeaderView
+//        return headerView
+//    }
+//
+//    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+//        200
+//    }
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        postArray.count + 1
+//    }
+//
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        if indexPath.row == .zero {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosCell", for: indexPath) as! PhotosTableViewCell
+//            cell.setup(with: photosArray)
+//            cell.buttonTapCallback = {
+//                print("COmething")
+//            }
+//            return cell
+//        } else {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
+//            cell.index = indexPath.row - 1
+//            cell.setup(with: postArray, index: indexPath.row - 1 )
+//            cell.contentView.isUserInteractionEnabled = false
+//            return cell
+//        }
+//    }
+//
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if indexPath.row == 0 {
+//            let vc = AlbomsViewController()
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
+//
+//
+//}
+//
 extension UIColor {
     static func createColor(lightMode: UIColor, darkMode: UIColor) -> UIColor {
         guard #available(iOS 13.0, *) else
@@ -253,85 +323,85 @@ extension UIColor {
         }
     }
 }
-
-
-extension ProfileViewController: UITableViewDragDelegate, UITableViewDropDelegate {
-    
-    func tableView(_ tableView: UITableView, canHandle session: UIDropSession) -> Bool {
-        return session.canLoadObjects(ofClass: NSString.self) && session.canLoadObjects(ofClass: UIImage.self)
-    }
-    
-    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-        if tableView.hasActiveDrag {
-                    return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-                } else {
-                    return UITableViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
-                }
-    }
-   
-    func dragItems(for indexPath: IndexPath) -> [UIDragItem] {
-        let post = postArray[indexPath.row - 1]
-        let titleProvider = NSItemProvider(object: post.authorLabel as NSString)
-        let imageProvider = NSItemProvider(object: post.image!)
-        return [UIDragItem(itemProvider: titleProvider), UIDragItem(itemProvider: imageProvider)]
-    }
-    
-    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        originIndex = indexPath.row
-        return dragItems(for: indexPath)
-    }
-    
-    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-       
-        let destinationIndexPath: IndexPath
-
-               if let indexPath = coordinator.destinationIndexPath {
-                   destinationIndexPath = indexPath
-               } else {
-                   // get from last row
-                   let section = tableView.numberOfSections - 1
-                   let row = tableView.numberOfRows(inSection: section)
-                   destinationIndexPath = IndexPath(row: row, section: section)
-               }
-                       
-               let rowInd = destinationIndexPath.row
-               
-               let group = DispatchGroup()
-               
-               var postDescription = String()
-               group.enter()
-               coordinator.session.loadObjects(ofClass: NSString.self) { objects in
-                   let uStrings = objects as! [String]
-                   for uString in uStrings {
-                       postDescription = uString
-                       break
-                   }
-                   group.leave()
-               }
-               
-               var postImage = UIImage()
-               group.enter()
-               coordinator.session.loadObjects(ofClass: UIImage.self) { objects in
-                   let uImages = objects as! [UIImage]
-                   for uImage in uImages {
-                       postImage = uImage
-                       break
-                   }
-                   group.leave()
-               }
-               
-               group.notify(queue: .main) {
-                   // delete moved post if moved
-                   if coordinator.proposal.operation == .move {
-                       postArray.remove(at: self.originIndex)
-                   }
-                   // insert new post
-                   let newPost = Post(authorLabel: "new", descriptionLabel: postDescription,image: postImage , likes: 0, views: 0)
-                   postArray.insert(newPost, at: rowInd - 1)
-                   
-                   tableView.reloadData()
-               }
-        
-    }
-}
-
+//
+//
+//extension ProfileViewController: UITableViewDragDelegate, UITableViewDropDelegate {
+//
+//    func tableView(_ tableView: UITableView, canHandle session: UIDropSession) -> Bool {
+//        return session.canLoadObjects(ofClass: NSString.self) && session.canLoadObjects(ofClass: UIImage.self)
+//    }
+//
+//    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+//        if tableView.hasActiveDrag {
+//                    return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+//                } else {
+//                    return UITableViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
+//                }
+//    }
+//
+//    func dragItems(for indexPath: IndexPath) -> [UIDragItem] {
+//        let post = postArray[indexPath.row - 1]
+//        let titleProvider = NSItemProvider(object: post.authorLabel as NSString)
+//        let imageProvider = NSItemProvider(object: post.image!)
+//        return [UIDragItem(itemProvider: titleProvider), UIDragItem(itemProvider: imageProvider)]
+//    }
+//
+//    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+//        originIndex = indexPath.row
+//        return dragItems(for: indexPath)
+//    }
+//
+//    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+//
+//        let destinationIndexPath: IndexPath
+//
+//               if let indexPath = coordinator.destinationIndexPath {
+//                   destinationIndexPath = indexPath
+//               } else {
+//                   // get from last row
+//                   let section = tableView.numberOfSections - 1
+//                   let row = tableView.numberOfRows(inSection: section)
+//                   destinationIndexPath = IndexPath(row: row, section: section)
+//               }
+//
+//               let rowInd = destinationIndexPath.row
+//
+//               let group = DispatchGroup()
+//
+//               var postDescription = String()
+//               group.enter()
+//               coordinator.session.loadObjects(ofClass: NSString.self) { objects in
+//                   let uStrings = objects as! [String]
+//                   for uString in uStrings {
+//                       postDescription = uString
+//                       break
+//                   }
+//                   group.leave()
+//               }
+//
+//               var postImage = UIImage()
+//               group.enter()
+//               coordinator.session.loadObjects(ofClass: UIImage.self) { objects in
+//                   let uImages = objects as! [UIImage]
+//                   for uImage in uImages {
+//                       postImage = uImage
+//                       break
+//                   }
+//                   group.leave()
+//               }
+//
+//               group.notify(queue: .main) {
+//                   // delete moved post if moved
+//                   if coordinator.proposal.operation == .move {
+//                       postArray.remove(at: self.originIndex)
+//                   }
+//                   // insert new post
+//                   let newPost = Post(authorLabel: "new", descriptionLabel: postDescription,image: postImage, likes: 0, views: 0, date: Date() )
+//                   postArray.insert(newPost, at: rowInd - 1)
+//
+//                   tableView.reloadData()
+//               }
+//
+//    }
+//}
+//

@@ -1,14 +1,13 @@
 //
-//  PostTableViewCell.swift
+//  PostsCell.swift
 //  Navigation
 //
-//  Created by Krime Loma    on 8/14/22.
+//  Created by Kiryl Rakk on 6/3/23.
 //
 
 import UIKit
-import SnapKit
 
-class PostTableViewCell: UITableViewCell {
+class MainPostsCell: UICollectionViewCell {
     
     var isLiked: Bool = false
     var index : Int?
@@ -17,7 +16,6 @@ class PostTableViewCell: UITableViewCell {
     var posts = [PostData]()
     var originaIndex = Int()
     private var initialAvatarFrame = CGRect(x: 26, y: 16, width: 60, height: 60)
-
     
     private lazy var avatarImage : UIImageView = {
         let avatar = UIImageView()
@@ -33,13 +31,14 @@ class PostTableViewCell: UITableViewCell {
     private lazy var authorLabel: UILabel = {
         let author = UILabel()
         author.font = UIFont.boldSystemFont(ofSize: 20)
+        author.text = "Mary Golusheva"
         author.numberOfLines = 2
         author.translatesAutoresizingMaskIntoConstraints  = false
         return author
     }()
     private lazy var authorProfLabel: UILabel = {
         let author = UILabel()
-        author.text = "Дизайнер"
+      
         author.textColor = UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1)
         author.font = UIFont(name: "Inter-Regular", size: 14)
         author.numberOfLines = 2
@@ -51,7 +50,6 @@ class PostTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.tintColor = .black
-        button.setTitle(" 40", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         return button
@@ -61,7 +59,6 @@ class PostTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "message"), for: .normal)
         button.tintColor = .black
-        button.setTitle(" 40", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         button.isUserInteractionEnabled = true
@@ -88,7 +85,6 @@ class PostTableViewCell: UITableViewCell {
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
-//        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
         return button
     }()
     
@@ -106,13 +102,13 @@ class PostTableViewCell: UITableViewCell {
         button.setTitle("Показать полностью...", for: .normal)
         button.setTitleColor(.blue, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 12)
-//        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
+        //        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
         return button
     }()
     
     private lazy var postImage: UIImageView = {
         let image = UIImageView ()
-     image.contentMode = .scaleAspectFill
+        image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 15
         image.clipsToBounds = true
@@ -125,6 +121,7 @@ class PostTableViewCell: UITableViewCell {
         line.backgroundColor = UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1)
         return line
     } ()
+    
     private lazy var separatorHorizontal : UIView = {
         let line = UIView()
         line.backgroundColor = .lightGray
@@ -149,7 +146,6 @@ class PostTableViewCell: UITableViewCell {
         return views
     }()
     
- 
     private lazy var backgroundColorView : UIView = {
         let stack = UIView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -157,30 +153,14 @@ class PostTableViewCell: UITableViewCell {
         return stack
     }()
     
-    
-    
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-      //  self.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setViews()
         setConstraints()
-        
-//            self.showMoreButton.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 12)
-        
     }
     
     private func setViews () {
         self.posts = coreDataManager.posts
-//        stackView.addArrangedSubview(avatarImage)
-//        stackView.addArrangedSubview(authorProfLabel)
-//        stackView.addArrangedSubview(moreImageButton)
-//        stackView.addArrangedSubview(self.authorLabel)
-//        stackView.addArrangedSubview(self.imageStackView)
-//        stackView.addArrangedSubview(self.descriptionTextView)
-//        stackView.addArrangedSubview(self.likesLabel)
-//        stackView.addArrangedSubview(self.viewsLabel)
-        
         self.addSubview(self.avatarImage)
         self.addSubview(self.authorLabel)
         self.addSubview(moreImageButton)
@@ -191,56 +171,24 @@ class PostTableViewCell: UITableViewCell {
         self.addSubview(showMoreButton)
         self.addSubview(postImage)
         self.addSubview(separatorHorizontal)
-//        self.addSubview(self.likesLabel)
-//        self.addSubview(self.viewsLabel)
         self.addSubview(self.likesButton)
         self.addSubview(commentsButton)
         self.addSubview(favouriteButton)
-//
-//
-        
-      
-        
     }
     
     private func setConstraints () {
-        NSLayoutConstraint.activate([
-            
-//            self.stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-//            self.stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//            self.stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-//            self.stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            
-//
-//            self.imageStackView.topAnchor.constraint(equalTo: self.avatarImage.bottomAnchor, constant: 12),
-//            self.imageStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier:  1),
-//            self.imageStackView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1),
-            
-//            self.descriptionTextView.topAnchor.constraint(equalTo: backgroundColorView.bottomAnchor, constant: 16),
-//            self.descriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-//            self.descriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-//            
-//            self.likesLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
-//            self.likesLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-//            self.likesLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
-//            //            self.likesLabel.heightAnchor.constraint(equalToConstant: 40),
-//            self.likesLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
-//            
-//            self.viewsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
-//            self.viewsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-//            self.viewsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.39),
-//            self.viewsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
-        ])
         
         avatarImage.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(25)
             make.leading.equalToSuperview().offset(16)
             make.height.width.equalTo(60)
         }
+        
         authorLabel.snp.makeConstraints { make in
             make.top.equalTo(avatarImage.snp.top)
             make.leading.equalTo(avatarImage.snp.trailing).offset(16)
         }
+        
         authorProfLabel.snp.makeConstraints { make in
             make.top.equalTo(authorLabel.snp.bottom).offset(8)
             make.leading.equalTo(avatarImage.snp.trailing).offset(16)
@@ -252,13 +200,12 @@ class PostTableViewCell: UITableViewCell {
             make.height.equalTo(21)
             make.width.equalTo(5)
         }
+
         backgroundColorView.snp.makeConstraints { make in
             make.top.equalTo(avatarImage.snp.bottom).offset(12)
             make.leading.trailing.bottom.equalToSuperview()
-            
-            
         }
-        
+//
         separatorVertical.snp.makeConstraints { make in
             make.top.equalTo(backgroundColorView.snp.top).offset(20)
             make.width.equalTo(0.5)
@@ -266,48 +213,47 @@ class PostTableViewCell: UITableViewCell {
             make.bottom.equalTo(backgroundColorView.snp.bottom).offset(-69)
 
         }
-        
+
         descriptionTextView.snp.makeConstraints { make in
             make.top.equalTo(backgroundColorView.snp.top).offset(10)
             make.leading.equalTo(backgroundColorView.snp.leading).offset(52)
             make.trailing.equalTo(backgroundColorView.snp.trailing).offset(-15)
         }
-        
+//
         showMoreButton.snp.makeConstraints { make in
             make.top.equalTo(descriptionTextView.snp.bottom)
             make.leading.equalTo(separatorVertical.snp.trailing).offset(24)
         }
-        
+
         postImage.snp.makeConstraints { make in
             make.top.equalTo(showMoreButton.snp.bottom).offset(10)
             make.leading.equalTo(separatorVertical.snp.trailing).offset(24)
             make.trailing.equalTo(backgroundColorView.snp.trailing).offset(-24)
             make.height.equalTo(postImage.snp.width).multipliedBy(0.416)
         }
-        
+
         separatorHorizontal.snp.makeConstraints { make in
             make.top.equalTo(postImage.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
             make.height.equalTo(0.5)
             make.width.equalToSuperview()
         }
-        
+
         likesButton.snp.makeConstraints { make in
             make.top.equalTo(separatorHorizontal.snp.bottom).offset(10)
             make.leading.equalTo(backgroundColorView.snp.leading).offset(52)
             make.bottom.equalTo(backgroundColorView.snp.bottom).offset(-18)
         }
+        
         commentsButton.snp.makeConstraints { make in
             make.leading.equalTo(likesButton.snp.trailing).offset(16)
             make.centerY.equalTo(likesButton.snp.centerY)
         }
-        
+
         favouriteButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-18)
             make.centerY.equalTo(likesButton.snp.centerY)
         }
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -315,9 +261,12 @@ class PostTableViewCell: UITableViewCell {
     }
     
     
-    func setup(with viewModel: [Post], index: Int) {
-        self.authorLabel.text = viewModel[index].authorLabel
+    func setup(with viewModel: [AccountPosts], index: Int) {
+        self.authorLabel.text = "\(maryAccount.name) \(maryAccount.surname)"
         self.postImage.image =  viewModel[index].image
+        self.authorProfLabel.text = maryAccount.status
+        commentsButton.setTitle(" \(viewModel[index].comments.count)", for: .normal)
+        likesButton.setTitle(" \(viewModel[index].likes)", for: .normal)
         self.descriptionTextView.text = viewModel[index].descriptionLabel
         let likePluralLocalization = NSLocalizedString("likes-plural", comment: "")
         let formattedLike = String(format: likePluralLocalization, viewModel[index].likes)
@@ -329,6 +278,7 @@ class PostTableViewCell: UITableViewCell {
         let indexPost = posts.firstIndex { post in
             post.descriptionLabel == self.descriptionTextView.text
         }
+        
         if let index = indexPost {
             self.isLiked = posts[index].isLiked
         } else {
@@ -350,7 +300,7 @@ class PostTableViewCell: UITableViewCell {
     }
 }
 
-extension PostTableViewCell: LikeDelegate {
+extension MainPostsCell: LikeDelegate {
     
     func likePost(_ isLike: inout Bool)   {
         self.posts = coreDataManager.posts
@@ -370,5 +320,7 @@ extension PostTableViewCell: LikeDelegate {
             }
             self.favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
+        
+           
     }
 }

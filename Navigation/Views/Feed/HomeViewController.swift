@@ -16,14 +16,21 @@ class HomeViewController: UICollectionViewController {
         return menu
     }()
     
+    
+    lazy var friendsBar : FriendsBar = {
+        let menu = FriendsBar()
+        menu.homeVC = self
+        return menu
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.register(HomeCollectionCell.self, forCellWithReuseIdentifier: "cID")
-        collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)
         collectionView.isPagingEnabled = true
         guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         flowLayout.scrollDirection = .horizontal
@@ -36,9 +43,11 @@ class HomeViewController: UICollectionViewController {
         navigationItem.titleView = navTitleLabel
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(tapButtonAction))
         
-        //        navigationController?.hidesBarsOnSwipe = true
+                navigationController?.hidesBarsOnSwipe = true
         setupMenuBar()
     }
+    
+   
     
     @objc func tapButtonAction () {
     }
@@ -51,6 +60,13 @@ class HomeViewController: UICollectionViewController {
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
         }
+        view.addSubview(friendsBar)
+        friendsBar.snp.makeConstraints { make in
+            make.top.equalTo(menuBar.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(80)
+        }
+        
     }
 }
 
@@ -58,11 +74,6 @@ class HomeViewController: UICollectionViewController {
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let x = Int(Float(scrollView.contentOffset.x)/Float(scrollView.frame.size.width))
-        //        print("000000000 \(x)")
-        
-        
-        
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -72,14 +83,12 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! HomeCollectionCell
-//        let colors: [UIColor] = [.orange, .purple]
-//        cell.backgroundColor = colors[indexPath.row]
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height - 250)
+        return CGSize(width: view.frame.width, height: view.frame.height - 310)
     }
     
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

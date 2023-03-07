@@ -46,15 +46,15 @@ extension AlbomsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "albom cell", for: indexPath) as! AlbomsTableViewCell
-            
-            return cell
-        } else {
+//        if indexPath.row == 0 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "albom cell", for: indexPath) as! AlbomsTableViewCell
+//
+//            return cell
+//        } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "all photos", for: indexPath) as! AllPhotosTableViewCell
             
             return cell
-        }
+//        }
         
     }
 }

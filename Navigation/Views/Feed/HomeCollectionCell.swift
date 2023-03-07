@@ -15,7 +15,9 @@ class HomeCollectionCell: UICollectionViewCell {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collection.dataSource = self
         collection.delegate = self
-        collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cID")
+        collection.register(MainPostsCell.self, forCellWithReuseIdentifier: "cID")
+        collection.register(FilteredPostsCell.self, forCellWithReuseIdentifier: "fcID")
+
         return collection
     }()
     
@@ -23,7 +25,7 @@ class HomeCollectionCell: UICollectionViewCell {
         super.init(frame: frame)
         setLayers()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -39,17 +41,23 @@ class HomeCollectionCell: UICollectionViewCell {
 extension HomeCollectionCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
          func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-             postArray.count
+             maryAccount.posts.count
         }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath)
-        cell.backgroundColor = .red
-        return cell
+        if indexPath.row == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MainPostsCell
+            cell.setup(with: maryAccount.posts, index: indexPath.row)
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "fcID", for: indexPath) as! FilteredPostsCell
+            cell.setup(with: maryAccount.posts, index: indexPath.row)
+            return cell
+        }
     }
     
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: frame.width, height: 200)
+            return CGSize(width: frame.width, height: 400)
         }
     
     

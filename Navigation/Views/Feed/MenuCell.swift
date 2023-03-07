@@ -43,10 +43,7 @@ class MenuCell: UICollectionViewCell {
             make.height.equalTo(1)
         }
     }
-    
-    
-    
-    
+
     func setLabels(index: Int) {
         titleLabel.text = MenuCell.buttons[index]
        
