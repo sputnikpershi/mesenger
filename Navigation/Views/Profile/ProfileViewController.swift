@@ -16,7 +16,9 @@ class ProfileViewController: UIViewController {
     private var viewModel : ProfileViewModel?
     var postData = [PostData]()
     var originIndex = Int()
-    
+    var popupMenu = PopupMenu()
+    var sideMenu = SideMenu()
+
     // MARK: INIT
     
     init(viewModel: ProfileViewModel) {
@@ -31,10 +33,13 @@ class ProfileViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.dataSource = self
         collection.delegate = self
         collection.register(MainPostsCell.self, forCellWithReuseIdentifier: "cID")
+        collection.register(PhotosTableViewCell.self, forCellWithReuseIdentifier: "cpID")
+
         collection.register(HeaderCollection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollection.identifier)
         return collection
     }()
@@ -113,6 +118,8 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu2"), style: .plain, target: self, action: #selector(tapedRightMenuActionButton))
+        self.navigationController?.navigationBar.tintColor = .orange
 //        self.navigationController?.navigationBar.isHidden = true
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -128,20 +135,24 @@ class ProfileViewController: UIViewController {
         titleView.frame = CGRect(x: 0, y: 0, width: view.frame.width - 50, height: view.frame.height)
         navigationItem.titleView = titleView
         navigationController?.navigationBar.prefersLargeTitles = false
-
-//        title = "some"
     }
     
+    @objc func tapedRightMenuActionButton() {
+        sideMenu.view = self
+        sideMenu.showMenu()
+    }
+    
+    func setMenu () {
+        popupMenu.view = self
+        popupMenu.showSettings()
+    }
+    
+    @objc private func tapedBlackViewAction() {
+        }
+    
     private func setViews() {
-//        self.view.addSubview(self.tableView)
         self.view.addSubview(self.collectionView)
-//        self.view.addSubview(self.avaImage)
-//        self.view.addSubview(self.backButton)
-//
-//        self.avatarWidthConstant = self.avaImage.widthAnchor.constraint(equalToConstant: initialAvatarFrame.width)
-//        self.avatarHeightConstant = self.avaImage.heightAnchor.constraint(equalToConstant: initialAvatarFrame.height)
-//        self.avatarLeadingConstant = self.avaImage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: initialAvatarFrame.minX)
-//        self.avatarTopConstant = self.avaImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: initialAvatarFrame.minY)
+
     }
     
     private func setConstraints () {
@@ -150,25 +161,6 @@ class ProfileViewController: UIViewController {
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalToSuperview()
         }
-        NSLayoutConstraint.activate([
-//            self.collectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
-//            self.collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-//            self.collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-//            self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
-//            avatarTopConstant, avatarLeadingConstant, avatarWidthConstant, avatarHeightConstant,
-//
-//            self.backgroundView.topAnchor.constraint(equalTo: self.view.topAnchor),
-//            self.backgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-//            self.backgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-//            self.backgroundView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-//
-//            self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16),
-//            self.backButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
-//            self.backButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1),
-//            self.backButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1),
-//
-        ].compactMap({ $0 }))
     }
     
     func animateAvatar (ava: UIImageView) {
@@ -210,6 +202,12 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    func tapEditButton() {
+       let vc = EditMenuViewController()
+        vc.isFemale = true
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func logOutAction () {
         let userDefault = UserDefaults.standard
         print(" log out")
@@ -235,6 +233,7 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
                 return UICollectionReusableView()
             }
             header.setup(user: maryAccount )
+            header.profileVC = self
             return header
         }
         return UICollectionReusableView()
@@ -251,13 +250,30 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MainPostsCell
-        cell.setup(with: maryAccount.posts, index: indexPath.row)
-        return cell
+        if indexPath.row == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cpID", for: indexPath) as! PhotosTableViewCell
+            cell.setup(with: photosArray)
+            cell.buttonTapCallback = {
+                print("123")
+            }
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MainPostsCell
+            cell.profileVC = self
+            cell.setup(with: maryAccount.posts, index: indexPath.row)
+            return cell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 400)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            let vc = AlbomsViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 

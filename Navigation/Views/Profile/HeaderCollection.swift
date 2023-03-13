@@ -203,6 +203,7 @@ class HeaderCollection: UICollectionReusableView {
        self.addSubview(self.infoLabel)
        self.addSubview(self.profileButton)
 //       self.addSubview(nicknameLabel)
+
 //       self.addSubview(self.logOutButton)
        self.addSubview(self.numbrePost)
        self.addSubview(self.numbreFolowed)
@@ -236,12 +237,12 @@ class HeaderCollection: UICollectionReusableView {
        }
        
        nameLabel.snp.makeConstraints { make in
-           make.top.equalTo(self.avatarImage.snp.top).offset(10)
+           make.top.equalToSuperview().offset(16)
            make.leading.equalTo(self.avatarImage.snp.trailing).offset(16)
        }
        
        statusLabel.snp.makeConstraints { make in
-           make.top.equalTo(self.nameLabel.snp.bottom).offset(10)
+           make.top.equalTo(self.nameLabel.snp.bottom).offset(4)
            make.leading.equalTo(self.avatarImage.snp.trailing).offset(16)
            make.trailing.equalToSuperview()
        }
@@ -292,6 +293,8 @@ class HeaderCollection: UICollectionReusableView {
        noteButtonLabel.snp.makeConstraints { make in
            make.top.equalTo(noteButton.snp.bottom).offset(8)
            make.centerX.equalTo(noteButton.snp.centerX)
+           make.bottom.equalToSuperview().offset(-20)
+           
        }
        
        historyButton.snp.makeConstraints { make in
@@ -322,8 +325,8 @@ class HeaderCollection: UICollectionReusableView {
    }
    
     @objc func buttonPressed () {
-        let statusHelper = StatusHelper()
-            statusLabel.text = statusHelper.getStatus(text: statusText) ?? statusLabel.text
+        profileVC?.tapEditButton()
+        print("pressed")
     }
    
     @objc func statusTextChanged () {

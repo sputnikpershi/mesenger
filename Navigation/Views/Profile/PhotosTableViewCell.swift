@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PhotosTableViewCell: UITableViewCell {
+class PhotosTableViewCell: UICollectionViewCell {
 
     var buttonTapCallback: () -> ()  = { }
 
@@ -83,8 +83,10 @@ class PhotosTableViewCell: UITableViewCell {
         return stack
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+   
         self.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         contentView.addSubview(searchButton)
 

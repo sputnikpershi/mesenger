@@ -15,6 +15,7 @@ class MainPostsCell: UICollectionViewCell {
     let coreDataManager: CoreDataManager = CoreDataManager.shared
     var posts = [PostData]()
     var originaIndex = Int()
+    weak var profileVC : ProfileViewController?
     private var initialAvatarFrame = CGRect(x: 26, y: 16, width: 60, height: 60)
     
     private lazy var avatarImage : UIImageView = {
@@ -23,7 +24,6 @@ class MainPostsCell: UICollectionViewCell {
         avatar.clipsToBounds = true
         avatar.contentMode = .scaleAspectFill
         avatar.layer.cornerRadius = self.initialAvatarFrame.height/2
-        avatar.translatesAutoresizingMaskIntoConstraints = false
         avatar.isUserInteractionEnabled = true
         return avatar
     }()
@@ -38,7 +38,6 @@ class MainPostsCell: UICollectionViewCell {
     }()
     private lazy var authorProfLabel: UILabel = {
         let author = UILabel()
-      
         author.textColor = UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1)
         author.font = UIFont(name: "Inter-Regular", size: 14)
         author.numberOfLines = 2
@@ -85,6 +84,7 @@ class MainPostsCell: UICollectionViewCell {
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
+        button.addTarget(self, action: #selector(tapedMoreActionButton), for: .touchUpInside)
         return button
     }()
     
@@ -109,7 +109,6 @@ class MainPostsCell: UICollectionViewCell {
     private lazy var postImage: UIImageView = {
         let image = UIImageView ()
         image.contentMode = .scaleAspectFill
-        image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 15
         image.clipsToBounds = true
         image.isUserInteractionEnabled = true
@@ -176,6 +175,13 @@ class MainPostsCell: UICollectionViewCell {
         self.addSubview(favouriteButton)
     }
     
+    @objc func tapedMoreActionButton () {
+        // show menu
+        //show black background
+        profileVC?.setMenu()
+    }
+    
+    
     private func setConstraints () {
         
         avatarImage.snp.makeConstraints { make in
@@ -201,34 +207,35 @@ class MainPostsCell: UICollectionViewCell {
             make.width.equalTo(5)
         }
 
-        backgroundColorView.snp.makeConstraints { make in
-            make.top.equalTo(avatarImage.snp.bottom).offset(12)
-            make.leading.trailing.bottom.equalToSuperview()
-        }
-//
+//        backgroundColorView.snp.makeConstraints { make in
+//            make.top.equalTo(avatarImage.snp.bottom).offset(12)
+////            make.width.equalToSuperview()
+////            make.height.equalTo(400)
+//            make.leading.trailing.bottom.equalToSuperview()
+//        }
+////
         separatorVertical.snp.makeConstraints { make in
-            make.top.equalTo(backgroundColorView.snp.top).offset(20)
+            make.top.equalTo(avatarImage.snp.bottom).offset(20)
             make.width.equalTo(0.5)
-            make.leading.equalTo(backgroundColorView.snp.leading).offset(28)
-            make.bottom.equalTo(backgroundColorView.snp.bottom).offset(-69)
-
+            make.leading.equalToSuperview().offset(28)
+            make.bottom.equalToSuperview().offset(-69)
         }
 
         descriptionTextView.snp.makeConstraints { make in
-            make.top.equalTo(backgroundColorView.snp.top).offset(10)
-            make.leading.equalTo(backgroundColorView.snp.leading).offset(52)
-            make.trailing.equalTo(backgroundColorView.snp.trailing).offset(-15)
+            make.top.equalTo(avatarImage.snp.bottom).offset(22)
+            make.leading.equalToSuperview().offset(52)
+            make.width.equalTo(frame.width - 85 )
         }
 //
         showMoreButton.snp.makeConstraints { make in
-            make.top.equalTo(descriptionTextView.snp.bottom)
+            make.top.equalTo(descriptionTextView.snp.bottom).offset(4)
             make.leading.equalTo(separatorVertical.snp.trailing).offset(24)
         }
 
         postImage.snp.makeConstraints { make in
             make.top.equalTo(showMoreButton.snp.bottom).offset(10)
             make.leading.equalTo(separatorVertical.snp.trailing).offset(24)
-            make.trailing.equalTo(backgroundColorView.snp.trailing).offset(-24)
+            make.width.equalTo(self.frame.width - 85)
             make.height.equalTo(postImage.snp.width).multipliedBy(0.416)
         }
 
@@ -241,8 +248,8 @@ class MainPostsCell: UICollectionViewCell {
 
         likesButton.snp.makeConstraints { make in
             make.top.equalTo(separatorHorizontal.snp.bottom).offset(10)
-            make.leading.equalTo(backgroundColorView.snp.leading).offset(52)
-            make.bottom.equalTo(backgroundColorView.snp.bottom).offset(-18)
+            make.leading.equalToSuperview().offset(52)
+            make.bottom.equalToSuperview().offset(-18)
         }
         
         commentsButton.snp.makeConstraints { make in
@@ -278,13 +285,11 @@ class MainPostsCell: UICollectionViewCell {
         let indexPost = posts.firstIndex { post in
             post.descriptionLabel == self.descriptionTextView.text
         }
-        
         if let index = indexPost {
             self.isLiked = posts[index].isLiked
         } else {
             self.isLiked = false
         }
-        
         if isLiked {
             favouriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         } else {
