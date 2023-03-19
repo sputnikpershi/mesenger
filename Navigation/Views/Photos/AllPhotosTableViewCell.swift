@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class AllPhotosTableViewCell: UITableViewCell {
-    var numberItems  = 4
+    var numberItems  = 50
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()

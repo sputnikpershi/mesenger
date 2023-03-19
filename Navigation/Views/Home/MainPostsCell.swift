@@ -18,6 +18,12 @@ class MainPostsCell: UICollectionViewCell {
     weak var profileVC : ProfileViewController?
     private var initialAvatarFrame = CGRect(x: 26, y: 16, width: 60, height: 60)
     
+    private lazy var stackView: UIStackView = {
+        var stack = UIStackView()
+        stack.axis = .vertical
+        return stack
+    }()
+    
     private lazy var avatarImage : UIImageView = {
         let avatar = UIImageView()
         avatar.image = UIImage(named: "avatar")
@@ -160,6 +166,7 @@ class MainPostsCell: UICollectionViewCell {
     
     private func setViews () {
         self.posts = coreDataManager.posts
+        self.addSubview(stackView)
         self.addSubview(self.avatarImage)
         self.addSubview(self.authorLabel)
         self.addSubview(moreImageButton)

@@ -17,7 +17,7 @@ class ProfileViewController: UIViewController {
     var postData = [PostData]()
     var originIndex = Int()
     var popupMenu = PopupMenu()
-    var sideMenu = SideMenu()
+    var sideMenu = UIView()
 
     // MARK: INIT
     
@@ -29,43 +29,25 @@ class ProfileViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    private lazy var blackView : UIView = {
+        let view = UIView()
+        view.alpha = 0
+        view.backgroundColor = .black
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapedBlackViewAction)))
+        return view
+    }()
+
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.dataSource = self
         collection.delegate = self
         collection.register(MainPostsCell.self, forCellWithReuseIdentifier: "cID")
-        collection.register(PhotosTableViewCell.self, forCellWithReuseIdentifier: "cpID")
-
-        collection.register(HeaderCollection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollection.identifier)
+        collection.register(ProfileHeaderCollection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileHeaderCollection.identifier)
         return collection
     }()
-
-    
-//    private lazy var tableView: UITableView = {
-//        let table = UITableView (frame: .zero, style: .grouped)
-//        table.dataSource = self
-//        table.delegate = self
-//        table.dragInteractionEnabled = true
-//        table.dragDelegate = self
-//        table.dropDelegate = self
-//        table.rowHeight = UITableView.automaticDimension
-//        table.estimatedRowHeight = 140
-//        table.backgroundColor = .white
-//        table.separatorStyle = .none
-//
-//        table.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
-//        table.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosCell")
-//        table.register(PostTableViewCell.self, forCellReuseIdentifier: "CustomCell")
-//        table.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
-//        table.translatesAutoresizingMaskIntoConstraints = false
-//        return table
-//    } ()
-    
-    
     
     private lazy var avaImage: UIImageView = {
         let image = UIImageView()
@@ -85,6 +67,11 @@ class ProfileViewController: UIViewController {
         background.translatesAutoresizingMaskIntoConstraints = false
         return background
     } ()
+    
+//    private lazy var sideMenuView: SideMenuInfo = {
+//        let view = SideMenuInfo(frame: CGRect(x: self.view.frame.width, y: 0, width: 300, height: self.view.frame.height))
+//        return view
+//    }()
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
@@ -118,9 +105,9 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu2"), style: .plain, target: self, action: #selector(tapedRightMenuActionButton))
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu2"), style: .plain, target: self, action: #selector(tapedRightMenuActionButton))
         self.navigationController?.navigationBar.tintColor = .orange
-//        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = true
         DispatchQueue.main.async {
             self.collectionView.reloadData()
             print("reload ProfileVC")
@@ -138,8 +125,7 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func tapedRightMenuActionButton() {
-        sideMenu.view = self
-        sideMenu.showMenu()
+        print("menu")
     }
     
     func setMenu () {
@@ -147,19 +133,19 @@ class ProfileViewController: UIViewController {
         popupMenu.showSettings()
     }
     
-    @objc private func tapedBlackViewAction() {
-        }
     
     private func setViews() {
         self.view.addSubview(self.collectionView)
-
+        self.view.addSubview(blackView)
     }
     
     private func setConstraints () {
-        
         collectionView.snp.makeConstraints{ make in
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalToSuperview()
+        }
+        blackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -220,6 +206,35 @@ class ProfileViewController: UIViewController {
             userDefault.set(false, forKey: "hasLogedIn")
         }
     }
+    
+    func tapNEnu () {
+        let menu = SideMenuView(state: .moreInfoAction)
+        sideMenu = menu
+        self.sideMenu.frame = CGRect(x: self.view.frame.width, y: 0, width: 300, height: self.view.frame.height)
+        self.view.addSubview(sideMenu)
+        UIView.animate(withDuration: 0.4, delay: 0) {
+            self.sideMenu.frame = CGRect(x: self.view.frame.width - 300, y: 0, width: 300, height: self.view.frame.height)
+            self.blackView.alpha = 0.3
+        }
+    }
+    
+    @objc private func tapedBlackViewAction() {
+        UIView.animate(withDuration: 0.4, delay: 0) {
+            self.blackView.alpha = 0
+            self.sideMenu.frame = CGRect(x: self.view.frame.width, y: 0, width: 300, height: self.view.frame.height)
+        }
+    }
+    
+    func tapMenu () {
+        let menu = SideMenuView(state: .menuAction)
+        sideMenu = menu
+        self.sideMenu.frame = CGRect(x: self.view.frame.width, y: 0, width: 300, height: self.view.frame.height)
+        self.view.addSubview(sideMenu)
+        UIView.animate(withDuration: 0.4, delay: 0) {
+            self.sideMenu.frame = CGRect(x: self.view.frame.width - 300, y: 0, width: 300, height: self.view.frame.height)
+            self.blackView.alpha = 0.3
+        }
+    }
 }
 
 
@@ -229,7 +244,7 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderCollection.identifier, for: indexPath) as? HeaderCollection else {
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeaderCollection.identifier, for: indexPath) as? ProfileHeaderCollection else {
                 return UICollectionReusableView()
             }
             header.setup(user: maryAccount )
@@ -241,7 +256,7 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 320)
+        return CGSize(width: view.frame.width, height: 540)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -250,30 +265,29 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cpID", for: indexPath) as! PhotosTableViewCell
-            cell.setup(with: photosArray)
-            cell.buttonTapCallback = {
-                print("123")
-            }
-            return cell
-        } else {
+//        if indexPath.row == 0 {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cpID", for: indexPath) as! PhotosTableViewCell
+//            cell.setup(with: photosArray)
+//            cell.buttonTapCallback = {
+//                print("123")
+//            }
+//            return cell
+//        } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MainPostsCell
             cell.profileVC = self
             cell.setup(with: maryAccount.posts, index: indexPath.row)
             return cell
-        }
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 400)
+        return CGSize(width: view.frame.width, height: 450)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            let vc = AlbomsViewController()
+            let vc = PostViewController()
             navigationController?.pushViewController(vc, animated: true)
-        }
+        print("selected")
     }
 }
 

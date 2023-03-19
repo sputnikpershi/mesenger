@@ -64,13 +64,13 @@ extension PopupMenu: UICollectionViewDelegate,UICollectionViewDataSource, UIColl
         return cell
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 41)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
+        
         tapedBlackViewAction()
         UIView.animate(withDuration: 0.3) {
             self.view?.navigationController?.pushViewController(LikeViewController(), animated: true)

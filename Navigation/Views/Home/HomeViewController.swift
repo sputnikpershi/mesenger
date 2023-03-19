@@ -10,6 +10,7 @@ import UIKit
 
 class HomeViewController: UICollectionViewController {
     
+    
     lazy var menuBar : MenuBar = {
         let menu = MenuBar()
         menu.homeVC = self
@@ -83,6 +84,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! HomeCollectionCell
+        cell.homeVC = self
         return cell
     }
     
@@ -93,7 +95,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let x = Int(Float(targetContentOffset.pointee.x)/Float(scrollView.frame.size.width))
-        print("000000000 \(x)")
         menuBar.collectionView.selectItem(at: IndexPath(row: x, section: 0), animated: true, scrollPosition: .left)
         
         
@@ -103,6 +104,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         collectionView.scrollToItem(at: IndexPath(row: menuIndex, section: 0), at: .left , animated: true)
     }
     
+   
     
     
 }

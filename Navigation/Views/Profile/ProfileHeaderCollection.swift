@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HeaderCollection: UICollectionReusableView {
+class ProfileHeaderCollection: UICollectionReusableView {
     static let identifier =  "HeaderCollection"
     private var initialAvatarFrame = CGRect(x: 16, y: 48, width: 60, height: 60)
     var user : User?
@@ -15,6 +15,9 @@ class HeaderCollection: UICollectionReusableView {
     weak var profileVC : ProfileViewController?
     weak var viewModel: ProfileViewModel?
     private var widthFrame = (UIScreen.main.bounds.size.width/3)
+//    weak var delegate: SideMenuDelegate?
+//    var containerVC: ContainerMenuVC?
+
     
     private lazy var avatarImage : UIImageView = {
         let avatar = UIImageView()
@@ -30,6 +33,7 @@ class HeaderCollection: UICollectionReusableView {
     private lazy var nicknameLabel: UILabel = {
         let name = UILabel(frame: CGRect(x: 0, y: 0, width: 0 , height: 0 ))
         name.font = UIFont(name: "Inter-Medium", size: 16)
+        name.text = "mary_golysheva"
         name.textColor = UIColor(red: 0.149, green: 0.196, blue: 0.22, alpha: 1)
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
@@ -62,6 +66,7 @@ class HeaderCollection: UICollectionReusableView {
         button.setTitleColor(.black, for: .normal)
         button.contentHorizontalAlignment = .leading
         button.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14)
+        button.addTarget(self, action: #selector(didTapInfoLabel), for: .touchUpInside)
         return button
     }()
     
@@ -87,13 +92,11 @@ class HeaderCollection: UICollectionReusableView {
         return button
     }()
     
-    private lazy var logOutButton: UIButton = {
+    private lazy var menuButton: UIButton = {
         let button = UIButton()
-        button.setTitleColor(UIColor.createColor(lightMode: .black, darkMode: .white), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 12)
-        let localizationText = NSLocalizedString("profile-logout-button", comment: "")
-        button.setTitle(localizationText, for: .normal)
-        button.addTarget(self, action: #selector(logOutAction), for: .touchUpInside)
+        button.setTitleColor(.orange, for: .normal)
+        button.setImage(UIImage(named: "menu2"), for: .normal)
+        button.addTarget(self, action: #selector(didTapMenuAction), for: .touchUpInside)
         return  button
     }()
     
@@ -170,13 +173,18 @@ class HeaderCollection: UICollectionReusableView {
         return label
     } ()
     
+    private lazy var photosView: PhotosView = {
+        let view = PhotosView()
+//        view.setup(with: <#T##[UIImage]#>)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapPhotoView)))
+        return view
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setViews()
         setConstraints()
         setGestureRecornizer()
-        backgroundColor = .systemBlue
     }
     
     required init?(coder: NSCoder) {
@@ -202,9 +210,8 @@ class HeaderCollection: UICollectionReusableView {
        self.addSubview(self.viewTF)
        self.addSubview(self.infoLabel)
        self.addSubview(self.profileButton)
-//       self.addSubview(nicknameLabel)
-
-//       self.addSubview(self.logOutButton)
+       self.addSubview(nicknameLabel)
+       self.addSubview(self.menuButton)
        self.addSubview(self.numbrePost)
        self.addSubview(self.numbreFolowed)
        self.addSubview(self.numberFolowers)
@@ -215,29 +222,31 @@ class HeaderCollection: UICollectionReusableView {
        self.addSubview(self.noteButtonLabel)
        self.addSubview(self.historyButtonLabel)
        self.addSubview(self.photoButtonLabel)
+       self.addSubview(self.photosView)
    }
 
    
    private func setConstraints () {
-   
-//       logOutButton.snp.makeConstraints { make in
-//           make.top.equalTo(self.snp.top).offset(16)
-//           make.trailing.equalToSuperview().offset(-16)
-//       }
 
-//       nicknameLabel.snp.makeConstraints { make in
-//           make.top.equalTo(self.snp.top).offset(16)
-//           make.leading.equalToSuperview().offset(26)
-//       }
+
+       nicknameLabel.snp.makeConstraints { make in
+           make.top.equalTo(self.snp.top).offset(8)
+           make.leading.equalToSuperview().offset(16)
+       }
+       
+           menuButton.snp.makeConstraints { make in
+               make.top.equalTo(self.snp.top).offset(8)
+               make.trailing.equalToSuperview().offset(-16)
+           }
        
        avatarImage.snp.makeConstraints { make in
-           make.top.equalToSuperview().offset(16)
+           make.top.equalTo(nicknameLabel.snp.bottom).offset(16)
            make.leading.equalToSuperview().offset(16)
            make.width.height.equalTo(60)
        }
        
        nameLabel.snp.makeConstraints { make in
-           make.top.equalToSuperview().offset(16)
+           make.top.equalTo(nicknameLabel.snp.bottom).offset(16)
            make.leading.equalTo(self.avatarImage.snp.trailing).offset(16)
        }
        
@@ -293,7 +302,6 @@ class HeaderCollection: UICollectionReusableView {
        noteButtonLabel.snp.makeConstraints { make in
            make.top.equalTo(noteButton.snp.bottom).offset(8)
            make.centerX.equalTo(noteButton.snp.centerX)
-           make.bottom.equalToSuperview().offset(-20)
            
        }
        
@@ -322,6 +330,13 @@ class HeaderCollection: UICollectionReusableView {
            make.top.equalTo(photoButton.snp.bottom).offset(8)
            make.centerX.equalTo(photoButton.snp.centerX)
        }
+       
+       photosView.snp.makeConstraints { make in
+           make.top.equalTo(noteButtonLabel.snp.bottom).offset(16)
+           make.leading.trailing.equalToSuperview()
+           make.height.equalTo(180)
+           make.bottom.equalToSuperview().offset(-20)
+       }
    }
    
     @objc func buttonPressed () {
@@ -329,8 +344,12 @@ class HeaderCollection: UICollectionReusableView {
         print("pressed")
     }
    
-    @objc func statusTextChanged () {
+    @objc func didTapInfoLabel () {
+        
+        profileVC?.tapNEnu()
+        
     }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
@@ -346,6 +365,10 @@ class HeaderCollection: UICollectionReusableView {
         self.profileVC?.animateAvatar(ava: self.avatarImage)
    }
    
+    @objc func didTapPhotoView() {
+        print("123")
+        self.profileVC?.navigationController?.pushViewController(AlbomsViewController(), animated: true)
+    }
    
    func animateImageView () {
        let backView = UIView()
@@ -357,7 +380,10 @@ class HeaderCollection: UICollectionReusableView {
        self.addSubview(backView)
    }
    
-  @objc func logOutAction () {
-      self.profileVC?.logOutAction()
+  @objc func didTapMenuAction () {
+      print("123")
+      
+      profileVC?.tapMenu()
+//      delegate?.didTapMenuButton()
    }
 }

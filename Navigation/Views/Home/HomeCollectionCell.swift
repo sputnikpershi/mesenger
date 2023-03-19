@@ -10,6 +10,8 @@ import SnapKit
 
 class HomeCollectionCell: UICollectionViewCell {
     
+    var homeVC : HomeViewController?
+    
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
@@ -59,6 +61,11 @@ extension HomeCollectionCell: UICollectionViewDelegate, UICollectionViewDataSour
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
             return CGSize(width: frame.width, height: 400)
         }
-    
+     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let vc = PostViewController()
+         homeVC?.navigationController?.pushViewController(vc, animated: true)
+         
+        print("selected")
+    }
     
 }
