@@ -11,7 +11,8 @@ import SnapKit
 class PhotosView: UIView {
 
     var buttonTapCallback: () -> ()  = { }
-    
+    weak var viewModel: ProfileViewModel?
+
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -40,18 +41,15 @@ class PhotosView: UIView {
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
     }()
-    
-
-   
-    
-    private lazy var tableTitleLabel : UILabel = {
+  
+     lazy var tableTitleLabel : UILabel = {
         let label = UILabel()
         label.text = "Мои записи"
         label.font = UIFont(name: "Inter-Regular", size: 14)
         return label
     } ()
     
-    private lazy var searchButton : UIButton = {
+     lazy var searchButton : UIButton = {
         let button = UIButton()
         button.isUserInteractionEnabled = true
         button.addTarget(self, action: #selector(searchTapAction), for: .touchUpInside)
@@ -68,9 +66,7 @@ class PhotosView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-   
         self.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
-
         setViews()
         setConstraints()
     }

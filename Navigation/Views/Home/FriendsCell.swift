@@ -9,7 +9,8 @@ import UIKit
 
 class FriendsCell: UICollectionViewCell {
 
-    
+    weak var viewModel: ProfileViewModel?
+
      var friendImage: UIImageView = {
         let image = UIImageView()
          image.layer.cornerRadius = 30
@@ -30,8 +31,8 @@ class FriendsCell: UICollectionViewCell {
         }
     }
 
-    func setLabels(index: Int) {
-        friendImage.image = UIImage(named:maryAccount.friends[index].avatar )
+    func setLabels(friends: [FriendProfile]?, index: Int) {
+        friendImage.image = friends?[index].account.avatar!
     }
     
     required init?(coder: NSCoder) {

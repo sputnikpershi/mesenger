@@ -7,8 +7,14 @@
 
 import UIKit
 
+enum SideMenuState {
+    case opened
+    case closed
+}
+
+
 class SideMenuView: UIView {
-    let blackView = UIView()
+//    let blackView = UIView()
     var view : UIViewController?
     var state: StateMenu?
     
@@ -172,8 +178,17 @@ class SideMenuView: UIView {
 //        }    }
     
     @objc func didTapBackButtonAction() {
+            self.removeFromSuperview()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+//        (self.view?.view.viewWithTag(99)?.alpha = 0)
+//            print("Tag 100")
+//            viewWithTag.removeFromSuperview()
+//        self.removeFromSuperview()
+//        self.view?.removeFromParent()
+        }
+//        view?.removeFromParent()
+    
         
-    }
 }
 
 

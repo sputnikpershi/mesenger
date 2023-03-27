@@ -9,7 +9,7 @@ import UIKit
 
 struct Photos {
     var image: String
-}
+    }
 
  enum Constants {
     static let numberOfItemsInLine : CGFloat = 3

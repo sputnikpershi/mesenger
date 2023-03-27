@@ -163,4 +163,15 @@ class PostHeader: UICollectionReusableView {
             make.bottom.equalToSuperview().offset(-18)
         }
     }
+    
+    
+    func setPost(post: AccountPosts, account: Account) {
+        avatarImage.image = account.avatar
+        nickNameLabel.text = account.nickname
+        authorProfLabel.text = account.status
+        postImage.image = post.image
+        postText.text = post.descriptionLabel
+        likesButton.setTitle(" \(post.likes)", for: .normal)
+        commentsButton.setTitle(" \(post.comments.count)", for: .normal)
+    }
 }

@@ -18,26 +18,20 @@ class ProfileViewController: UIViewController {
     var originIndex = Int()
     var popupMenu = PopupMenu()
     var sideMenu = UIView()
-
-    // MARK: INIT
+    var isMainProfile: Bool?
+    var moreInfoActionState : SideMenuState = .closed
+    var menuActionState : SideMenuState = .closed
     
-    init(viewModel: ProfileViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     private lazy var blackView : UIView = {
         let view = UIView()
         view.alpha = 0
+        view.tag = 99
         view.backgroundColor = .black
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapedBlackViewAction)))
         return view
     }()
-
+    
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -45,14 +39,13 @@ class ProfileViewController: UIViewController {
         collection.dataSource = self
         collection.delegate = self
         collection.register(MainPostsCell.self, forCellWithReuseIdentifier: "cID")
-        collection.register(ProfileHeaderCollection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileHeaderCollection.identifier)
         return collection
     }()
     
     private lazy var avaImage: UIImageView = {
         let image = UIImageView()
         image.alpha = 0
-        image.image = viewModel?.user.image
+        //        image.image = UIImage(named: viewModel?.account.avatar!)
         image.translatesAutoresizingMaskIntoConstraints = false
         image.isUserInteractionEnabled = true
         image.clipsToBounds = true
@@ -67,11 +60,6 @@ class ProfileViewController: UIViewController {
         background.translatesAutoresizingMaskIntoConstraints = false
         return background
     } ()
-    
-//    private lazy var sideMenuView: SideMenuInfo = {
-//        let view = SideMenuInfo(frame: CGRect(x: self.view.frame.width, y: 0, width: 300, height: self.view.frame.height))
-//        return view
-//    }()
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
@@ -92,31 +80,58 @@ class ProfileViewController: UIViewController {
     private var avatarLeadingConstant :NSLayoutConstraint?
     private var avatarTopConstant :NSLayoutConstraint?
     
+    // MARK: INIT
+    
+    init(viewModel: ProfileViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
     // MARK: VIEWDIDLOAD
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .secondarySystemBackground
         self.tabBarController?.tabBar.backgroundColor = .secondarySystemBackground
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
+        setNavigation()
         setViews()
         setConstraints()
-        setNavigation()
+        
+        if isMainProfile! {
+            collectionView.register(ProfileHeaderCollection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileHeaderCollection.identifier)
+        } else {
+            collectionView.register(FriendProfileHeaderCollection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FriendProfileHeaderCollection.identifier)
+        }
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu2"), style: .plain, target: self, action: #selector(tapedRightMenuActionButton))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu2"), style: .plain, target: self, action: #selector(tapedRightMenuActionButton))
         self.navigationController?.navigationBar.tintColor = .orange
-        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = false
         DispatchQueue.main.async {
             self.collectionView.reloadData()
             print("reload ProfileVC")
         }
     }
     
+    @objc func loadList(notification: NSNotification){
+        self.blackView.alpha = 0
+        moreInfoActionState = .closed
+        menuActionState = .closed
+    }
+    
     private func setNavigation() {
         let titleView = UILabel()
-        titleView.text = maryAccount.nickname
+        titleView.text = viewModel?.account.nickname
         titleView.textColor = .black
         titleView.font = UIFont(name: "Inter-Medium", size: 16)
         titleView.frame = CGRect(x: 0, y: 0, width: view.frame.width - 50, height: view.frame.height)
@@ -125,7 +140,7 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func tapedRightMenuActionButton() {
-        print("menu")
+        tapMenu()
     }
     
     func setMenu () {
@@ -142,7 +157,7 @@ class ProfileViewController: UIViewController {
     private func setConstraints () {
         collectionView.snp.makeConstraints{ make in
             make.leading.trailing.bottom.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
         }
         blackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -189,7 +204,7 @@ class ProfileViewController: UIViewController {
     }
     
     func tapEditButton() {
-       let vc = EditMenuViewController()
+        let vc = EditMenuViewController()
         vc.isFemale = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -207,32 +222,52 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func tapNEnu () {
-        let menu = SideMenuView(state: .moreInfoAction)
-        sideMenu = menu
-        self.sideMenu.frame = CGRect(x: self.view.frame.width, y: 0, width: 300, height: self.view.frame.height)
-        self.view.addSubview(sideMenu)
-        UIView.animate(withDuration: 0.4, delay: 0) {
-            self.sideMenu.frame = CGRect(x: self.view.frame.width - 300, y: 0, width: 300, height: self.view.frame.height)
-            self.blackView.alpha = 0.3
+    func tapInfo () {
+        if moreInfoActionState == .closed {
+            createSideMenu(state: .moreInfoAction)
+            moreInfoActionState = .opened
+        } else {
+            removeSideMenu()
+            moreInfoActionState = .closed
         }
     }
     
     @objc private func tapedBlackViewAction() {
-        UIView.animate(withDuration: 0.4, delay: 0) {
-            self.blackView.alpha = 0
-            self.sideMenu.frame = CGRect(x: self.view.frame.width, y: 0, width: 300, height: self.view.frame.height)
-        }
+        removeSideMenu ()
+        self.moreInfoActionState = .closed
+        self.menuActionState = .closed
+        
     }
     
     func tapMenu () {
-        let menu = SideMenuView(state: .menuAction)
+        if menuActionState == .closed && moreInfoActionState == .opened {
+            removeSideMenu ()
+            moreInfoActionState = .closed
+        } else if menuActionState == .closed {
+            createSideMenu (state: .menuAction)
+            menuActionState = .opened
+        } else {
+            removeSideMenu()
+            menuActionState = .closed
+        }
+    }
+    
+    func createSideMenu (state: StateMenu) {
+        let menu = SideMenuView(state: state)
+        menu.viewWithTag(100)
+        menu.view = self
         sideMenu = menu
         self.sideMenu.frame = CGRect(x: self.view.frame.width, y: 0, width: 300, height: self.view.frame.height)
-        self.view.addSubview(sideMenu)
+        self.navigationController?.view.addSubview(sideMenu)
         UIView.animate(withDuration: 0.4, delay: 0) {
             self.sideMenu.frame = CGRect(x: self.view.frame.width - 300, y: 0, width: 300, height: self.view.frame.height)
             self.blackView.alpha = 0.3
+        }
+    }
+    func removeSideMenu () {
+        UIView.animate(withDuration: 0.4, delay: 0) {
+            self.blackView.alpha = 0
+            self.sideMenu.frame = CGRect(x: self.view.frame.width, y: 0, width: 300, height: self.view.frame.height)
         }
     }
 }
@@ -240,54 +275,82 @@ class ProfileViewController: UIViewController {
 
 
 extension ProfileViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeaderCollection.identifier, for: indexPath) as? ProfileHeaderCollection else {
-                return UICollectionReusableView()
+            if isMainProfile! {
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeaderCollection.identifier, for: indexPath) as? ProfileHeaderCollection else {
+                    return UICollectionReusableView()
+                }
+                header.setup(user: (viewModel?.account)!)
+                header.profileVC = self
+                header.viewModel = viewModel
+                return header
+            } else {
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FriendProfileHeaderCollection.identifier, for: indexPath) as? FriendProfileHeaderCollection else {
+                    return UICollectionReusableView()
+                }
+                header.setup(friends: (viewModel?.friends)!)
+                header.profileVC = self
+                header.viewModel = viewModel
+                return header
             }
-            header.setup(user: maryAccount )
-            header.profileVC = self
-            return header
+            //            header.isMainProfile = false
         }
         return UICollectionReusableView()
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 540)
+        
+        if isMainProfile!{
+            return (CGSize(width: collectionView.frame.width, height: 500))
+        } else {
+            return (CGSize(width: collectionView.frame.width, height: 440))
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        maryAccount.posts.count
+        viewModel?.account.posts.count ?? 0
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        if indexPath.row == 0 {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cpID", for: indexPath) as! PhotosTableViewCell
-//            cell.setup(with: photosArray)
-//            cell.buttonTapCallback = {
-//                print("123")
-//            }
-//            return cell
-//        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MainPostsCell
-            cell.profileVC = self
-            cell.setup(with: maryAccount.posts, index: indexPath.row)
-            return cell
-//        }
+        //        if indexPath.row == 0 {
+        //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cpID", for: indexPath) as! PhotosTableViewCell
+        //            cell.setup(with: photosArray)
+        //            cell.buttonTapCallback = {
+        //                print("            self.collectionView.reloadData()
+//")
+        //            }
+        //            return cell
+        //        } else {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MainPostsCell
+        cell.profileVC = self
+        cell.postArray = viewModel?.account.posts
+        cell.index = indexPath.row
+        
+        viewModel?.account.posts[indexPath.row].authorLabel = (viewModel?.account.name)! +  " " + (viewModel?.account.surname)!
+        viewModel?.account.posts[indexPath.row].statusLabel = viewModel?.account.status
+        viewModel?.account.posts[indexPath.row].authorImage = viewModel?.account.avatar
+
+
+        cell.setup(with: viewModel?.account.posts ?? [], index: indexPath.row, account: viewModel?.account)
+        return cell
+        //        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 450)
+        return CGSize(width: view.frame.width, height: 400)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let vc = PostViewController()
-            navigationController?.pushViewController(vc, animated: true)
+        //        let coments = viewModel?.account.posts[indexPath.row].comments
+        let vc = PostViewController(viewModel: viewModel!, indexPost: indexPath.row)
+        vc.profileVC = self
+        vc.indexPost = indexPath.row
+        navigationController?.pushViewController(vc, animated: true)
         print("selected")
+        
     }
 }
 

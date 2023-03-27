@@ -19,6 +19,10 @@
 
 
 "profile-status-button" = "Edit";
+"profile-call-button" = "Call";
+"profile-message-button" = "Chat";
+
+
 "profile-photo-title" = "Photo";
 "profile-logout-button" = "X";
 "gallery-title" = "Photo Gallery";

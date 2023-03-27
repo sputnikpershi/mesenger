@@ -10,8 +10,9 @@ import UIKit
 class ProfileTabCoordinator: Coordinator {
     var rootViewController = UINavigationController()
     var firstLogin = false
-    let user = User(login: "test", fullName: "golysheva_mary", image: UIImage(named: "avatar")!, status: "Я тебя тестирую на наличие багов")
-    
+    let account = profileMary.account
+    let friends = profileMary.friends
+
     
     enum Event {
         case tapLoginButton
@@ -38,10 +39,13 @@ class ProfileTabCoordinator: Coordinator {
     
     
     func start () {
-        let profileVM = ProfileViewModel(user: user)
+        
+        let profileVM = ProfileViewModel(account: account, friends: friends)
+        let profileVC = ProfileViewController(viewModel: profileVM)
+        profileVC.isMainProfile = true
 //        let userDefault = UserDefaults.standard
         //        if userDefault.bool(forKey: "hasLogedIn")  { //Auth.auth().currentUser == nil
-        rootViewController = UINavigationController(rootViewController:   ProfileViewController(viewModel: profileVM))
+        rootViewController = UINavigationController(rootViewController:  profileVC )
         //        }
         //        else {
         //            rootViewController = UINavigationController(rootViewController: LogInViewController())        }

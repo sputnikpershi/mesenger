@@ -10,18 +10,20 @@ import UIKit
 class ProfileHeaderCollection: UICollectionReusableView {
     static let identifier =  "HeaderCollection"
     private var initialAvatarFrame = CGRect(x: 16, y: 48, width: 60, height: 60)
-    var user : User?
+    var user : Account?
     private var statusText = ""
     weak var profileVC : ProfileViewController?
     weak var viewModel: ProfileViewModel?
     private var widthFrame = (UIScreen.main.bounds.size.width/3)
+
+//    private var widthFrame = (UIScreen.main.bounds.size.width/3)
 //    weak var delegate: SideMenuDelegate?
 //    var containerVC: ContainerMenuVC?
 
     
     private lazy var avatarImage : UIImageView = {
         let avatar = UIImageView()
-        avatar.image = user?.image
+        avatar.image = viewModel?.account.avatar
         avatar.clipsToBounds = true
         avatar.contentMode = .scaleAspectFill
         avatar.layer.cornerRadius = self.initialAvatarFrame.height/2
@@ -33,21 +35,18 @@ class ProfileHeaderCollection: UICollectionReusableView {
     private lazy var nicknameLabel: UILabel = {
         let name = UILabel(frame: CGRect(x: 0, y: 0, width: 0 , height: 0 ))
         name.font = UIFont(name: "Inter-Medium", size: 16)
-        name.text = "mary_golysheva"
         name.textColor = UIColor(red: 0.149, green: 0.196, blue: 0.22, alpha: 1)
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
     }()
     
     private lazy var nameLabel: UILabel = {
-        let name = UILabel(frame: CGRect(x: 0, y: 0, width: 0 , height: 0 ))
+        let name = UILabel()
         name.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         name.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
     }()
-    
-    
     
     private lazy var statusLabel : UILabel = {
         let status = UILabel(frame: .zero)
@@ -85,7 +84,6 @@ class ProfileHeaderCollection: UICollectionReusableView {
         button.backgroundColor = .orange
         let localizationText = NSLocalizedString("profile-status-button", comment: "")
         button.setTitle(localizationText, for: .normal)
-
         button.layer.cornerRadius = 4
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -100,7 +98,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
         return  button
     }()
     
-    private lazy var numbrePost : UILabel = {
+    private lazy var numberPost : UILabel = {
         let label = UILabel()
         label.text = "200 \nпубликаций"
         label.textColor = UIColor(red: 1, green: 0.62, blue: 0.271, alpha: 1)
@@ -110,7 +108,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
         return label
     } ()
     
-    private lazy var numbreFolowed : UILabel = {
+    private lazy var numberFolowed : UILabel = {
         let label = UILabel()
         label.text = "200 \nподписок"
         label.textColor = UIColor(red: 1, green: 0.62, blue: 0.271, alpha: 1)
@@ -175,13 +173,13 @@ class ProfileHeaderCollection: UICollectionReusableView {
     
     private lazy var photosView: PhotosView = {
         let view = PhotosView()
-//        view.setup(with: <#T##[UIImage]#>)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapPhotoView)))
         return view
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+//        nicknameLabel.text = viewModel?.account.nickname
         setViews()
         setConstraints()
         setGestureRecornizer()
@@ -197,23 +195,24 @@ class ProfileHeaderCollection: UICollectionReusableView {
     
     func setup (user: Account) {
         nameLabel.text = "\(user.name) \(user.surname)"
-        avatarImage.image = UIImage(named: user.avatar)
-//        nicknameLabel.text = user.nickname
-        statusLabel.text = user.status
-        widthFrame = self.frame.width
+        avatarImage.image = viewModel?.account.avatar
+        numberFolowed.text = "\(viewModel?.friends?.count ?? 0) \nподписок"
+        numberFolowers.text = "\(viewModel?.friends?.count ?? 0) \nподписчиков"
+        numberPost.text = "\(user.posts.count) \nпубликаций"
+        statusLabel.text = viewModel?.account.status
+//        widthFrame = self.frame.width
    }
    
    private func setViews () {
        self.addSubview(self.avatarImage)
        self.addSubview(nameLabel)
        self.addSubview(statusLabel)
-       self.addSubview(self.viewTF)
        self.addSubview(self.infoLabel)
        self.addSubview(self.profileButton)
-       self.addSubview(nicknameLabel)
-       self.addSubview(self.menuButton)
-       self.addSubview(self.numbrePost)
-       self.addSubview(self.numbreFolowed)
+//       self.addSubview(nicknameLabel)
+//       self.addSubview(self.menuButton)
+       self.addSubview(self.numberPost)
+       self.addSubview(self.numberFolowed)
        self.addSubview(self.numberFolowers)
        self.addSubview(self.separator)
        self.addSubview(self.noteButton)
@@ -229,36 +228,39 @@ class ProfileHeaderCollection: UICollectionReusableView {
    private func setConstraints () {
 
 
-       nicknameLabel.snp.makeConstraints { make in
-           make.top.equalTo(self.snp.top).offset(8)
-           make.leading.equalToSuperview().offset(16)
-       }
-       
-           menuButton.snp.makeConstraints { make in
-               make.top.equalTo(self.snp.top).offset(8)
-               make.trailing.equalToSuperview().offset(-16)
-           }
+//       nicknameLabel.snp.makeConstraints { make in
+//           make.top.equalTo(self.snp.top).offset(8)
+//           make.leading.equalToSuperview().offset(16)
+//       }
+//
+//           menuButton.snp.makeConstraints { make in
+//               make.top.equalTo(self.snp.top).offset(8)
+//               make.trailing.equalToSuperview().offset(-16)
+//           }
        
        avatarImage.snp.makeConstraints { make in
-           make.top.equalTo(nicknameLabel.snp.bottom).offset(16)
+//           make.top.equalTo(nicknameLabel.snp.bottom).offset(16)
+           make.top.equalToSuperview().offset(16)
            make.leading.equalToSuperview().offset(16)
            make.width.height.equalTo(60)
        }
        
        nameLabel.snp.makeConstraints { make in
-           make.top.equalTo(nicknameLabel.snp.bottom).offset(16)
+//           make.top.equalTo(nicknameLabel.snp.bottom).offset(16)
+           make.top.equalToSuperview().offset(16)
            make.leading.equalTo(self.avatarImage.snp.trailing).offset(16)
+           make.trailing.equalToSuperview().offset(-16)
        }
        
        statusLabel.snp.makeConstraints { make in
            make.top.equalTo(self.nameLabel.snp.bottom).offset(4)
            make.leading.equalTo(self.avatarImage.snp.trailing).offset(16)
-           make.trailing.equalToSuperview()
+           make.trailing.equalToSuperview().offset(-16)
        }
        infoLabel.snp.makeConstraints { make in
            make.top.equalTo(self.statusLabel.snp.bottom).offset(8)
            make.leading.equalTo(self.avatarImage.snp.trailing).offset(16)
-           make.trailing.equalTo(self.snp.trailing).inset(16)
+           make.trailing.equalToSuperview().offset(-16)
        }
        profileButton.snp.makeConstraints { make in
            make.top.equalTo(self.infoLabel.snp.bottom).offset(16)
@@ -267,26 +269,27 @@ class ProfileHeaderCollection: UICollectionReusableView {
            make.width.equalToSuperview().offset(-32)
        }
        
-       numbrePost.snp.makeConstraints { make in
+       numberPost.snp.makeConstraints { make in
            make.top.equalTo(self.profileButton.snp.bottom).offset(20)
            make.leading.equalToSuperview().offset(16)
            make.width.equalTo(widthFrame)
        }
        
-       numbreFolowed.snp.makeConstraints { make in
-           make.centerY.equalTo(self.numbrePost.snp.centerY)
+       numberFolowed.snp.makeConstraints { make in
+           make.centerY.equalTo(self.numberPost.snp.centerY)
            make.centerX.equalToSuperview()
            make.width.equalTo(widthFrame)
        }
        
        numberFolowers.snp.makeConstraints { make in
-           make.centerY.equalTo(self.numbrePost.snp.centerY)
+           make.centerY.equalTo(self.numberPost.snp.centerY)
            make.trailing.equalTo(self.snp.trailing).offset(-16)
            make.width.equalTo(widthFrame)
        }
        
+       
        separator.snp.makeConstraints { make in
-           make.top.equalTo(self.numbrePost.snp.bottom).offset(14)
+           make.top.equalTo(self.numberPost.snp.bottom).offset(14)
            make.width.equalToSuperview().offset(-32)
            make.centerX.equalToSuperview()
            make.height.equalTo(0.5)
@@ -294,9 +297,8 @@ class ProfileHeaderCollection: UICollectionReusableView {
        
        noteButton.snp.makeConstraints { make in
            make.top.equalTo(self.separator.snp.bottom).offset(16)
-           make.width.equalTo(24)
-           make.height.equalTo(24)
-           make.centerX.equalTo(numbrePost.snp.centerX)
+           make.width.height.equalTo(24)
+           make.centerX.equalTo(numberPost.snp.centerX)
        }
        
        noteButtonLabel.snp.makeConstraints { make in
@@ -307,15 +309,14 @@ class ProfileHeaderCollection: UICollectionReusableView {
        
        historyButton.snp.makeConstraints { make in
            make.centerY.equalTo(noteButton.snp.centerY)
-           make.width.equalTo(29)
-           make.height.equalTo(29)
+           make.width.height.equalTo(29)
+          
            make.centerX.equalToSuperview()
        }
        
        photoButton.snp.makeConstraints { make in
            make.centerY.equalTo(noteButton.snp.centerY)
-           make.width.equalTo(24)
-           make.height.equalTo(24)
+           make.width.height.equalTo(24)
            make.centerX.equalTo(numberFolowers.snp.centerX)
        }
        
@@ -346,7 +347,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
    
     @objc func didTapInfoLabel () {
         
-        profileVC?.tapNEnu()
+        profileVC?.tapInfo()
         
     }
     

@@ -321,8 +321,8 @@ class LogInViewController: UIViewController {
         print("Show account")
         loginTF.text = ""
         pswdTF.text = ""
-        let user = User(login: "test", fullName: "Кот Тестировщик", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
-        let profileVM = ProfileViewModel(user: user)
+        let account = profileMary
+        let profileVM = ProfileViewModel(account: account.account, friends: account.friends)
         navigationController?.pushViewController(ProfileViewController(viewModel: profileVM), animated: true)
     }
     

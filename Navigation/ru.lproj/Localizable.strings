@@ -16,6 +16,8 @@
 "alert-ok" = "Зарегистрировать";
 
 "profile-status-button" = "Редактировать";
+"profile-call-button" = "Позвонить";
+"profile-message-button" = "Сообщение";
 "profile-photo-title" = "Фотографии";
 "profile-logout-button" = "X";
 "gallery-title" = "Галерея";

@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class LIkeTableViewCell: UITableViewCell {
+class LIkeTableViewCell: UICollectionViewCell {
     
     weak var delegate : MyCellDelegate?
     var index : Int?
@@ -64,7 +64,7 @@ class LIkeTableViewCell: UITableViewCell {
         return likes
     }()
     
-    private lazy var viewsLabel: UILabel = {
+    private lazy var commentsLabel: UILabel = {
         let views = UILabel()
         views.text = "Views : "
         views.textAlignment = .right
@@ -81,12 +81,14 @@ class LIkeTableViewCell: UITableViewCell {
         return stack
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-       self.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
-        setViews()
-        setConstraints()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
+         setViews()
+         setConstraints()
     }
+   
     
     private func setViews () {
         
@@ -95,7 +97,7 @@ class LIkeTableViewCell: UITableViewCell {
         imageStackView.addArrangedSubview(self.postImage)
         self.addSubview(self.descriptionTextView)
         self.addSubview(self.likesLabel)
-        self.addSubview(self.viewsLabel)
+        self.addSubview(self.commentsLabel)
         self.addSubview(self.likeImage)
         
         
@@ -122,10 +124,10 @@ class LIkeTableViewCell: UITableViewCell {
             //            self.likesLabel.heightAnchor.constraint(equalToConstant: 40),
             self.likesLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
             
-            self.viewsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
-            self.viewsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            self.viewsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
-            self.viewsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
+            self.commentsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 16),
+            self.commentsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            self.commentsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
+            self.commentsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
         ])
         likeImage.snp.makeConstraints { make in
             make.trailing.equalTo(self.postImage.snp.trailing).offset(-8)
@@ -141,10 +143,10 @@ class LIkeTableViewCell: UITableViewCell {
     
     func setup(with viewModel: [PostData], index: Int) {
         self.authorLabel.text = viewModel[index].authorLabel
-        self.postImage.image = UIImage(named: viewModel[index].image ?? "")
-        self.descriptionTextView.text = viewModel[index].descriptionLabel
+//        self.postImage.image = UIImage(named: viewModel[index].postImage ?? "")
+        self.descriptionTextView.text = viewModel[index].descriptionPost
         self.likesLabel.text = "Likes : \(viewModel[index].likes)"
-        self.viewsLabel.text = "Views : \(viewModel[index].views)"
+        self.commentsLabel.text = "Views : \(viewModel[index].comments)"
         self.isLiked = viewModel[index].isLiked
         if viewModel[index].isLiked {
             self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -156,10 +158,10 @@ class LIkeTableViewCell: UITableViewCell {
     
     func setup(with post: PostData) {
         self.authorLabel.text = post.authorLabel
-        self.postImage.image = UIImage(named: post.image ?? "")
-        self.descriptionTextView.text = post.descriptionLabel
+//        self.postImage.image = UIImage(named: post.postImage ?? "")
+        self.descriptionTextView.text = post.descriptionPost
         self.likesLabel.text = "Likes : \(post.likes)"
-        self.viewsLabel.text = "Views : \(post.views)"
+        self.commentsLabel.text = "Views : \(post.comments)"
         self.isLiked = post.isLiked
         if post.isLiked {
             self.likeImage.setImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -170,7 +172,6 @@ class LIkeTableViewCell: UITableViewCell {
     
     
     @objc func likeActionTap () {
-        
         if let post {
             coreDataManager.persistentContainer.viewContext.delete(post)
             coreDataManager.saveContext()

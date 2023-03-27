@@ -83,19 +83,19 @@ class ServiceLogIn  {
         }
 }
 
-class User {
-    var login : String
-    var fullName: String
-    var image: UIImage
-    var status: String
-    
-    init(login: String, fullName: String, image: UIImage, status: String) {
-        self.login = login
-        self.fullName = fullName
-        self.image = image
-        self.status = status
-    }
-}
+//class User {
+//    var login : String
+//    var fullName: String
+//    var image: UIImage
+//    var status: String
+//    
+//    init(login: String, fullName: String, image: UIImage, status: String) {
+//        self.login = login
+//        self.fullName = fullName
+//        self.image = image
+//        self.status = status
+//    }
+//}
 
 
 class LocalAuthorizationService {
@@ -112,8 +112,8 @@ class LocalAuthorizationService {
                         authorizationFinished(.failure(error!))
                         return
                     }
-                    let user = User(login: "test", fullName: "Кот Тестировщик", image: UIImage(named: "cat")!, status: "Я тебя тестирую на наличие багов")
-                    let profileVM = ProfileViewModel(user: user)
+                    let account = maryAccount
+                    let profileVM = ProfileViewModel(account: profileMary.account)
                     viewVontroller.navigationController?.pushViewController(ProfileViewController(viewModel: profileVM), animated: true)
                 }
             }

@@ -10,10 +10,15 @@ import UIKit
 
 class HomeTabCoordinator: Coordinator {
     var rootViewController = UINavigationController()
+    let account = profileMary.account
+    let friends = profileMary.friends
     
     func start () {
         let layout = UICollectionViewFlowLayout()
-        rootViewController = UINavigationController(rootViewController:   HomeViewController(collectionViewLayout: layout))
+        let profileVM = ProfileViewModel(account: account, friends: friends)
+        let homeVC = HomeViewController(collectionViewLayout: layout)
+        homeVC.viewModel = profileVM
+        rootViewController = UINavigationController(rootViewController: homeVC  )
     }
 }
 

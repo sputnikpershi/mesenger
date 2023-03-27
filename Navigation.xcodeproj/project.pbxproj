@@ -92,6 +92,8 @@
 		14B6A593293A002F0014CD75 /* LIkeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B6A592293A002F0014CD75 /* LIkeTableViewCell.swift */; };
 		14C8A47A296422D000F54E73 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14C8A47C296422D000F54E73 /* Localizable.strings */; };
 		14C8A48029642D6E00F54E73 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 14C8A48229642D6E00F54E73 /* Localizable.stringsdict */; };
+		14D07A7A29C7440B000A80EC /* FriendProfileHeaderCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D07A7929C7440B000A80EC /* FriendProfileHeaderCollection.swift */; };
+		14D07A7E29C9E4DC000A80EC /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F33CB6A28950D5F00319B6D /* PostModel.swift */; };
 		14E76B7C29815D8800B50E59 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 14E76B7B29815D8800B50E59 /* RealmSwift */; };
 		14E76B8D298165E800B50E59 /* StatusHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC28129810D2C00CEF819 /* StatusHelper.swift */; };
 		14F5C51629399F180034CE9B /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F5C51529399F180034CE9B /* LikeViewController.swift */; };
@@ -99,6 +101,8 @@
 		14F5C5402939AB110034CE9B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F5C53F2939AB110034CE9B /* CoreDataManager.swift */; };
 		14F5C5432939ABBF0034CE9B /* PostCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14F5C5412939ABBF0034CE9B /* PostCoreData.xcdatamodeld */; };
 		14FBC31D28E1795300D41C4C /* LogInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FBC31C28E1795300D41C4C /* LogInModel.swift */; };
+		14FC7E0A29D0076600086ED2 /* LikeVController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FC7E0929D0076600086ED2 /* LikeVController.swift */; };
+		14FC7E0C29D0284000086ED2 /* LikeVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FC7E0B29D0284000086ED2 /* LikeVCell.swift */; };
 		4F40773028ACA6DD0040E680 /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F40772F28ACA6DD0040E680 /* PhotosView.swift */; };
 		4F40773228AD1B5C0040E680 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F40773128AD1B5C0040E680 /* Photos.swift */; };
 		4F40773428ADF1D70040E680 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F40773328ADF1D70040E680 /* PhotosViewController.swift */; };
@@ -193,12 +197,15 @@
 		14C8A47D296422D300F54E73 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		14C8A48129642D6E00F54E73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		14C8A48329642D7200F54E73 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		14D07A7929C7440B000A80EC /* FriendProfileHeaderCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileHeaderCollection.swift; sourceTree = "<group>"; };
 		14E76B832981658400B50E59 /* NavigationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavigationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F5C51529399F180034CE9B /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		14F5C51729399F200034CE9B /* LikeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCoordinator.swift; sourceTree = "<group>"; };
 		14F5C53F2939AB110034CE9B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		14F5C5422939ABBF0034CE9B /* PostCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PostCoreData.xcdatamodel; sourceTree = "<group>"; };
 		14FBC31C28E1795300D41C4C /* LogInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInModel.swift; sourceTree = "<group>"; };
+		14FC7E0929D0076600086ED2 /* LikeVController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeVController.swift; sourceTree = "<group>"; };
+		14FC7E0B29D0284000086ED2 /* LikeVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeVCell.swift; sourceTree = "<group>"; };
 		4F33CB6A28950D5F00319B6D /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		4F40772F28ACA6DD0040E680 /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
 		4F40773128AD1B5C0040E680 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
@@ -259,6 +266,7 @@
 		1415DDC928F5464E00433703 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				14D07A7D29C9E479000A80EC /* Trash */,
 				4F40772C28A8B5D80040E680 /* Profile */,
 				142177A629BACF6C000B2BE1 /* MenuSettings */,
 				4F40773528ADF75F0040E680 /* Photos */,
@@ -300,18 +308,30 @@
 			path = "Fonts Inter";
 			sourceTree = "<group>";
 		};
-		149916092988F02100404BBC /* New Group */ = {
+		149916092988F02100404BBC /* NotificationService */ = {
 			isa = PBXGroup;
 			children = (
 				1499160A2988F03B00404BBC /* LocalNotificationsService.swift */,
 			);
-			path = "New Group";
+			path = NotificationService;
+			sourceTree = "<group>";
+		};
+		14D07A7D29C9E479000A80EC /* Trash */ = {
+			isa = PBXGroup;
+			children = (
+				1485A2A32983C76D006B9045 /* LikeHelper.swift */,
+				4F33CB6A28950D5F00319B6D /* PostModel.swift */,
+				144DC28129810D2C00CEF819 /* StatusHelper.swift */,
+			);
+			path = Trash;
 			sourceTree = "<group>";
 		};
 		14F5C51429399F0E0034CE9B /* Like */ = {
 			isa = PBXGroup;
 			children = (
 				14F5C51529399F180034CE9B /* LikeViewController.swift */,
+				14FC7E0929D0076600086ED2 /* LikeVController.swift */,
+				14FC7E0B29D0284000086ED2 /* LikeVCell.swift */,
 				14B6A592293A002F0014CD75 /* LIkeTableViewCell.swift */,
 				14F5C51729399F200034CE9B /* LikeCoordinator.swift */,
 			);
@@ -323,18 +343,16 @@
 			children = (
 				4F7F590F288EC1F800138DF2 /* ProfileViewController.swift */,
 				1486190929B6CF8D004C6D98 /* ProfileHeaderCollection.swift */,
+				14D07A7929C7440B000A80EC /* FriendProfileHeaderCollection.swift */,
 				4F40772F28ACA6DD0040E680 /* PhotosView.swift */,
 				142177B729C03337000B2BE1 /* PostViewController.swift */,
 				142177BB29C03FD5000B2BE1 /* PostHeader.swift */,
-				144DC28129810D2C00CEF819 /* StatusHelper.swift */,
-				1485A2A32983C76D006B9045 /* LikeHelper.swift */,
-				4F33CB6A28950D5F00319B6D /* PostModel.swift */,
+				142177C029C05722000B2BE1 /* PostCommentsCell.swift */,
 				1486190729B58948004C6D98 /* AccountModel.swift */,
 				1415DDCD28F5583800433703 /* ProfileViewModel.swift */,
 				1415DDAE28F50B1200433703 /* ProfileTabCoordinator.swift */,
 				14F5C53F2939AB110034CE9B /* CoreDataManager.swift */,
 				14F5C5412939ABBF0034CE9B /* PostCoreData.xcdatamodeld */,
-				142177C029C05722000B2BE1 /* PostCommentsCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -392,7 +410,7 @@
 			children = (
 				1415DDC928F5464E00433703 /* Views */,
 				1415DD9E28F292A400433703 /* Coordinator */,
-				149916092988F02100404BBC /* New Group */,
+				149916092988F02100404BBC /* NotificationService */,
 				4F7F58F9288E5AE400138DF2 /* AppDelegate.swift */,
 				4F7F58FB288E5AE400138DF2 /* SceneDelegate.swift */,
 				14C8A47C296422D000F54E73 /* Localizable.strings */,
@@ -608,6 +626,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				148618FF29B56C64004C6D98 /* HomeCollectionCell.swift in Sources */,
+				14D07A7E29C9E4DC000A80EC /* PostModel.swift in Sources */,
 				148618F329B06D93004C6D98 /* AllPhotosTableViewCell.swift in Sources */,
 				148618EB29B06977004C6D98 /* AlbomsViewController.swift in Sources */,
 				1485A2A52983C76D006B9045 /* LikeHelper.swift in Sources */,
@@ -634,6 +653,7 @@
 				14F5C5402939AB110034CE9B /* CoreDataManager.swift in Sources */,
 				142177C729C3FDFC000B2BE1 /* SideMenuModel.swift in Sources */,
 				1415DDAF28F50B1200433703 /* ProfileTabCoordinator.swift in Sources */,
+				14D07A7A29C7440B000A80EC /* FriendProfileHeaderCollection.swift in Sources */,
 				14F5C5432939ABBF0034CE9B /* PostCoreData.xcdatamodeld in Sources */,
 				144DC27C29810A6500CEF819 /* AppDelegate.swift in Sources */,
 				4F7F5910288EC1F800138DF2 /* ProfileViewController.swift in Sources */,
@@ -657,6 +677,7 @@
 				148618FA29B1B1C5004C6D98 /* MenuCell.swift in Sources */,
 				142177C329C17836000B2BE1 /* SideMenuView.swift in Sources */,
 				4F40773428ADF1D70040E680 /* PhotosViewController.swift in Sources */,
+				14FC7E0A29D0076600086ED2 /* LikeVController.swift in Sources */,
 				148618EE29B06D83004C6D98 /* AlbomsTableHeader.swift in Sources */,
 				1415DDCC28F551E200433703 /* PhotosModelView.swift in Sources */,
 				1415DDAB28F5063B00433703 /* MainCoordinator.swift in Sources */,
@@ -665,6 +686,7 @@
 				1486190229B57699004C6D98 /* MainPostsCell.swift in Sources */,
 				148618FE29B56C64004C6D98 /* HomeCollectionCell.swift in Sources */,
 				4F4C8ED328A0C23E00987CB2 /* LogInViewController.swift in Sources */,
+				14FC7E0C29D0284000086ED2 /* LikeVCell.swift in Sources */,
 				4F40773028ACA6DD0040E680 /* PhotosView.swift in Sources */,
 				142177B029BD75DB000B2BE1 /* AlbomCell.swift in Sources */,
 				1486190629B57E40004C6D98 /* FriendsCell.swift in Sources */,

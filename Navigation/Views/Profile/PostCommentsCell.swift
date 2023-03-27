@@ -12,7 +12,6 @@ class PostCommentsCell: UICollectionViewCell {
     private lazy var avatarImage : UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "avatar")
-//        image.layer.cornerRadius = avatarImage.frame.width/2
         return image
     }()
     private lazy var nickNameLabel : UILabel = {
@@ -69,6 +68,15 @@ class PostCommentsCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    func setCell(comment: Comments, postIndex: Int, account: Account) {
+        comentsLabel.text = comment.commentText
+        avatarImage.image = account.avatar  
+        nickNameLabel.text = account.nickname
+        likesButton.setTitle(" \(comment.likes)", for: .normal)
+        dateLabel.text =  "\(comment.date.formatted(date: .abbreviated, time: .omitted))"
+        
+    }
     
     private func setLayers() {
         self.addSubview(avatarImage)

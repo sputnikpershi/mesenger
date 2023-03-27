@@ -125,15 +125,16 @@ extension LikeViewController : UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! LIkeTableViewCell
-        cell.contentView.isUserInteractionEnabled = false
-        let post = fetchResultController.object(at: indexPath)
-        cell.delegate = self
-        cell.index = indexPath.row
-        cell.indexPath = indexPath
-        cell.fetchResultController = fetchResultController
-        cell.setup(with: post)
-        cell.post = post
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath)
+        
+//        cell.contentView.isUserInteractionEnabled = false
+//        let post = fetchResultController.object(at: indexPath)
+//        cell.delegate = self
+//        cell.index = indexPath.row
+//        cell.indexPath = indexPath
+//        cell.fetchResultController = fetchResultController
+//        cell.setup(with: post)
+//        cell.post = post
         return cell
     }
     

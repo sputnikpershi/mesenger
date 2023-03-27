@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class CoreDataManager {
     
@@ -53,15 +54,20 @@ class CoreDataManager {
     
     //like post
     
-    func likePost(originalPost: Post) {
+    func likePost(originalPost: AccountPosts) {
         persistentContainer.performBackgroundTask { backgroundContext in
             let post = PostData(context: backgroundContext)
+            // сохраниение фото автра итж итп.
             post.authorLabel = originalPost.authorLabel
-            post.image =  "cat"//originalPost.image
-            post.views = Int32(originalPost.views)
-            post.descriptionLabel = originalPost.descriptionLabel
+            post.profileImage = originalPost.authorImage?.pngData()
+            post.statusLabel = originalPost.statusLabel
+            post.date = originalPost.date
+            post.postImage =  originalPost.image?.pngData()
+            post.descriptionPost = originalPost.descriptionLabel
             post.likes = Int32(originalPost.likes)
+            post.id = originalPost.id
             post.isLiked = true
+            post.comments = Int32(originalPost.comments.count)
             do {
                 try backgroundContext.save()
             } catch {
@@ -75,7 +81,6 @@ class CoreDataManager {
     
     func unlike (post: PostData) {
         print("post with name \(String(describing: post.authorLabel)) - \(post.likes) likes")
-
         persistentContainer.viewContext.delete(post)
         saveContext()
         reloadData()

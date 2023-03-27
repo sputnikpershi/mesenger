@@ -11,7 +11,12 @@ import SnapKit
 class PostViewController: UIViewController {
 //    let drawerVC = DrawerView()
     var isExtended = false
+    var viewModel : ProfileViewModel
+    var indexPost: Int
+    weak var profileVC : ProfileViewController?
+
     
+
     private lazy var drawerVC : DrawerView = {
         let view = DrawerView()
         view.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height/2)
@@ -84,20 +89,32 @@ class PostViewController: UIViewController {
         return button
     }()
 
+    init(viewModel: ProfileViewModel, indexPost: Int) {
+        self.viewModel = viewModel
+        self.indexPost = indexPost
+        super.init(nibName: nil, bundle: nil)
+        print(indexPost)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setLayers()
+        setNavigation ()
+        title = "Публикация"
+    }
+    
+    private func setNavigation () {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "arrow1"), style: .plain, target: self, action: #selector(tapedBackActionButton))
         let button = UIBarButtonItem(image: UIImage(named: "menu1"), style: .plain, target: self, action: #selector(tapedMoreActionButton))
         button.width = 6
         self.navigationItem.rightBarButtonItem = button
-        title = "Публикация"
     }
-    
-    
     private func setLayers() {
         self.view.addSubview(drawerVC)
         self.view.addSubview(separator)
@@ -170,6 +187,7 @@ extension PostViewController : UICollectionViewDelegate, UICollectionViewDataSou
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PostHeader.identifier, for: indexPath) as? PostHeader else {
                 return UICollectionReusableView()
             }
+            header.setPost(post: viewModel.account.posts[indexPost], account: viewModel.account)
             return header
         }
         return UICollectionReusableView()
@@ -185,12 +203,15 @@ extension PostViewController : UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        maryAccount.posts.count
+        viewModel.account.posts[indexPost].comments.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! PostCommentsCell
+        let post = viewModel.account.posts[indexPost]
+        cell.setCell(comment: post.comments[indexPath.row], postIndex: indexPost , account: viewModel.account)
+        
         return cell
     }
     

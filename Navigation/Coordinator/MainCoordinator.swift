@@ -18,10 +18,10 @@ class MainCoordinator: Coordinator {
     }
     
     func start() {
-        let feedCoordinator = HomeTabCoordinator()
-        feedCoordinator.start()
-        self.childCoordinators.append(feedCoordinator)
-        let feedVC = feedCoordinator.rootViewController
+        let homeCoordinator = HomeTabCoordinator()
+        homeCoordinator.start()
+        self.childCoordinators.append(homeCoordinator)
+        let feedVC = homeCoordinator.rootViewController
         let localizationTabFeed = NSLocalizedString("tab-feed", comment: "")
         feedVC.tabBarItem = UITabBarItem(title: localizationTabFeed, image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house"))
         

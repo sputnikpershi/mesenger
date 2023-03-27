@@ -25,7 +25,7 @@ class LocalNotificationsService: NSObject, UNUserNotificationCenterDelegate {
             }
             if success {
                 self.content.sound = .defaultCritical
-                self.content.title = "Do homework"
+                self.content.title = "You have a message"
                 self.content.body = "We have some issues to do to"
                 self.content.categoryIdentifier = self.categoryIdentifier
                 self.dateComponet.hour = 19

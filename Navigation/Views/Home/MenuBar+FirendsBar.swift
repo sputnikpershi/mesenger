@@ -8,21 +8,16 @@
 import UIKit
 import SnapKit
 
-
-
 class MenuBar: UIView  {
     var homeVC: HomeViewController?
-    
      lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-         
-         layout.scrollDirection = .horizontal   
+        layout.scrollDirection = .horizontal
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.delegate = self
         collection.dataSource = self
         collection.register(MenuCell.self, forCellWithReuseIdentifier: "cID")
         collection.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
-        
         return collection
     }()
     
@@ -84,6 +79,7 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
 
 class FriendsBar : UIView  {
     var homeVC: HomeViewController?
+    var viewModel : ProfileViewModel?
     
      lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -100,6 +96,11 @@ class FriendsBar : UIView  {
         return collection
     }()
     
+    init(viewModel: ProfileViewModel) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(collectionView)
@@ -115,12 +116,12 @@ class FriendsBar : UIView  {
 
 extension FriendsBar: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        maryAccount.friends.count
+        profileMary.friends.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! FriendsCell
-        cell.setLabels(index: indexPath.row)
+        cell.setLabels(friends: viewModel?.friends, index: indexPath.row )
         return cell
     }
     
@@ -132,10 +133,15 @@ extension FriendsBar: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         return CGSize(width: 60, height: 60 )
     }
 //
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vm = ProfileViewModel(account: profileMary.friends[indexPath.row].account, friends: profileMary.friends)
+          let vc = ProfileViewController(viewModel: vm)
+        vc.isMainProfile = false
+        homeVC?.navigationController?.pushViewController(vc, animated: true)
+        homeVC?.navigationController?.isNavigationBarHidden = false 
 //        print("---- indexPath in row : \(indexPath.row)")
 //        homeVC?.scrollToMenuIndex(menuIndex: indexPath.row)
-//    }
+    }
   
     
 }
