@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class AlbomsViewController: UIViewController {
-
+    
     private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
         table.register(AllPhotosTableViewCell.self, forCellReuseIdentifier: "all photos")
@@ -71,9 +71,7 @@ extension AlbomsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
-            let cell = tableView.dequeueReusableCell(withIdentifier: "all photos", for: indexPath) as! AllPhotosTableViewCell
-            return cell
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "all photos", for: indexPath) as! AllPhotosTableViewCell
+        return cell
     }
 }

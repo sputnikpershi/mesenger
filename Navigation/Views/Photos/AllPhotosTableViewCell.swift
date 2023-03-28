@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class AllPhotosTableViewCell: UITableViewCell {
-    var numberItems  = 50
+    var numberItems  = 20
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -17,19 +17,17 @@ class AllPhotosTableViewCell: UITableViewCell {
         layout.sectionInset =  UIEdgeInsets(top: 0, left: 28, bottom: 0, right: 16)
         layout.minimumInteritemSpacing = 4
         layout.minimumLineSpacing = 4
-    
-
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.register(AlbomCell.self, forCellWithReuseIdentifier: "cell")
         collection.dataSource = self
         collection.delegate = self
         return collection
     }()
-
+    
     private lazy var albomLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Inter-SemiBold", size: 14)
-        label.text = "Альбомы"
+        label.text = "Всего фотографий"
         label.numberOfLines = 2
         return label
     }()
@@ -37,18 +35,16 @@ class AllPhotosTableViewCell: UITableViewCell {
     private lazy var numbersLabel: UILabel = {
         let num = UILabel()
         num.font = UIFont(name: "Inter-SemiBold", size: 14)
-        num.text = "1"
         return num
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        numbersLabel.text = "\(numberItems)"
         self.addSubview(albomLabel)
         albomLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(28)
             make.top.equalToSuperview().offset(16)
-            
         }
         
         self.addSubview(numbersLabel)
@@ -62,18 +58,13 @@ class AllPhotosTableViewCell: UITableViewCell {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(albomLabel.snp.bottom).offset(16)
             make.leading.trailing.bottom.equalToSuperview()
-          
-                make.height.equalTo((Int(numberItems/3)) * 100 + 100)
-            
+            make.height.equalTo((Int(numberItems/3)) * 100 + 100)
         }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
 }
 
 
@@ -84,6 +75,7 @@ extension AllPhotosTableViewCell: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! AlbomCell
+        cell.setCell(index: indexPath.row + 1)
         return cell
     }
     
@@ -92,7 +84,6 @@ extension AllPhotosTableViewCell: UICollectionViewDelegate, UICollectionViewData
         let interItemSpacing = CGFloat(4)
         let width = collectionView.bounds.width - (Constants.numberOfItemsInLine - 1) * interItemSpacing - insets.left - insets.right
         let itemWidth = width / Constants.numberOfItemsInLine
-//        let height = itemWidth
         return CGSize(width: itemWidth, height: 80)
     }
     

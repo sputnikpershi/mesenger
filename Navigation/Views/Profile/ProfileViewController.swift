@@ -205,22 +205,12 @@ class ProfileViewController: UIViewController {
     
     func tapEditButton() {
         let vc = EditMenuViewController()
-        vc.isFemale = true
+        vc.isFemale = viewModel?.account.sex
+        vc.account = viewModel?.account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func logOutAction () {
-        let userDefault = UserDefaults.standard
-        print(" log out")
-        let hasLogedIn = userDefault.bool(forKey: "hasLogedIn")    //    Singletone.shared.isFirstTime
-        if  hasLogedIn {
-            self.navigationController?.popToRootViewController(animated: true)
-            userDefault.set(false, forKey: "hasLogedIn")
-        } else {
-            self.navigationController?.pushViewController(LogInViewController(), animated: true)
-            userDefault.set(false, forKey: "hasLogedIn")
-        }
-    }
+    
     
     func tapInfo () {
         if moreInfoActionState == .closed {
@@ -253,7 +243,8 @@ class ProfileViewController: UIViewController {
     }
     
     func createSideMenu (state: StateMenu) {
-        let menu = SideMenuView(state: state)
+        let title = (viewModel?.account.name ?? "") + " " + (viewModel?.account.surname ?? "")
+        let menu = SideMenuView(state: state, title:  title)
         menu.viewWithTag(100)
         menu.view = self
         sideMenu = menu
@@ -271,7 +262,6 @@ class ProfileViewController: UIViewController {
         }
     }
 }
-
 
 
 extension ProfileViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -315,28 +305,13 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //        if indexPath.row == 0 {
-        //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cpID", for: indexPath) as! PhotosTableViewCell
-        //            cell.setup(with: photosArray)
-        //            cell.buttonTapCallback = {
-        //                print("            self.collectionView.reloadData()
-//")
-        //            }
-        //            return cell
-        //        } else {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MainPostsCell
         cell.profileVC = self
-        cell.postArray = viewModel?.account.posts
+        let posts = viewModel?.returnAccountPosts() ?? []
+        cell.postArray = posts
         cell.index = indexPath.row
-        
-        viewModel?.account.posts[indexPath.row].authorLabel = (viewModel?.account.name)! +  " " + (viewModel?.account.surname)!
-        viewModel?.account.posts[indexPath.row].statusLabel = viewModel?.account.status
-        viewModel?.account.posts[indexPath.row].authorImage = viewModel?.account.avatar
-
-
-        cell.setup(with: viewModel?.account.posts ?? [], index: indexPath.row, account: viewModel?.account)
+       cell.setup(with: posts, index: indexPath.row, account: viewModel?.account)
         return cell
-        //        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -344,7 +319,6 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //        let coments = viewModel?.account.posts[indexPath.row].comments
         let vc = PostViewController(viewModel: viewModel!, indexPost: indexPath.row)
         vc.profileVC = self
         vc.indexPost = indexPath.row
@@ -354,59 +328,6 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     }
 }
 
-
-
-
-
-// MARK: EXTENSION
-//
-//extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
-//
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as? ProfileTableHeaderView
-//        headerView?.profileVC = self
-//        headerView?.setup(user: viewModel!.user)// Передача данных user в элементы ProfileTableHeaderView
-//        return headerView
-//    }
-//
-//    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-//        200
-//    }
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        postArray.count + 1
-//    }
-//
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        if indexPath.row == .zero {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosCell", for: indexPath) as! PhotosTableViewCell
-//            cell.setup(with: photosArray)
-//            cell.buttonTapCallback = {
-//                print("COmething")
-//            }
-//            return cell
-//        } else {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! PostTableViewCell
-//            cell.index = indexPath.row - 1
-//            cell.setup(with: postArray, index: indexPath.row - 1 )
-//            cell.contentView.isUserInteractionEnabled = false
-//            return cell
-//        }
-//    }
-//
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if indexPath.row == 0 {
-//            let vc = AlbomsViewController()
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
-//
-//
-//}
-//
 extension UIColor {
     static func createColor(lightMode: UIColor, darkMode: UIColor) -> UIColor {
         guard #available(iOS 13.0, *) else
@@ -416,85 +337,3 @@ extension UIColor {
         }
     }
 }
-//
-//
-//extension ProfileViewController: UITableViewDragDelegate, UITableViewDropDelegate {
-//
-//    func tableView(_ tableView: UITableView, canHandle session: UIDropSession) -> Bool {
-//        return session.canLoadObjects(ofClass: NSString.self) && session.canLoadObjects(ofClass: UIImage.self)
-//    }
-//
-//    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-//        if tableView.hasActiveDrag {
-//                    return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-//                } else {
-//                    return UITableViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
-//                }
-//    }
-//
-//    func dragItems(for indexPath: IndexPath) -> [UIDragItem] {
-//        let post = postArray[indexPath.row - 1]
-//        let titleProvider = NSItemProvider(object: post.authorLabel as NSString)
-//        let imageProvider = NSItemProvider(object: post.image!)
-//        return [UIDragItem(itemProvider: titleProvider), UIDragItem(itemProvider: imageProvider)]
-//    }
-//
-//    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-//        originIndex = indexPath.row
-//        return dragItems(for: indexPath)
-//    }
-//
-//    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-//
-//        let destinationIndexPath: IndexPath
-//
-//               if let indexPath = coordinator.destinationIndexPath {
-//                   destinationIndexPath = indexPath
-//               } else {
-//                   // get from last row
-//                   let section = tableView.numberOfSections - 1
-//                   let row = tableView.numberOfRows(inSection: section)
-//                   destinationIndexPath = IndexPath(row: row, section: section)
-//               }
-//
-//               let rowInd = destinationIndexPath.row
-//
-//               let group = DispatchGroup()
-//
-//               var postDescription = String()
-//               group.enter()
-//               coordinator.session.loadObjects(ofClass: NSString.self) { objects in
-//                   let uStrings = objects as! [String]
-//                   for uString in uStrings {
-//                       postDescription = uString
-//                       break
-//                   }
-//                   group.leave()
-//               }
-//
-//               var postImage = UIImage()
-//               group.enter()
-//               coordinator.session.loadObjects(ofClass: UIImage.self) { objects in
-//                   let uImages = objects as! [UIImage]
-//                   for uImage in uImages {
-//                       postImage = uImage
-//                       break
-//                   }
-//                   group.leave()
-//               }
-//
-//               group.notify(queue: .main) {
-//                   // delete moved post if moved
-//                   if coordinator.proposal.operation == .move {
-//                       postArray.remove(at: self.originIndex)
-//                   }
-//                   // insert new post
-//                   let newPost = Post(authorLabel: "new", descriptionLabel: postDescription,image: postImage, likes: 0, views: 0, date: Date() )
-//                   postArray.insert(newPost, at: rowInd - 1)
-//
-//                   tableView.reloadData()
-//               }
-//
-//    }
-//}
-//

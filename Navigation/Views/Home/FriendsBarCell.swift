@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FriendsCell: UICollectionViewCell {
+class FriendsBarCell: UICollectionViewCell {
 
     weak var viewModel: ProfileViewModel?
 

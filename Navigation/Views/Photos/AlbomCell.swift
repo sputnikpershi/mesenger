@@ -10,11 +10,8 @@ import SnapKit
 
 class AlbomCell: UICollectionViewCell {
     
-
-    
     private lazy var albomImage : UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "1")
         image.clipsToBounds = true
         image.layer.cornerRadius = 10
         return image
@@ -26,7 +23,10 @@ class AlbomCell: UICollectionViewCell {
         albomImage.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
+    }
+    
+    func setCell(index: Int) {
+        albomImage.image = UIImage(named: "\(index)")
     }
     
     required init?(coder: NSCoder) {

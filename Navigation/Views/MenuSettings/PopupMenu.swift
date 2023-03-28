@@ -69,11 +69,6 @@ extension PopupMenu: UICollectionViewDelegate,UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
-        
         tapedBlackViewAction()
-        UIView.animate(withDuration: 0.3) {
-            self.view?.navigationController?.pushViewController(LikeViewController(), animated: true)
-        }
     }
 }

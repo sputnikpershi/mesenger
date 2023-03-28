@@ -9,9 +9,9 @@ import UIKit
 
 struct Photos {
     var image: String
-    }
+}
 
- enum Constants {
+enum Constants {
     static let numberOfItemsInLine : CGFloat = 3
 }
 
@@ -24,7 +24,7 @@ func convertFromStringToPhotos (with array : [String] ) -> [UIImage]{
     return arrayPhotos
 }
 
- 
+
 var photoGallery = Array(1...15).map { String($0)}
 var photosArray  = convertFromStringToPhotos(with: photoGallery)
 var PhotoArray = photoGallery.map { Photos(image: $0)}

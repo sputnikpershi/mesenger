@@ -16,7 +16,7 @@ class MenuBar: UIView  {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.delegate = self
         collection.dataSource = self
-        collection.register(MenuCell.self, forCellWithReuseIdentifier: "cID")
+        collection.register(MenuBarCell.self, forCellWithReuseIdentifier: "cID")
         collection.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
         return collection
     }()
@@ -39,7 +39,7 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MenuCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MenuBarCell
         if cell.isSelected {
             cell.indocatorLine.alpha = 1
             cell.titleLabel.textColor = .black
@@ -59,19 +59,11 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: frame.width/3, height: frame.height)
     }
-//
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("---- indexPath in row : \(indexPath.row)")
         homeVC?.scrollToMenuIndex(menuIndex: indexPath.row)
     }
-//
-//    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-//        let cell = collectionView.cellForItem(at: indexPath) as! MenuCell
-//        cell.titleLabel.textColor = UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1)
-//        cell.indocatorLine.alpha = 0
-//
-//    }
-    
 }
 
 
@@ -90,7 +82,7 @@ class FriendsBar : UIView  {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.delegate = self
         collection.dataSource = self
-        collection.register(FriendsCell.self, forCellWithReuseIdentifier: "cID")
+        collection.register(FriendsBarCell.self, forCellWithReuseIdentifier: "cID")
         collection.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
         
         return collection
@@ -120,28 +112,20 @@ extension FriendsBar: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! FriendsCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! FriendsBarCell
         cell.setLabels(friends: viewModel?.friends, index: indexPath.row )
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 60, height: 60 )
     }
-//
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vm = ProfileViewModel(account: profileMary.friends[indexPath.row].account, friends: profileMary.friends)
           let vc = ProfileViewController(viewModel: vm)
         vc.isMainProfile = false
         homeVC?.navigationController?.pushViewController(vc, animated: true)
-        homeVC?.navigationController?.isNavigationBarHidden = false 
-//        print("---- indexPath in row : \(indexPath.row)")
-//        homeVC?.scrollToMenuIndex(menuIndex: indexPath.row)
+        homeVC?.navigationController?.isNavigationBarHidden = false
     }
-  
-    
 }

@@ -10,7 +10,7 @@ class LikeCoordinator: Coordinator {
     var rootViewController = UINavigationController()
    
     func start() {
-        rootViewController.setViewControllers([LikeVController()], animated: false)
+        rootViewController.setViewControllers([LikeViewController()], animated: false)
     }
 }
 

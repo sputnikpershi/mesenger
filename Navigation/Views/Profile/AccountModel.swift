@@ -22,7 +22,7 @@ struct FriendProfile {
     var friends: [Account]
 }
 
-struct Account {
+class Account {
     var nickname: String
     var name: String
     var surname: String
@@ -33,10 +33,23 @@ struct Account {
     var hometown: String
     var posts : [AccountPosts]
     var comments: [Comments]
+    
+    init(nickname: String, name: String, surname: String, avatar: UIImage? = nil, status: String, sex: Sex, dateBirth: Date, hometown: String, posts: [AccountPosts], comments: [Comments]) {
+        self.nickname = nickname
+        self.name = name
+        self.surname = surname
+        self.avatar = avatar
+        self.status = status
+        self.sex = sex
+        self.dateBirth = dateBirth
+        self.hometown = hometown
+        self.posts = posts
+        self.comments = comments
+    }
 }
 
 
-struct AccountPosts {
+class AccountPosts {
     var authorLabel: String?
     var authorImage: UIImage?
     var statusLabel: String?
@@ -48,6 +61,19 @@ struct AccountPosts {
     var isLiked: Bool
     var id : String
     var comments: [Comments]
+    init(authorLabel: String? = nil, authorImage: UIImage? = nil, statusLabel: String? = nil, descriptionLabel: String, image: UIImage? = nil, likes: Int32, views: Int32, date: Date, isLiked: Bool, id: String, comments: [Comments]) {
+        self.authorLabel = authorLabel
+        self.authorImage = authorImage
+        self.statusLabel = statusLabel
+        self.descriptionLabel = descriptionLabel
+        self.image = image
+        self.likes = likes
+        self.views = views
+        self.date = date
+        self.isLiked = isLiked
+        self.id = id
+        self.comments = comments
+    }
 }
 
 struct Comments {
@@ -59,7 +85,7 @@ struct Comments {
 
 
 let profileMary = Profile(account: maryAccount, friends: [fr1, fr2, fr3, fr4, fr5, fr6, fr7])
-let maryAccount = Account(nickname: "mary_kart", name: "Маша", surname: "Картвелишвили", avatar: UIImage(named: "avatar"), status: "Учитель", sex: .female, dateBirth: Date(), hometown: "Новокузнецк", posts: posts, comments: [])
+let maryAccount = Account(nickname: "mary_golusheva", name: "Мария", surname: "Голышева", avatar: UIImage(named: "avatar"), status: "Учитель", sex: .female, dateBirth: Date(), hometown: "Новокузнецк", posts: posts, comments: [])
 
 let fr1 = FriendProfile(account: account1, friends: [maryAccount, account2, account3, account4, account5, account6, account7, ])
 let fr2 = FriendProfile(account: account2, friends: [account1, maryAccount, account3, account4, account5, account6, account7])
@@ -76,7 +102,7 @@ var account3 = Account(nickname: "alex_nav", name: "Алексей", surname: "�
 var account4 = Account(nickname: "serg_jen", name: "Сергей", surname: "Кудряшов", avatar: UIImage(named: "friend4"), status: "Машинист", sex: .male, dateBirth: Date(), hometown: "Москва",  posts: [post12], comments: [comment5, comment6, comment11])
 var account5 = Account(nickname: "elena_Batururu", name: "Елена", surname: "Батурина", avatar: UIImage(named: "friend5"), status: "Бухгалтер", sex: .female, dateBirth: Date(), hometown: "Москва", posts: [post13], comments: [comment7, comment8, comment12])
 var account6 = Account(nickname: "alisa_ya", name: "Алиса", surname: "Малышева", avatar: UIImage(named: "friend6"), status: "Дизайнер", sex: .female, dateBirth: Date(), hometown: "Москва", posts: [post14], comments: [comment7, comment1, comment14])
-var account7 = Account(nickname: "kir_zhuk", name: "Кирилл", surname: "Жук", avatar: UIImage(named: "friend7"), status: "Программист", sex: .female, dateBirth: Date(), hometown: "Москва",  posts: [post15], comments: [comment2, comment3, comment4, comment13])
+var account7 = Account(nickname: "any_zhuk", name: "Анна", surname: "Жук", avatar: UIImage(named: "friend7"), status: "Программист", sex: .female, dateBirth: Date(), hometown: "Москва",  posts: [post15], comments: [comment2, comment3, comment4, comment13])
 
 var comment1 = Comments(idPost: "post1", commentText: "Круто написано", date: Date(), likes: 2)
 let comment2 = Comments(idPost: "post2", commentText: "согласен", date: Date(), likes: 2)
@@ -120,3 +146,5 @@ let post14 = AccountPosts(descriptionLabel: "Nothing beats the heat like a cold 
 let post15 = AccountPosts(descriptionLabel: "So, we want to hear from you! What's your go-to thirst quencher when the weather heats up? Do you prefer something fruity, something bubbly, or something with a little kick of caffeine? Are you a fan of classic summer drinks like iced tea and lemonade, or do you like to mix things up with more unconventional options like iced coffee or smoothies?", image: UIImage(named:"15"), likes: 15, views: 14, date: Date(), isLiked: false, id: "post15", comments: [comment5, comment13])
 let post16 = AccountPosts(descriptionLabel: "Share your favorite cold drink with us in the comments below. We can't wait to hear what you're sipping on this summer! ☀️🍹 #coldbeverages #summertime #refreshing #thirstquencher", image: UIImage(named:"16"), likes: 15, views: 14, date: Date(), isLiked: false, id: "post16", comments: [comment5, comment13])
 let post17 = AccountPosts(descriptionLabel: "Share your favorite cold drink with us in the comments below. And don't forget to tell us why you love it so much! Is it the flavor that keeps you coming back for more? The way it makes you feel on a hot summer day? Or the memories it evokes of summers past? We can't wait to hear what you're sipping on this summer! ☀️🍹  #coldbeverages #summertime #refreshing #thirstquencher", image: UIImage(named:"17"), likes: 15, views: 14, date: Date(), isLiked: false, id: "post17", comments: [comment5, comment13])
+
+

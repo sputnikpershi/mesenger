@@ -20,20 +20,14 @@ class MainPostsCell: UICollectionViewCell {
     let coreDataManager: CoreDataManager = CoreDataManager.shared
     var fetchResultController: NSFetchedResultsController<PostData>?
     weak var delegate : MyCellDelegate?
-//    var postArray : [Pos]
     var postArray: [AccountPosts]! {
         didSet {
-//            print("Passed value is: \(postArray.count)")
-
         }
     }
-    
-   
-
-
     var corePosts = [PostData]()
     var originaIndex = Int()
     weak var profileVC : ProfileViewController?
+    weak var homeVC : HomeViewController?
     private var initialAvatarFrame = CGRect(x: 26, y: 16, width: 60, height: 60)
     
     private lazy var stackView: UIStackView = {
@@ -117,7 +111,7 @@ class MainPostsCell: UICollectionViewCell {
         description.font = UIFont(name: "Inter-Regular", size: 14)
         description.textColor = UIColor(red: 0.149, green: 0.196, blue: 0.22, alpha: 1)
         description.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return description
     }()
     
@@ -127,7 +121,6 @@ class MainPostsCell: UICollectionViewCell {
         button.setTitleColor(.blue, for: .normal)
         button.contentHorizontalAlignment = .leading
         button.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 12)
-        //        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
         return button
     }()
     
@@ -182,8 +175,6 @@ class MainPostsCell: UICollectionViewCell {
         super.init(frame: frame)
         setViews()
         setConstraints()
-        
-        
     }
     
     
@@ -204,7 +195,7 @@ class MainPostsCell: UICollectionViewCell {
         stackView.addArrangedSubview(likesButton)
         stackView.addArrangedSubview(commentsButton)
         stackView.addArrangedSubview(favouriteButton)
-
+        
         self.addSubview(self.avatarImage)
         self.addSubview(self.authorLabel)
         self.addSubview(moreImageButton)
@@ -221,10 +212,8 @@ class MainPostsCell: UICollectionViewCell {
     }
     
     @objc func tapedMoreActionButton () {
-        // show menu
-        //show black background
         profileVC?.setMenu()
-//        print("-------\(frame.height)")
+        homeVC?.setMenu()
     }
     
     
@@ -256,42 +245,40 @@ class MainPostsCell: UICollectionViewCell {
             make.height.equalTo(21)
             make.width.equalTo(5)
         }
-
+        
         separatorVertical.snp.makeConstraints { make in
             make.top.equalTo(avatarImage.snp.bottom).offset(20)
             make.width.equalTo(0.5)
             make.leading.equalTo(stackView.snp.leading).offset(28)
             make.bottom.equalTo(stackView.snp.bottom).offset(-69)
         }
-
+        
         descriptionTextView.snp.makeConstraints { make in
             make.top.equalTo(separatorVertical.snp.top)
             make.leading.equalTo(separatorVertical.snp.trailing).offset(24)
             make.trailing.equalTo(stackView.snp.trailing).offset(-18)
-//            make.height.equalTo(120)
-
         }
-//
+        
         showMoreButton.snp.makeConstraints { make in
             make.top.equalTo(descriptionTextView.snp.bottom).offset(4)
             make.leading.equalTo(separatorVertical.snp.trailing).offset(24)
             make.trailing.equalTo(stackView.snp.trailing).offset(-18)
         }
-
+        
         postImage.snp.makeConstraints { make in
             make.top.equalTo(showMoreButton.snp.bottom).offset(10)
             make.leading.equalTo(separatorVertical.snp.trailing).offset(24)
             make.trailing.equalTo(stackView.snp.trailing).offset(-18)
             make.bottom.equalTo(separatorHorizontal.snp.top).offset(-16)
         }
-
+        
         separatorHorizontal.snp.makeConstraints { make in
             make.bottom.equalTo(stackView.snp.bottom).offset(-48)
             make.centerX.equalTo(stackView.snp.centerX)
             make.height.equalTo(0.5)
             make.width.equalTo(stackView.snp.width)
         }
-
+        
         likesButton.snp.makeConstraints { make in
             make.top.equalTo(separatorHorizontal.snp.bottom).offset(10)
             make.leading.equalTo(stackView.snp.leading).offset(52)
@@ -302,7 +289,7 @@ class MainPostsCell: UICollectionViewCell {
             make.leading.equalTo(likesButton.snp.trailing).offset(16)
             make.centerY.equalTo(likesButton.snp.centerY)
         }
-
+        
         favouriteButton.snp.makeConstraints { make in
             make.trailing.equalTo(stackView.snp.trailing).offset(-18)
             make.centerY.equalTo(likesButton.snp.centerY)
@@ -315,15 +302,11 @@ class MainPostsCell: UICollectionViewCell {
     
     
     func setup(with posts: [AccountPosts], index: Int, account: Account?) {
-        self.index = index
-        print("index \(index ?? 0)")
-
-        guard let post = account?.posts[index] else { return }
-        self.avatarImage.image = account?.avatar
-        self.authorLabel.text = "\(account?.name ?? "") \(account?.surname ?? "")"
+        let post = posts[index]
+        self.avatarImage.image = post.authorImage
+        self.authorLabel.text = post.authorLabel
         self.postImage.image =  post.image
-        self.authorProfLabel.text = account?.status ?? ""
-        
+        self.authorProfLabel.text = post.statusLabel
         commentsButton.setTitle(" \(post.comments.count)", for: .normal)
         likesButton.setTitle(" \(post.likes)", for: .normal)
         self.descriptionTextView.text = post.descriptionLabel
@@ -339,7 +322,6 @@ class MainPostsCell: UICollectionViewCell {
         })
         if let index = indexPost {
             self.isLiked = corePosts[index].isLiked
-//            print("------\(index) --- \(corePosts[index].isLiked)")
         } else {
             self.isLiked = false
         }
@@ -362,14 +344,14 @@ extension MainPostsCell: LikeDelegate {
     func likePost(_ isLike: inout Bool)   {
         self.corePosts = coreDataManager.posts
         let index = self.index  ?? 0
-//        print("indexes \(index)")
-
+        
         if isLike {
+            
             //adding post in core data
-            self.coreDataManager.likePost(originalPost:  postArray[self.index])
-            print(postArray[index].descriptionLabel)
+            self.coreDataManager.likePost(originalPost:  postArray[index])
             self.favouriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         } else {
+            
             //deleting post in core data
             let indexForDeletePost = self.corePosts.firstIndex { corePost in
                 corePost.id == postArray[index].id &&
@@ -377,7 +359,6 @@ extension MainPostsCell: LikeDelegate {
             }
             
             if let index = indexForDeletePost {
-//                print(posts[index])
                 self.coreDataManager.unlike(post: self.corePosts[index])
             }
             self.favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)

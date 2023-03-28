@@ -19,7 +19,7 @@ class DrawerView: UIView {
         return view
     }()
     private lazy var tableView: UITableView = {
-       let table = UITableView()
+        let table = UITableView()
         table.rowHeight = UITableView.automaticDimension
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         table.delegate = self
@@ -52,10 +52,7 @@ class DrawerView: UIView {
             make.top.equalTo(lineView.snp.bottom).offset(16)
             make.leading.trailing.bottom.equalToSuperview()
         }
-
     }
-    
-    
 }
 
 extension DrawerView: UITableViewDelegate, UITableViewDataSource {
@@ -68,9 +65,7 @@ extension DrawerView: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = DrawerView.menuItems[indexPath.row]
         cell.textLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         cell.backgroundColor = .systemGray5
-
+        
         return cell
     }
-    
-    
 }

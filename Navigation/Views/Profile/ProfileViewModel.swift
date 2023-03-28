@@ -13,11 +13,84 @@ final class ProfileViewModel {
     var account : Account
     var friends: [FriendProfile]?
     var comments = [Comments]()
+    var seatchText: String?
+    
     var footerText = "Вы несете ответсвенность за каждое слово в публичном пространстве."
     init(account: Account, friends: [FriendProfile]? = nil ) {
         self.account = account
         self.friends = friends
     }
+    
+    
+   
+    func returnAccountPosts() -> [AccountPosts] {
+        var accountPosts =  [AccountPosts]()
+        for i in account.posts {
+            let post = i
+            post.authorLabel = account.name + " " + account.surname
+            post.authorImage = account.avatar
+            post.statusLabel = account.status
+            accountPosts.append(post)
+        }
+        return accountPosts
+    }
+    
+    func returnFriendsPosts () -> [AccountPosts] {
+        var friendsPosts = [AccountPosts]()
+        for friend in friends ?? [] {
+            let posts = friend.account.posts
+            for j in posts {
+                let post = j
+                post.authorLabel = friend.account.name + " " + friend.account.surname
+                post.authorImage = friend.account.avatar
+                post.statusLabel = friend.account.status
+                friendsPosts.append(post)
+            }
+        }
+        return friendsPosts
+    }
+    
+    func returnAllPost () -> [AccountPosts] {
+        var allPost =  [AccountPosts]()
+        
+        for i in account.posts {
+            let post = i
+            post.authorLabel = account.name + " " + account.surname
+            post.authorImage = account.avatar
+            post.statusLabel = account.status
+            allPost.append(post)
+        }
+        
+        for friend in friends ?? [] {
+            let posts = friend.account.posts
+            for j in posts {
+                let post = j
+                post.authorLabel = friend.account.name + " " + friend.account.surname
+                post.authorImage = friend.account.avatar
+                post.statusLabel = friend.account.status
+                allPost.append(post)
+            }
+        }
+        return allPost
+    }
+    
+    
+    func searchAccountPosts(searchText: String? = nil) -> [AccountPosts]{
+        var postArray = [AccountPosts]()
+        let allPosts = returnAllPost()
+        if let searchText    {
+            for post in allPosts {
+                if post.descriptionLabel.contains(searchText ) {
+                    postArray.append(post)
+                }
+            }
+        } else {
+            postArray = allPosts
+        }
+        return postArray
+    }
+    
+    
 }
 //    func findCommentsUser (idPost: String, date: Date, text : String) -> Account?{
 //        //собираем все комментарии в одном месте
@@ -41,7 +114,6 @@ enum ProfileState {
     case mainProfile
     case friendsProfile
 }
-
 
 
 

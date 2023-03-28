@@ -10,7 +10,8 @@ import SnapKit
 
 class EditMenuViewController: UIViewController {
     
-    var isFemale: Bool?
+    var isFemale: Sex?
+    var account: Account?
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -47,7 +48,7 @@ class EditMenuViewController: UIViewController {
         tf.leftViewMode = UITextField.ViewMode.always
         return tf
     }()
-
+    
     private lazy var sexLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Medium", size: 12)
@@ -118,24 +119,30 @@ class EditMenuViewController: UIViewController {
         view.backgroundColor = .white
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel1"), style: .plain, target: self, action: #selector(tapedCancelActionButton))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "check2"), style: .plain, target: self, action: #selector(tapedSaveMenuActionButton))
-
         self.navigationController?.navigationBar.tintColor = .orange
         setLayers()
         configureButton()
+        setFields()
     }
     
     @objc func tapedSexButton() {
         if femaleButton.currentImage == UIImage(systemName: "circle") {
             femaleButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
             maleButton.setImage(UIImage(systemName: "circle"), for: .normal)
-
-            isFemale = true
+            isFemale = .female
         } else {
             femaleButton.setImage(UIImage(systemName: "circle"), for: .normal)
             maleButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
-            isFemale = false
+            isFemale = .male
         }
         print(String(describing: isFemale))
+    }
+    
+    private func setFields() {
+        nameTextField.text = account?.name
+        surnameTextField.text = account?.surname
+        birthTextField.text = "\(account?.dateBirth.formatted(date: .abbreviated, time: .omitted) ?? "")"
+        cityTextField.text = account?.hometown
     }
     
     private func setLayers() {
@@ -209,9 +216,9 @@ class EditMenuViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-16)
         }
     }
-
+    
     private func configureButton() {
-        if isFemale! {
+        if isFemale == .female {
             femaleButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
             maleButton.setImage(UIImage(systemName: "circle"), for: .normal)
         } else {
@@ -222,6 +229,7 @@ class EditMenuViewController: UIViewController {
     
     @objc func tapedSaveMenuActionButton() {
         self.navigationController?.popViewController(animated: true)
+        account?.name = nameTextField.text ?? ""
     }
     
     @objc func tapedCancelActionButton() {

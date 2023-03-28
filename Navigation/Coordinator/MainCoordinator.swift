@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import FirebaseAuth
 class MainCoordinator: Coordinator {
     var rootViewController = UITabBarController()
     
@@ -18,6 +18,7 @@ class MainCoordinator: Coordinator {
     }
     
     func start() {
+       
         let homeCoordinator = HomeTabCoordinator()
         homeCoordinator.start()
         self.childCoordinators.append(homeCoordinator)

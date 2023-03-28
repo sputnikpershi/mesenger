@@ -17,6 +17,7 @@ class SideMenuView: UIView {
 //    let blackView = UIView()
     var view : UIViewController?
     var state: StateMenu?
+    var title: String?
     
     private lazy var stackView: UIStackView =  {
         let stack = UIStackView ()
@@ -36,7 +37,6 @@ class SideMenuView: UIView {
         name.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         name.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         name.translatesAutoresizingMaskIntoConstraints = false
-        name.text = "Mary Kay"
         return name
     }()
     
@@ -74,15 +74,24 @@ class SideMenuView: UIView {
         return button
     } ()
     
-    init(state: StateMenu) {
+    init(state: StateMenu, title: String) {
         self.state = state
+        self.title = title
         super.init(frame: .zero)
         setLayers()
         stackView.backgroundColor = .systemGray6
+        confugureView()
         }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    private func confugureView() {
+        if state == .menuAction {
+            nameLabel.text = "Profile"
+        } else {
+            nameLabel.text = title
+        }
     }
     
     func setLayers() {
@@ -151,44 +160,10 @@ class SideMenuView: UIView {
         }
     }
     
-    
-    
-//    func showSettings () {
-//        blackView.backgroundColor = .black
-//        blackView.alpha = 0
-//        self.view?.view.addSubview(blackView)
-//        self.view?.view.addSubview(collectionView)
-//        collectionView.frame = CGRect(x: (self.view?.view.center.y)! - 300, y: (self.view?.view.center.y)!, width: 300, height: 250)
-//        blackView.frame = (self.view?.view.frame)!
-//
-//        blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapedBlackViewAction)))
-//
-//        UIView.animate(withDuration: 0.4, delay: 0) {
-//            self.blackView.alpha = 0.3
-//            self.collectionView.alpha = 1
-//        }
-        
-    
-//
-//    @objc private func tapedBlackViewAction() {
-//        UIView.animate(withDuration: 0.4, delay: 0) {
-//            self.blackView.alpha = 0
-//            self.collectionView.alpha = 0
-//
-//        }    }
-    
     @objc func didTapBackButtonAction() {
             self.removeFromSuperview()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
-//        (self.view?.view.viewWithTag(99)?.alpha = 0)
-//            print("Tag 100")
-//            viewWithTag.removeFromSuperview()
-//        self.removeFromSuperview()
-//        self.view?.removeFromParent()
         }
-//        view?.removeFromParent()
-    
-        
 }
 
 

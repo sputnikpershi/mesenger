@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MenuCell: UICollectionViewCell {
+class MenuBarCell: UICollectionViewCell {
     static var buttons = ["Новости", "Для вас"]
     
      var titleLabel: UILabel = {
@@ -45,7 +45,7 @@ class MenuCell: UICollectionViewCell {
     }
 
     func setLabels(index: Int) {
-        titleLabel.text = MenuCell.buttons[index]
+        titleLabel.text = MenuBarCell.buttons[index]
        
     }
     

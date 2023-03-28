@@ -92,7 +92,7 @@ class CoreDataManager {
     func getFilteredPostsData (authorLabel: String? = nil) -> [PostData]? {
            let fetchRequest = PostData.fetchRequest()
            if let authorLabel, authorLabel.count > 0 {
-               fetchRequest.predicate = NSPredicate(format: "authorLabel contains[c] %@", authorLabel)
+               fetchRequest.predicate = NSPredicate(format: "descriptionPost contains[c] %@", authorLabel)
            }
            return (try? persistentContainer.viewContext.fetch(fetchRequest)) ?? []
        }

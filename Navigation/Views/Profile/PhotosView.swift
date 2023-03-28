@@ -12,7 +12,7 @@ class PhotosView: UIView {
 
     var buttonTapCallback: () -> ()  = { }
     weak var viewModel: ProfileViewModel?
-
+    var numberItems = 10
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -142,11 +142,12 @@ class PhotosView: UIView {
 extension PhotosView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
    
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            10
+            numberItems
         }
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! AlbomCell
+            cell.setCell(index: indexPath.row + 1)
             return cell
         }
         

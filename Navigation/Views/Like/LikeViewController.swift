@@ -1,13 +1,13 @@
 //
-//  LikeViewController.swift
+//  LikeVController.swift
 //  Navigation
 //
-//  Created by Kiryl Rakk on 2/12/22.
+//  Created by Kiryl Rakk on 26/3/23.
 //
 
 import UIKit
-import SnapKit
 import CoreData
+
 
 protocol MyCellDelegate: AnyObject {
     func reloadData()
@@ -24,24 +24,20 @@ class LikeViewController: UIViewController {
         return frc
     }()
     
-    private lazy var tableView: UITableView = {
-        let table = UITableView (frame: .zero, style: .grouped)
-        table.dataSource = self
-        table.delegate = self
-        table.rowHeight = UITableView.automaticDimension
-        table.estimatedRowHeight = 400
-        table.register(LIkeTableViewCell.self, forCellReuseIdentifier: "CustomCell")
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
-    } ()
+    private lazy var collectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collection.register(LikeVCell.self, forCellWithReuseIdentifier: "cell")
+        collection.delegate = self
+        collection.dataSource = self
+        return collection
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         fetchResultController.delegate = self
-        let localizationText = NSLocalizedString("likes-title", comment: "")
-        self.title = localizationText
-        self.view.addSubview(tableView)
+        
         setLayers()
         setNavigationController ()
     }
@@ -49,19 +45,18 @@ class LikeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         try? fetchResultController.performFetch()
-        
         DispatchQueue.main.async {
             print("reloaded Like VC")
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
+        
     }
-    
-    
     private func setNavigationController () {
         let filterButton =  UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(filteAction))
         let setDefaultButton = UIBarButtonItem(image: UIImage(systemName: "xmark.seal"), style: .plain, target: self, action: #selector(cleanFilterAction))
         self.navigationItem.rightBarButtonItems = [setDefaultButton, filterButton]
     }
+    
     
     
     @objc func filteAction() {
@@ -75,8 +70,8 @@ class LikeViewController: UIViewController {
             var predicate: NSPredicate?
             if let textField = alertController.textFields?[0] {
                 if let searchText = textField.text, searchText.count > 0 {
-                    coreDataManager.getFilteredPostsData(authorLabel: searchText)
-                    predicate = NSPredicate(format: "authorLabel contains[cd] %@", searchText)
+                    _ = coreDataManager.getFilteredPostsData(authorLabel: searchText)
+                    predicate = NSPredicate(format: "descriptionPost contains[cd] %@", searchText)
                 } else {
                     predicate = nil
                 }
@@ -85,7 +80,7 @@ class LikeViewController: UIViewController {
             fetchResultController.fetchRequest.predicate = predicate
             do {
                 try fetchResultController.performFetch()
-                tableView.reloadData()
+                collectionView.reloadData()
             } catch let err {
                 print(err)
             }
@@ -104,49 +99,43 @@ class LikeViewController: UIViewController {
         self.fetchResultController.fetchRequest.predicate = nil
         do {
             try fetchResultController.performFetch()
-            tableView.reloadData()
+            collectionView.reloadData()
         } catch let err {
             print(err)
         }
     }
-   
     private func setLayers() {
-        tableView.snp.makeConstraints { make in
+        self.view.addSubview(collectionView)
+        collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
 }
 
 
-extension LikeViewController : UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension LikeViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         fetchResultController.sections?[section].numberOfObjects ?? 0
     }
     
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath)
-        
-//        cell.contentView.isUserInteractionEnabled = false
-//        let post = fetchResultController.object(at: indexPath)
-//        cell.delegate = self
-//        cell.index = indexPath.row
-//        cell.indexPath = indexPath
-//        cell.fetchResultController = fetchResultController
-//        cell.setup(with: post)
-//        cell.post = post
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! LikeVCell
+        let posts = fetchResultController.fetchedObjects
+        cell.index = indexPath.row
+        cell.setup(with: posts ?? [], index: indexPath.row, account: profileMary.account)
         return cell
     }
     
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 400)
     }
+    
+    
 }
 
 extension LikeViewController: MyCellDelegate {
     func reloadData() {
-        self.tableView.reloadData()
+        self.collectionView.reloadData()
     }
 }
 
@@ -155,41 +144,15 @@ extension LikeViewController : NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .delete:
-            self.tableView.deleteRows(at: [indexPath!], with: .automatic)
+            self.collectionView.deleteItems(at: [indexPath!])
         case .insert:
-            self.tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            self.collectionView.insertItems(at: [newIndexPath!])
         case .move:
-            self.tableView.moveRow(at: indexPath!, to: newIndexPath!)
+            self.collectionView.moveItem(at: indexPath!, to: newIndexPath!)
         case .update:
-            self.tableView.reloadRows(at: [indexPath!], with: .automatic)
+            self.collectionView.reloadItems(at: [indexPath!])
         @unknown default:
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
     }
 }
-
-
-
-//
-//
-//
-//@objc func filteAction() {
-//    let alertController = UIAlertController(title: "Author Filter", message: "Please enter the name of author in the field below to show you all his posts", preferredStyle: .alert)
-//    alertController.addTextField { (textField : UITextField!) -> Void in
-//        textField.placeholder = "Enter name"
-//    }
-//
-//    let saveAction = UIAlertAction(title: "save", style: .default, handler: { [self] alert -> Void in
-//        if let textField = alertController.textFields?[0] {
-//            if textField.text!.count > 0 {
-//                print("Text :: \(textField.text ?? "")")
-//                let author = textField.text
-//                self.postsData = self.coreDataManager.getFilteredPostsData(authorLabel: author) ?? []
-//                print(self.postsData.first?.authorLabel)
-//
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//            }
-//        }
-//    })

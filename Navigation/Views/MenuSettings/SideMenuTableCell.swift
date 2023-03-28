@@ -35,18 +35,18 @@ class SideMenuTableCell: UITableViewCell {
     }
     
     func setLayers() {
-            self.addSubview(cellImage)
-            self.addSubview(cellLabel)
-            cellImage.snp.makeConstraints { make in
-                make.leading.equalToSuperview()
-                make.top.equalToSuperview().offset(8)
-                make.height.width.equalTo(24)
-                make.bottom.equalToSuperview().offset(-8)
-            }
-            cellLabel.snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(8)
-                make.bottom.equalToSuperview().offset(-8)
-                make.leading.equalTo(cellImage.snp.trailing).offset(8)
+        self.addSubview(cellImage)
+        self.addSubview(cellLabel)
+        cellImage.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.top.equalToSuperview().offset(8)
+            make.height.width.equalTo(24)
+            make.bottom.equalToSuperview().offset(-8)
+        }
+        cellLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(8)
+            make.bottom.equalToSuperview().offset(-8)
+            make.leading.equalTo(cellImage.snp.trailing).offset(8)
         }
     }
     

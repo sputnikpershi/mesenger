@@ -10,6 +10,7 @@ import SnapKit
 
 class AlbomsTableHeader: UITableViewHeaderFooterView {
     
+    var numberItems = 1
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -37,7 +38,6 @@ class AlbomsTableHeader: UITableViewHeaderFooterView {
     private lazy var numbersLabel: UILabel = {
         let num = UILabel()
         num.font = UIFont(name: "Inter-SemiBold", size: 14)
-        num.text = "1"
         return num
     }()
     
@@ -60,7 +60,7 @@ class AlbomsTableHeader: UITableViewHeaderFooterView {
     }
     
     private func setLayers() {
-
+        
         self.addSubview(albomLabel)
         albomLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(28)
@@ -79,7 +79,7 @@ class AlbomsTableHeader: UITableViewHeaderFooterView {
         showAll.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-16)
             make.centerY.equalTo(albomLabel.snp.centerY)
-
+            
         }
         
         self.addSubview(collectionView)
@@ -89,27 +89,25 @@ class AlbomsTableHeader: UITableViewHeaderFooterView {
             make.height.equalTo(100)
         }
         
-                self.addSubview(separatorHorizontal)
-                separatorHorizontal.snp.makeConstraints { make in
-                    make.top.equalTo(self.collectionView.snp.bottom).offset(4)
-                    make.leading.equalToSuperview().offset(28)
-                    make.trailing.equalToSuperview().offset(-16)
-                    make.height.equalTo(0.5)
-                }
-                
+        self.addSubview(separatorHorizontal)
+        separatorHorizontal.snp.makeConstraints { make in
+            make.top.equalTo(self.collectionView.snp.bottom).offset(4)
+            make.leading.equalToSuperview().offset(28)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(0.5)
+        }
     }
-
-    
 }
 
 
 extension AlbomsTableHeader: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        numberItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! AlbomCell
+        cell.setCell(index: indexPath.row + 1)
         return cell
     }
     
