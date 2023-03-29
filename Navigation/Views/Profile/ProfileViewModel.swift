@@ -99,6 +99,28 @@ final class ProfileViewModel {
     }
     
     
+    
+    func findAccountWithPost( post: AccountPosts) -> Account {
+        var accounts: [Account] = []
+        var accountWithPost = Account(nickname: "", name: "", surname: "", status: "", sex: .female, dateBirth: Date(), hometown: "", posts: [], comments: [])
+        friends?.forEach({ friend in
+            accounts.append(friend.account)
+        })
+        for account in accounts {
+            for pos in account.posts {
+                if pos.descriptionLabel == post.descriptionLabel {
+                    accountWithPost = account
+                }
+            }
+            }
+        print(accountWithPost.nickname)
+        return accountWithPost
+        
+        
+    }
+    
+   
+    
 }
 //    func findCommentsUser (idPost: String, date: Date, text : String) -> Account?{
 //        //собираем все комментарии в одном месте

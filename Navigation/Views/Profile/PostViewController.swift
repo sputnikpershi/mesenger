@@ -205,15 +205,15 @@ extension PostViewController : UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        1
+        post.comments.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! PostCommentsCell
         let post = post
-        cell.setCell(comment: post.comments[indexPath.row], postIndex: indexPost , account: viewModel.account)
-        
+        let account  = viewModel.findAccountWithPost(post: post)
+        cell.setCell(comment: post.comments[indexPath.row], postIndex: indexPost , account: account)
         return cell
     }
     
