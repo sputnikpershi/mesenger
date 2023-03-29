@@ -52,7 +52,7 @@ class LikeViewController: UIViewController {
         
     }
     private func setNavigationController () {
-        let filterButton =  UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(filteAction))
+        let filterButton =  UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(filteAction))
         let setDefaultButton = UIBarButtonItem(image: UIImage(systemName: "xmark.seal"), style: .plain, target: self, action: #selector(cleanFilterAction))
         self.navigationItem.rightBarButtonItems = [setDefaultButton, filterButton]
     }
@@ -60,7 +60,7 @@ class LikeViewController: UIViewController {
     
     
     @objc func filteAction() {
-        let alertController = UIAlertController(title: "Author Filter", message: "Please enter the name of author in the field below to show you all his posts", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Description Filter", message: "Please enter the name of author in the field below to show you all his posts", preferredStyle: .alert)
         alertController.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Enter name"
         }

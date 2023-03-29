@@ -47,6 +47,9 @@ final class ProfileViewModel {
                 friendsPosts.append(post)
             }
         }
+        friendsPosts = friendsPosts.sorted(by: { post1, post2 in
+            post1.date > post2.date
+        })
         return friendsPosts
     }
     
@@ -71,6 +74,11 @@ final class ProfileViewModel {
                 allPost.append(post)
             }
         }
+        
+        allPost = allPost.sorted(by: { post1, post2 in
+            post1.date > post2.date
+        })
+        
         return allPost
     }
     

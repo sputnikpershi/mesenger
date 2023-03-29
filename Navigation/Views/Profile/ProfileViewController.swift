@@ -109,7 +109,10 @@ class ProfileViewController: UIViewController {
         } else {
             collectionView.register(FriendProfileHeaderCollection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FriendProfileHeaderCollection.identifier)
         }
+     
     }
+    
+  
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -147,7 +150,6 @@ class ProfileViewController: UIViewController {
         popupMenu.view = self
         popupMenu.showSettings()
     }
-    
     
     private func setViews() {
         self.view.addSubview(self.collectionView)

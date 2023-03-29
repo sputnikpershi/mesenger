@@ -33,7 +33,9 @@ class PopupMenu: NSObject {
         blackView.alpha = 0
         self.view?.view.addSubview(blackView)
         self.view?.view.addSubview(collectionView)
-        collectionView.frame = CGRect(x: (self.view?.view.center.y)! - 300, y: (self.view?.view.center.y)!, width: 300, height: 250)
+      
+            collectionView.frame = CGRect(x: ((self.view?.view.center.y)! - 300)/2, y: (self.view?.view.frame.height ?? 0)/3 , width: 300, height: 250)
+        
         blackView.frame = (self.view?.view.frame)!
        
         blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapedBlackViewAction)))

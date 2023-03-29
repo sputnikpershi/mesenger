@@ -17,8 +17,18 @@ class HomeCollectionCell: UICollectionViewCell {
             
         }
     }
+    var menuIndex: Int! {
+        didSet {
+            
+        }
+    }
+    
     var posts: [AccountPosts] {
-        viewModel?.searchAccountPosts(searchText: searchText) ?? []
+        if menuIndex == 0 {
+            return viewModel?.searchAccountPosts(searchText: searchText) ?? []
+        } else {
+            return viewModel?.returnFriendsPosts() ?? []
+        }
     }
     
     private lazy var collectionView: UICollectionView = {
@@ -35,7 +45,6 @@ class HomeCollectionCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayers()
-        //        posts = viewModel?.searchAccountPosts()
     }
     
     
