@@ -289,7 +289,6 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
             //            header.isMainProfile = false
         }
         return UICollectionReusableView()
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -312,7 +311,7 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
         let posts = viewModel?.returnAccountPosts() ?? []
         cell.postArray = posts
         cell.index = indexPath.row
-       cell.setup(with: posts, index: indexPath.row, account: viewModel?.account)
+        cell.setup(with: posts, index: indexPath.row, account: viewModel?.account)
         return cell
     }
     
@@ -321,7 +320,7 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = PostViewController(viewModel: viewModel!, indexPost: indexPath.row)
+        let vc = PostViewController(viewModel: viewModel!, indexPost: indexPath.row, post: posts[indexPath.row])
         vc.profileVC = self
         vc.indexPost = indexPath.row
         navigationController?.pushViewController(vc, animated: true)

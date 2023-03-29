@@ -14,8 +14,9 @@ class PostViewController: UIViewController {
     var viewModel : ProfileViewModel
     var indexPost: Int
     weak var profileVC : ProfileViewController?
+    var post : AccountPosts
+    var isHomeVC = false
 
-    
 
     private lazy var drawerVC : DrawerView = {
         let view = DrawerView()
@@ -89,9 +90,10 @@ class PostViewController: UIViewController {
         return button
     }()
 
-    init(viewModel: ProfileViewModel, indexPost: Int) {
+    init(viewModel: ProfileViewModel, indexPost: Int, post: AccountPosts) {
         self.viewModel = viewModel
         self.indexPost = indexPost
+        self.post = post
         super.init(nibName: nil, bundle: nil)
         print(indexPost)
     }
@@ -187,7 +189,7 @@ extension PostViewController : UICollectionViewDelegate, UICollectionViewDataSou
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PostHeader.identifier, for: indexPath) as? PostHeader else {
                 return UICollectionReusableView()
             }
-            header.setPost(post: viewModel.account.posts[indexPost], account: viewModel.account)
+            header.setPost(post: post, account: viewModel.account)
             return header
         }
         return UICollectionReusableView()
@@ -203,13 +205,13 @@ extension PostViewController : UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.account.posts[indexPost].comments.count
+        1
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! PostCommentsCell
-        let post = viewModel.account.posts[indexPost]
+        let post = post
         cell.setCell(comment: post.comments[indexPath.row], postIndex: indexPost , account: viewModel.account)
         
         return cell

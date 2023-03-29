@@ -24,11 +24,11 @@ class HomeCollectionCell: UICollectionViewCell {
     }
     
     var posts: [AccountPosts] {
-        if menuIndex == 0 {
+//        if menuIndex == 0 {
             return viewModel?.searchAccountPosts(searchText: searchText) ?? []
-        } else {
-            return viewModel?.returnFriendsPosts() ?? []
-        }
+//        } else {
+//            return viewModel?.returnFriendsPosts() ?? []
+//        }
     }
     
     private lazy var collectionView: UICollectionView = {
@@ -88,7 +88,8 @@ extension HomeCollectionCell: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = PostViewController(viewModel: ProfileViewModel(account: profileMary.account),  indexPost: indexPath.row)
+        let vc = PostViewController(viewModel: ProfileViewModel(account: profileMary.account),  indexPost: indexPath.row, post: posts[indexPath.row])
+        vc.isHomeVC = true
         homeVC?.navigationController?.pushViewController(vc, animated: true)
     }
     
