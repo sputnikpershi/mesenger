@@ -65,8 +65,8 @@ class MainPostsCell: UICollectionViewCell {
     private lazy var likesButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = .black
-        button.setTitleColor(.black, for: .normal)
+        button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
+//        button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         return button
     }()
@@ -74,8 +74,8 @@ class MainPostsCell: UICollectionViewCell {
     private lazy var commentsButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "message"), for: .normal)
-        button.tintColor = .black
-        button.setTitleColor(.black, for: .normal)
+        button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
+//        button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
@@ -86,7 +86,7 @@ class MainPostsCell: UICollectionViewCell {
     private lazy var favouriteButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "bookmark"), for: .normal)
-        button.tintColor = .black
+        button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
@@ -98,6 +98,8 @@ class MainPostsCell: UICollectionViewCell {
     private lazy var moreImageButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "menu1"), for: .normal)
+        let color = UIColor(red: 0.149, green: 0.196, blue: 0.22, alpha: 1)
+        button.imageView?.tintColor =  UIColor.createColor(lightMode: color, darkMode: .white)
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
@@ -109,16 +111,16 @@ class MainPostsCell: UICollectionViewCell {
         let description = UILabel()
         description.numberOfLines = 4
         description.font = UIFont(name: "Inter-Regular", size: 14)
-        description.textColor = UIColor(red: 0.149, green: 0.196, blue: 0.22, alpha: 1)
+        let color = UIColor(red: 0.149, green: 0.196, blue: 0.22, alpha: 1)
+        description.textColor =  UIColor.createColor(lightMode: color, darkMode: .white)
         description.translatesAutoresizingMaskIntoConstraints = false
-        
         return description
     }()
     
     private lazy var showMoreButton : UIButton = {
         let button = UIButton()
         button.setTitle("Показать полностью...", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
+        button.setTitleColor(UIColor.createColor(lightMode: .blue, darkMode: .lightGray), for: .normal)
         button.contentHorizontalAlignment = .leading
         button.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 12)
         return button
@@ -181,7 +183,6 @@ class MainPostsCell: UICollectionViewCell {
     private func setViews () {
         self.corePosts = coreDataManager.posts
         self.addSubview(stackView)
-        
         stackView.addArrangedSubview(avatarImage)
         stackView.addArrangedSubview(authorLabel)
         stackView.addArrangedSubview(moreImageButton)
@@ -215,7 +216,6 @@ class MainPostsCell: UICollectionViewCell {
         profileVC?.setMenu()
         homeVC?.setMenu()
     }
-    
     
     private func setConstraints () {
         
@@ -350,6 +350,7 @@ extension MainPostsCell: LikeDelegate {
             //adding post in core data
             self.coreDataManager.likePost(originalPost:  postArray[index])
             self.favouriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+
         } else {
             
             //deleting post in core data
@@ -361,7 +362,6 @@ extension MainPostsCell: LikeDelegate {
             if let index = indexForDeletePost {
                 self.coreDataManager.unlike(post: self.corePosts[index])
             }
-            self.favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
     }
 }

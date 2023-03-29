@@ -36,7 +36,7 @@ class HomeViewController: UICollectionViewController {
         super.viewDidLoad()
         friendsBar.viewModel = viewModel
         collectionView.delegate = self
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .secondarySystemBackground
         collectionView.dataSource = self
         collectionView.register(HomeCollectionCell.self, forCellWithReuseIdentifier: "cID")
         collectionView.contentInset = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)

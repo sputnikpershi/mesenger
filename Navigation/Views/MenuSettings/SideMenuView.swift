@@ -69,8 +69,8 @@ class SideMenuView: UIView {
         button.setTitle("  Настройки", for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         button.setImage(UIImage(systemName: "gearshape"), for: .normal)
-        button.tintColor = .orange
-        button.setTitleColor(.black, for: .normal)
+        button.imageView?.tintColor = .orange
+        button.setTitleColor(UIColor.createColor(lightMode: .black, darkMode: .white), for: .normal)
         return button
     } ()
     

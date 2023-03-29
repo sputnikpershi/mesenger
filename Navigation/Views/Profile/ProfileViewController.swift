@@ -134,7 +134,7 @@ class ProfileViewController: UIViewController {
     private func setNavigation() {
         let titleView = UILabel()
         titleView.text = viewModel?.account.nickname
-        titleView.textColor = .black
+        titleView.textColor = UIColor.createColor(lightMode: .black, darkMode: .orange)
         titleView.font = UIFont(name: "Inter-Medium", size: 16)
         titleView.frame = CGRect(x: 0, y: 0, width: view.frame.width - 50, height: view.frame.height)
         navigationItem.titleView = titleView

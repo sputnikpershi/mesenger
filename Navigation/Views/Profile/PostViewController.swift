@@ -77,7 +77,8 @@ class PostViewController: UIViewController {
     private lazy var addCommentButton: UIButton = {
         let button = UIButton ()
         button.setTitle("  оставить комментарии", for: .normal)
-        button.tintColor = .black
+        button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
+
         button.setImage(UIImage(systemName: "paperclip"), for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 12)
         button.setTitleColor( UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1), for: .normal)

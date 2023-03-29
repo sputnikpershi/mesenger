@@ -29,7 +29,7 @@ class PhotosView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         let localizationText = NSLocalizedString("profile-photo-title", comment: "")
         label.text = localizationText
-        label.textColor = .black
+        label.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         label.font = UIFont(name: "Inter-Medium", size: 16)
         return label
     }()
@@ -46,6 +46,7 @@ class PhotosView: UIView {
         let label = UILabel()
         label.text = "Мои записи"
         label.font = UIFont(name: "Inter-Regular", size: 14)
+        label.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         return label
     } ()
     
@@ -54,12 +55,15 @@ class PhotosView: UIView {
         button.isUserInteractionEnabled = true
         button.addTarget(self, action: #selector(searchTapAction), for: .touchUpInside)
         button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+         button.imageView?.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
+
         return button
     } ()
     private lazy var backgroundColorView : UIView = {
         let stack = UIView()
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        let color = UIColor.createColor(lightMode: UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1), darkMode: .darkGray)
+        stack.backgroundColor = color
         return stack
     }()
     

@@ -37,7 +37,8 @@ class LikeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchResultController.delegate = self
-        
+        view.backgroundColor = .secondarySystemBackground
+        title = "Избранное"
         setLayers()
         setNavigationController ()
     }

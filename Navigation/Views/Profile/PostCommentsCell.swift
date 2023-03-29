@@ -43,7 +43,7 @@ class PostCommentsCell: UICollectionViewCell {
     private lazy var likesButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = .black
+        button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         button.setTitle(" 3", for: .normal)
@@ -52,8 +52,7 @@ class PostCommentsCell: UICollectionViewCell {
     
     private lazy var answerButton : UIButton = {
         let button = UIButton()
-        button.tintColor = .black
-        button.setTitleColor(.black, for: .normal)
+        button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 12)
         button.setTitle("Ответить", for: .normal)
         return button

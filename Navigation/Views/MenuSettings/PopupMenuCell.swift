@@ -15,7 +15,7 @@ class PopupMenuCell: UICollectionViewCell {
     
     private lazy var settingButton : UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor.createColor(lightMode: .black, darkMode: .orange)
         label.font = UIFont(name: "Inter-Regular", size: 14)
         return label
     }()

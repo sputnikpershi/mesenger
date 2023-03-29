@@ -52,7 +52,7 @@ class MenuBarCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                titleLabel.textColor = .black
+                titleLabel.textColor = .orange
                 indocatorLine.alpha = 1
             } else {
                 titleLabel.textColor = UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1)
@@ -63,7 +63,7 @@ class MenuBarCell: UICollectionViewCell {
     override var isHighlighted: Bool {
         didSet {
             if isSelected {
-                titleLabel.textColor = .black
+                titleLabel.textColor = .orange
                 indocatorLine.alpha = 1
             } else {
                 titleLabel.textColor = UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1)

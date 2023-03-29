@@ -62,7 +62,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
         button.setImage(UIImage(systemName: "info.circle.fill"), for: .normal)
         button.imageView?.tintColor = .orange
         button.setTitle(" Больше информации", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(UIColor.createColor(lightMode: .black, darkMode: .white), for: .normal)
         button.contentHorizontalAlignment = .leading
         button.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14)
         button.addTarget(self, action: #selector(didTapInfoLabel), for: .touchUpInside)
@@ -137,6 +137,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
     private lazy var noteButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "edit1"), for: .normal)
+        button.imageView?.tintColor =  .orange
         return button
     } ()
     private lazy var noteButtonLabel : UILabel = {
@@ -149,6 +150,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
     private lazy var historyButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "camera1"), for: .normal)
+        button.imageView?.tintColor =  .orange
         return button
     } ()
     private lazy var historyButtonLabel : UILabel = {
@@ -161,6 +163,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
     private lazy var photoButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "photos1"), for: .normal)
+        button.imageView?.tintColor =  .orange
         return button
     } ()
     
