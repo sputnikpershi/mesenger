@@ -113,7 +113,7 @@ final class ProfileViewModel {
                 }
             }
             }
-        print(accountWithPost.nickname)
+//        print(accountWithPost.nickname)
         return accountWithPost
         
         

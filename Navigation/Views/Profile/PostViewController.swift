@@ -213,7 +213,7 @@ extension PostViewController : UICollectionViewDelegate, UICollectionViewDataSou
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! PostCommentsCell
         let post = post
         let account  = viewModel.findAccountWithPost(post: post)
-        cell.setCell(comment: post.comments[indexPath.row], postIndex: indexPost , account: account)
+        cell.setCell(comment: self.post.comments[indexPath.row], postIndex: indexPost , account: account)
         return cell
     }
     

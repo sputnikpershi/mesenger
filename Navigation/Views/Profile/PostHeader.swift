@@ -166,9 +166,9 @@ class PostHeader: UICollectionReusableView {
     
     
     func setPost(post: AccountPosts, account: Account) {
-        avatarImage.image = account.avatar
-        nickNameLabel.text = account.nickname
-        authorProfLabel.text = account.status
+        avatarImage.image = post.authorImage
+        nickNameLabel.text = post.authorLabel
+        authorProfLabel.text = post.statusLabel
         postImage.image = post.image
         postText.text = post.descriptionLabel
         likesButton.setTitle(" \(post.likes)", for: .normal)
