@@ -47,4 +47,4 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     func setup(with image: [UIImage], index: Int) {
         self.photoImage.image = image[index]
     }
-    }
+}

@@ -9,15 +9,14 @@ import UIKit
 import SnapKit
 
 class PostViewController: UIViewController {
-//    let drawerVC = DrawerView()
     var isExtended = false
     var viewModel : ProfileViewModel
     var indexPost: Int
     weak var profileVC : ProfileViewController?
     var post : AccountPosts
     var isHomeVC = false
-
-
+    
+    
     private lazy var drawerVC : DrawerView = {
         let view = DrawerView()
         view.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height/2)
@@ -54,22 +53,17 @@ class PostViewController: UIViewController {
         let width = UIScreen.main.bounds.size.width
         layout.minimumLineSpacing = 4
         layout.sectionInset =  UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-//        layout.estimatedItemSize = CGSize(width: view.frame.width, height: 1)
-//        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.scrollDirection = .vertical
         return layout
     }()
-
+    
     private lazy var collectionView: UICollectionView = {
-        
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.dataSource = self
         collection.delegate = self
         collection.register(PostCommentsCell.self, forCellWithReuseIdentifier: "cID")
-        //        collection.register(PhotosView.self, forCellWithReuseIdentifier: "cpID")
         collection.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 44, right: 0)
         collection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 44, right: 0)
-
         collection.register(PostHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PostHeader.identifier)
         return collection
     }()
@@ -89,13 +83,12 @@ class PostViewController: UIViewController {
         button.setTitleColor( UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1), for: .normal)
         return button
     }()
-
+    
     init(viewModel: ProfileViewModel, indexPost: Int, post: AccountPosts) {
         self.viewModel = viewModel
         self.indexPost = indexPost
         self.post = post
         super.init(nibName: nil, bundle: nil)
-        print(indexPost)
     }
     
     required init?(coder: NSCoder) {
@@ -126,7 +119,7 @@ class PostViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-25)
             make.height.equalTo(0.5)
         }
-
+        
         self.view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(separator.snp.bottom)
@@ -148,7 +141,6 @@ class PostViewController: UIViewController {
     }
     
     @objc func tapedMoreActionButton () {
-        print("more")
         drawerVC.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height/2)
         self.view.addSubview(drawerVC)
         if isExtended {
@@ -158,13 +150,13 @@ class PostViewController: UIViewController {
             }
             isExtended = false
         } else if isExtended == false {
-
+            
             UIView.animate(withDuration: 0.5) {
                 self.drawerVC.frame = CGRect(x: 0, y: self.view.frame.height/2, width: self.view.frame.width, height: self.view.frame.height/2)
                 self.drawerVC.layer.cornerRadius = 20
             }
             isExtended = true
-            }
+        }
     }
     
     @objc func tapedBackActionButton () {
@@ -175,9 +167,6 @@ class PostViewController: UIViewController {
         self.drawerVC.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height/2)
         self.isExtended = false
     }
-    
-    
-    
 }
 
 
@@ -211,9 +200,7 @@ extension PostViewController : UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! PostCommentsCell
-        let post = post
-        let account  = viewModel.findAccountWithPost(post: post)
-        cell.setCell(comment: self.post.comments[indexPath.row], postIndex: indexPost , account: account)
+        cell.setCell(comment: self.post.comments[indexPath.row], postIndex: indexPost , post: self.post)
         return cell
     }
     
@@ -221,23 +208,6 @@ extension PostViewController : UICollectionViewDelegate, UICollectionViewDataSou
         let width = self.view.frame.width
         return CGSize(width: width - 16, height: 68)
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if indexPath.row == 0 {
-//            let vc = AlbomsViewController()
-//            navigationController?.pushViewController(vc, animated: true)
-//        } else {
-//            let vc = PostViewController()
-//            navigationController?.pushViewController(vc, animated: true)
-//
-//        }
-//    }
-    
-//    override func systemLayoutFittingSizeDidChange(forChildContentContainer container: UIContentContainer) {
-//        width.constant = bounds.size.width
-//        return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 1))
-//    }
-    
 }
 
 

@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 
-class ProveAuthViewController: UIViewController {
+class SMSViewController: UIViewController {
     var isRegistration: Bool?
     var number : String?
 

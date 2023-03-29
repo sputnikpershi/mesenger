@@ -10,7 +10,7 @@ import SnapKit
 
 class MenuBar: UIView  {
     var homeVC: HomeViewController?
-     lazy var collectionView: UICollectionView = {
+    lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -47,7 +47,7 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
             cell.indocatorLine.alpha = 0
             cell.titleLabel.textColor = UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1)
         }
-       
+        
         cell.setLabels(index: indexPath.row)
         return cell
     }
@@ -59,9 +59,8 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: frame.width/3, height: frame.height)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("---- indexPath in row : \(indexPath.row)")
         homeVC?.scrollToMenuIndex(menuIndex: indexPath.row)
     }
 }
@@ -73,12 +72,12 @@ class FriendsBar : UIView  {
     var homeVC: HomeViewController?
     var viewModel : ProfileViewModel?
     
-     lazy var collectionView: UICollectionView = {
+    lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-         layout.minimumInteritemSpacing = 16
-         layout.minimumLineSpacing = 16
-         layout.sectionInset =  UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-         layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 16
+        layout.minimumLineSpacing = 16
+        layout.sectionInset =  UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        layout.scrollDirection = .horizontal
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.delegate = self
         collection.dataSource = self
@@ -120,10 +119,10 @@ extension FriendsBar: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 60, height: 60 )
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vm = ProfileViewModel(account: profileMary.friends[indexPath.row].account, friends: profileMary.friends)
-          let vc = ProfileViewController(viewModel: vm)
+        let vc = ProfileViewController(viewModel: vm)
         vc.isMainProfile = false
         homeVC?.navigationController?.pushViewController(vc, animated: true)
         homeVC?.navigationController?.isNavigationBarHidden = false

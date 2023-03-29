@@ -122,7 +122,6 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         DispatchQueue.main.async {
             self.collectionView.reloadData()
-            print("reload ProfileVC")
         }
     }
     
@@ -324,7 +323,6 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
         vc.profileVC = self
         vc.indexPost = indexPath.row
         navigationController?.pushViewController(vc, animated: true)
-        print("selected")
         
     }
 }

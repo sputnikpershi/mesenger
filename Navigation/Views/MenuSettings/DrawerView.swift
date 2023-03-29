@@ -65,7 +65,6 @@ extension DrawerView: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = DrawerView.menuItems[indexPath.row]
         cell.textLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         cell.backgroundColor = .systemGray5
-        
         return cell
     }
 }

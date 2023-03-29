@@ -94,9 +94,8 @@ class RegistrationViewController: UIViewController {
     }
     
     @objc func nextAction() {
-        let vc = ProveAuthViewController()
+        let vc = SMSViewController()
         vc.isRegistration = true
-
         navigationController?.pushViewController(vc, animated: true)
     }
     

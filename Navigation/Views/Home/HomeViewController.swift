@@ -129,7 +129,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! HomeCollectionCell
             cell.homeVC = self
             cell.menuIndex = indexPath.row
-            print(indexPath.row)
             cell.setViewModel(viewModel: viewModel)
             return cell
     }

@@ -22,7 +22,7 @@ final class ProfileViewModel {
     }
     
     
-   
+    
     func returnAccountPosts() -> [AccountPosts] {
         var accountPosts =  [AccountPosts]()
         for i in account.posts {
@@ -47,9 +47,9 @@ final class ProfileViewModel {
                 friendsPosts.append(post)
             }
         }
-//        friendsPosts = friendsPosts.sorted(by: { post1, post2 in
-//            post1.date > post2.date
-//        })
+        //        friendsPosts = friendsPosts.sorted(by: { post1, post2 in
+        //            post1.date > post2.date
+        //        })
         return friendsPosts
     }
     
@@ -75,9 +75,9 @@ final class ProfileViewModel {
             }
         }
         
-//        allPost = allPost.sorted(by: { post1, post2 in
-//            post1.date > post2.date
-//        })
+        //        allPost = allPost.sorted(by: { post1, post2 in
+        //            post1.date > post2.date
+        //        })
         
         return allPost
     }
@@ -98,8 +98,6 @@ final class ProfileViewModel {
         return postArray
     }
     
-    
-    
     func findAccountWithPost( post: AccountPosts) -> Account {
         var accounts: [Account] = []
         var accountWithPost = Account(nickname: "", name: "", surname: "", status: "", sex: .female, dateBirth: Date(), hometown: "", posts: [], comments: [])
@@ -112,15 +110,9 @@ final class ProfileViewModel {
                     accountWithPost = account
                 }
             }
-            }
-//        print(accountWithPost.nickname)
+        }
         return accountWithPost
-        
-        
     }
-    
-   
-    
 }
 //    func findCommentsUser (idPost: String, date: Date, text : String) -> Account?{
 //        //собираем все комментарии в одном месте

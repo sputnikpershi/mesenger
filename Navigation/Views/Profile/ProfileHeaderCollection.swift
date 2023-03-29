@@ -342,13 +342,10 @@ class ProfileHeaderCollection: UICollectionReusableView {
    
     @objc func buttonPressed () {
         profileVC?.tapEditButton()
-        print("pressed")
     }
    
     @objc func didTapInfoLabel () {
-        
         profileVC?.tapInfo()
-        
     }
     
     
@@ -367,7 +364,6 @@ class ProfileHeaderCollection: UICollectionReusableView {
    }
    
     @objc func didTapPhotoView() {
-        print("123")
         self.profileVC?.navigationController?.pushViewController(AlbomsViewController(), animated: true)
     }
    
@@ -382,8 +378,6 @@ class ProfileHeaderCollection: UICollectionReusableView {
    }
    
   @objc func didTapMenuAction () {
-      print("123")
-      
       profileVC?.tapMenu()
 //      delegate?.didTapMenuButton()
    }

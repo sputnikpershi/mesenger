@@ -15,20 +15,14 @@ class AuthManager {
     
     public func startAuth(phoneNumber: String, completion: @escaping (Bool) -> Void) {
         PhoneAuthProvider.provider()
-          .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { [weak self] verificationID, error in
-              guard let verificationID = verificationID, error == nil  else {
-                  completion(false)
-                  return
-              }
-              self?.verificationID = verificationID
-              completion(true)
-//              if let error = error {
-//                self.showMessagePrompt(error.localizedDescription)
-//                return
-//              }
-              // Sign in using the verificationID and the code sent to the user
-              // ...
-          }
+            .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { [weak self] verificationID, error in
+                guard let verificationID = verificationID, error == nil  else {
+                    completion(false)
+                    return
+                }
+                self?.verificationID = verificationID
+                completion(true)
+            }
     }
     
     public func verifySMS(smsCode: String, completion: @escaping (Bool) -> Void) {
@@ -37,8 +31,8 @@ class AuthManager {
             return
         }
         let credential = PhoneAuthProvider.provider().credential(
-          withVerificationID: verificationID,
-          verificationCode: smsCode
+            withVerificationID: verificationID,
+            verificationCode: smsCode
         )
         
         auth.signIn(with: credential) { result, error in
@@ -47,10 +41,6 @@ class AuthManager {
                 return
             }
             completion(true)
-            
         }
-        
     }
-    
-    
 }

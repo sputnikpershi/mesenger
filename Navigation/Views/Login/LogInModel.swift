@@ -128,7 +128,6 @@ extension LAContext {
         var error: NSError?
         
         guard self.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
-            // Capture these recoverable error thru Crashlytics
             return .none
         }
         

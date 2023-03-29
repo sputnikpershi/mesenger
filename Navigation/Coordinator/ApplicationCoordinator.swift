@@ -7,14 +7,12 @@
 
 import UIKit
 import SwiftUI
-import Combine
 import FirebaseAuth
 
 class ApplicationCoordinator: Coordinator {
     var window: UIWindow
     var childCoordinator = [Coordinator]()
-    let hasSeenLogIn = CurrentValueSubject<Bool,Never>(false)
-    var subscriptions = Set<AnyCancellable>()
+  
     init (window: UIWindow) {
         self.window = window
         NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "dissmis"), object: nil)
@@ -28,22 +26,7 @@ class ApplicationCoordinator: Coordinator {
     
     
     func start() {
-        
-//        
-//        hasSeenLogIn.sink { [weak self] hasSeen in
-//            if hasSeen {
-//                let mainCoordinator  = MainCoordinator()
-//                mainCoordinator.start()
-//                self?.childCoordinator = [mainCoordinator]
-//                self?.window.rootViewController = mainCoordinator.rootViewController
-//            }else if let hasSeenLogIn = self?.hasSeenLogIn {
-//                let loginCoordinator = LoginCoordinator(hasSeenLogIn: hasSeenLogIn)
-//                loginCoordinator.start()
-//                self?.childCoordinator  = [loginCoordinator]
-//                self?.window.rootViewController = loginCoordinator.rootViewController
-//            }
-//        }.store(in: &subscriptions)
-//        
+ 
         if Auth.auth().currentUser == nil {
             let loginCoordinator = LoginCoordinator()
             loginCoordinator.start()

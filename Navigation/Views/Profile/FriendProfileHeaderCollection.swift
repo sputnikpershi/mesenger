@@ -188,7 +188,6 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
     
     private lazy var photosView: PhotosView = {
         let view = PhotosView()
-//       print(isMainProfile)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapPhotoView)))
         return view
     }()
@@ -215,9 +214,7 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
         numberFolowed.text = "\(friends.count) \nподписок"
         numberFolowers.text = "\(friends.count ) \nподписчиков"
         numberPost.text = "\(viewModel?.account.posts.count ?? 0) \nпубликаций"
-//        print(viewModel?.friends ?? [])
         statusLabel.text = viewModel?.account.status
-//        widthFrame = self.frame.width
    }
     
     private func setViews () {
@@ -227,35 +224,16 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
         self.addSubview(self.viewTF)
         self.addSubview(self.infoLabel)
         self.addSubview(self.messageButton)
-//        self.addSubview(nicknameLabel)
-//        self.addSubview(self.menuButton)
         self.addSubview(self.callButton)
         self.addSubview(self.numberPost)
         self.addSubview(self.numberFolowed)
         self.addSubview(self.numberFolowers)
         self.addSubview(self.separator)
-        //           self.addSubview(self.noteButton)
-        //           self.addSubview(self.historyButton)
-        //           self.addSubview(self.photoButton)
-        //           self.addSubview(self.noteButtonLabel)
-        //           self.addSubview(self.historyButtonLabel)
-        //           self.addSubview(self.photoButtonLabel)
         self.addSubview(self.photosView)
     }
     
     
     private func setConstraints () {
-        
-//
-//        nicknameLabel.snp.makeConstraints { make in
-//            make.top.equalTo(self.snp.top).offset(8)
-//            make.leading.equalToSuperview().offset(16)
-//        }
-//
-//        menuButton.snp.makeConstraints { make in
-//            make.top.equalTo(self.snp.top).offset(8)
-//            make.trailing.equalToSuperview().offset(-16)
-//        }
         
         avatarImage.snp.makeConstraints { make in
             make.top.equalTo(self.snp.top).offset(8)
@@ -315,46 +293,7 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
             make.centerX.equalToSuperview()
             make.height.equalTo(0.5)
         }
-        
-        //           noteButton.snp.makeConstraints { make in
-        //               make.top.equalTo(self.separator.snp.bottom).offset(16)
-        //               make.width.equalTo(24)
-        //               make.height.equalTo(24)
-        //               make.centerX.equalTo(numbrePost.snp.centerX)
-        //           }
-        //
-        //           noteButtonLabel.snp.makeConstraints { make in
-        //               make.top.equalTo(noteButton.snp.bottom).offset(8)
-        //               make.centerX.equalTo(noteButton.snp.centerX)
-        //
-        //           }
-        //
-        //           historyButton.snp.makeConstraints { make in
-        //               make.centerY.equalTo(noteButton.snp.centerY)
-        //               make.width.equalTo(29)
-        //               make.height.equalTo(29)
-        //               make.centerX.equalToSuperview()
-        //           }
-        //
-        //           photoButton.snp.makeConstraints { make in
-        //               make.centerY.equalTo(noteButton.snp.centerY)
-        //               make.width.equalTo(24)
-        //               make.height.equalTo(24)
-        //               make.centerX.equalTo(numberFolowers.snp.centerX)
-        //           }
-        //
-        //
-        //
-        //           historyButtonLabel.snp.makeConstraints { make in
-        //               make.top.equalTo(historyButton.snp.bottom).offset(8)
-        //               make.centerX.equalTo(historyButton.snp.centerX)
-        //           }
-        //
-        //           photoButtonLabel.snp.makeConstraints { make in
-        //               make.top.equalTo(photoButton.snp.bottom).offset(8)
-        //               make.centerX.equalTo(photoButton.snp.centerX)
-        //           }
-        //
+      
         photosView.snp.makeConstraints { make in
             make.top.equalTo(separator.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview()
@@ -365,7 +304,6 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
     
     @objc func buttonPressed () {
         profileVC?.tapEditButton()
-        print("pressed")
     }
     
     @objc func didTapInfoLabel () {
@@ -387,7 +325,6 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
     }
     
     @objc func didTapPhotoView() {
-        print("123")
         self.profileVC?.navigationController?.pushViewController(AlbomsViewController(), animated: true)
     }
     
@@ -402,10 +339,7 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
     }
     
     @objc func didTapMenuAction () {
-        print("123")
-        
         profileVC?.tapMenu()
-        //      delegate?.didTapMenuButton()
     }
 }
 

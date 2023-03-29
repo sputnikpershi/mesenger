@@ -38,19 +38,6 @@ class PhotosViewController: UIViewController {
         self.setConstraints()
     }
     
-  
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-       
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-       
-        
-    }
-    
     private func setNavigationBar () {
         self.navigationController?.navigationBar.isHidden = false
         let localizationText = NSLocalizedString("gallery-title", comment: "")

@@ -69,10 +69,10 @@ class PostCommentsCell: UICollectionViewCell {
     }
     
     
-    func setCell(comment: Comments, postIndex: Int, account: Account) {
+    func setCell(comment: Comments, postIndex: Int, post: AccountPosts) {
         comentsLabel.text = comment.commentText
-        avatarImage.image = account.avatar  
-        nickNameLabel.text = account.nickname
+        avatarImage.image = post.authorImage
+        nickNameLabel.text = post.authorLabel
         likesButton.setTitle(" \(comment.likes)", for: .normal)
         dateLabel.text =  "\(comment.date.formatted(date: .abbreviated, time: .omitted))"
         

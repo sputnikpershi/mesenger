@@ -55,9 +55,6 @@ class AuthViewController: UIViewController {
         return tf
     }()
     
-  
-    
-    
     private lazy var authButton : UIButton = {
         let button = UIButton()
         button.setTitle("ПОДТВЕРДИТЬ", for: .normal)
@@ -67,8 +64,6 @@ class AuthViewController: UIViewController {
         return button
     }()
 
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setGesture()
@@ -97,7 +92,7 @@ class AuthViewController: UIViewController {
                     self.present(alert, animated: true)
                     return }
                 DispatchQueue.main.async {
-                    let vc = ProveAuthViewController()
+                    let vc = SMSViewController()
                     vc.isRegistration = false
                     vc.number = number
                     self.navigationController?.pushViewController(vc, animated: true)

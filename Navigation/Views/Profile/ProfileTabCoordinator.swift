@@ -12,7 +12,7 @@ class ProfileTabCoordinator: Coordinator {
     var firstLogin = false
     let account = profileMary.account
     let friends = profileMary.friends
-
+    
     
     enum Event {
         case tapLoginButton
@@ -24,32 +24,21 @@ class ProfileTabCoordinator: Coordinator {
         switch event {
         case .tapLoginButton:
             print("event login")
-            
-            //            rootViewController.pushViewController(ProfileViewController(viewModel: profileVM), animated: false)
-            
         case .tapShowStatus:
             print("tapped show status")
         case .logOut:
             print("Loged out event")
             rootViewController.popToRootViewController(animated: true)
         }
-        
     }
     
     
     
     func start () {
-        
         let profileVM = ProfileViewModel(account: account, friends: friends)
         let profileVC = ProfileViewController(viewModel: profileVM)
         profileVC.isMainProfile = true
-//        let userDefault = UserDefaults.standard
-        //        if userDefault.bool(forKey: "hasLogedIn")  { //Auth.auth().currentUser == nil
         rootViewController = UINavigationController(rootViewController:  profileVC )
-        //        }
-        //        else {
-        //            rootViewController = UINavigationController(rootViewController: LogInViewController())        }
-        //    }
     }
 }
 

@@ -42,6 +42,4 @@ class MainCoordinator: Coordinator {
         
         rootViewController.viewControllers = [feedVC , profileVC, likeVC]
     }
-    
-    
 }

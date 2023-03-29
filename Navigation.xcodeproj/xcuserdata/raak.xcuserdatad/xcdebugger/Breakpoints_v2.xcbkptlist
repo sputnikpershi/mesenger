@@ -407,8 +407,8 @@
             filePath = "Navigation/Views/Profile/PostViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "tapedMoreActionButton()"
             landmarkType = "7">
          </BreakpointContent>
