@@ -94,9 +94,28 @@ class RegistrationViewController: UIViewController {
     }
     
     @objc func nextAction() {
-        let vc = SMSViewController()
-        vc.isRegistration = true
-        navigationController?.pushViewController(vc, animated: true)
+        
+        if let text = textField.text, !text.isEmpty {
+            let number = "+7\(AuthManager.number)"
+            let fakeNumber = "+7\(text)"
+            AuthManager.shared.startAuth(phoneNumber: number) { success in
+                guard success else {
+                    
+                    let alert = UIAlertController(title: "Error", message: "Такого номера нет в базе. Хотите зарегистрироваться?", preferredStyle: .alert)
+                    let cancel = UIAlertAction(title: "Отмена", style: .cancel)
+                    let registration = UIAlertAction(title: "Зарегистрироваться", style: .default)
+                    alert.addAction(cancel)
+                    alert.addAction(registration)
+                    self.present(alert, animated: true)
+                    return }
+                DispatchQueue.main.async {
+                    let vc = SMSViewController()
+                    vc.isRegistration = true
+                    vc.number = fakeNumber
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
     }
     
 

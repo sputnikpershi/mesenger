@@ -90,6 +90,7 @@ class SMSViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "arrow1"), style: .plain, target: self, action: #selector(didTapBackButtonAction))
         navigationController?.navigationBar.tintColor = .black
         configureViews()
+        print(isRegistration)
     }
     
     @objc func didTapBackButtonAction () {
@@ -97,12 +98,20 @@ class SMSViewController: UIViewController {
     }
     
     @objc func tapButtonAction () {
+        guard let isRegistration = isRegistration else { return }
+        
             if let text = textField.text, !text.isEmpty {
-                let code = text
+                var code = ""
+
+                if isRegistration {
+                    code = AuthManager.smsCode
+                } else {
+                    let code = text
+                }
                 
                 AuthManager.shared.verifySMS(smsCode: code) { success in
                     guard success else { return }
-print("success")
+                    print("success")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "dissmis"), object: nil)
 
                 }

@@ -10,6 +10,8 @@ import Foundation
 class AuthManager {
     static let shared = AuthManager()
     private let auth = Auth.auth()
+    static let number = "9669666666"
+    static let smsCode = "666666"
     
     private var verificationID: String?
     

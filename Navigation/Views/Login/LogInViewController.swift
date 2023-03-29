@@ -30,7 +30,6 @@ class LogInViewController: UIViewController {
         button.setTitle("Уже есть аккаунт", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(authAction), for: .touchUpInside)
-
         return button
     }()
     
