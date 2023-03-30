@@ -63,8 +63,7 @@ class PostHeader: UICollectionReusableView {
     private lazy var likesButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = .black
-        button.setTitleColor(.black, for: .normal)
+        button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         return button
     }()
@@ -72,8 +71,7 @@ class PostHeader: UICollectionReusableView {
     private lazy var commentsButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "message"), for: .normal)
-        button.tintColor = .black
-        button.setTitleColor(.black, for: .normal)
+        button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
@@ -84,7 +82,7 @@ class PostHeader: UICollectionReusableView {
     private lazy var favouriteButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "bookmark"), for: .normal)
-        button.tintColor = .black
+        button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
@@ -173,5 +171,7 @@ class PostHeader: UICollectionReusableView {
         postText.text = post.descriptionLabel
         likesButton.setTitle(" \(post.likes)", for: .normal)
         commentsButton.setTitle(" \(post.comments.count)", for: .normal)
+        let favouriteButtonImage = post.isLiked ? UIImage(systemName: "bookmark.fill") : UIImage(systemName: "bookmark")
+        favouriteButton.setImage(favouriteButtonImage, for: .normal)
     }
 }

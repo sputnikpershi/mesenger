@@ -87,7 +87,7 @@ class LikeVCell: UICollectionViewCell {
     private lazy var favouriteButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "bookmark"), for: .normal)
-        button.tintColor = .black
+        button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
@@ -338,6 +338,8 @@ extension LikeVCell: LikeDelegate {
         }
         self.coreDataManager.unlike(post: self.posts[indexForDeletePost!])
         self.favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+
     }
 }
 

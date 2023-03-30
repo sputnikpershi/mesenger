@@ -46,7 +46,7 @@ class RegistrationViewController: UIViewController {
         tf.keyboardType = .asciiCapableNumberPad
         tf.textContentType = .telephoneNumber
         tf.placeholder = "_ _ _-_ _ _-_ _-_ _"
-       
+        tf.textColor  = .black
         return tf
     }()
     

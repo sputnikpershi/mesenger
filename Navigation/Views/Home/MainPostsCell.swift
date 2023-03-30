@@ -327,15 +327,18 @@ class MainPostsCell: UICollectionViewCell {
         }
         if isLiked {
             favouriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            
         } else {
             favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
+        post.isLiked = isLiked
     }
     
     @objc func likeActionTap () {
         let likeHelper = LikeHelper()
         likeHelper.delegate = self
         likeHelper.likePost(isLiked: &isLiked)
+        
     }
 }
 
@@ -346,14 +349,15 @@ extension MainPostsCell: LikeDelegate {
         let index = self.index  ?? 0
         
         if isLike {
-            
             //adding post in core data
             self.coreDataManager.likePost(originalPost:  postArray[index])
             self.favouriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-
+//
         } else {
             
             //deleting post in core data
+            self.favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+
             let indexForDeletePost = self.corePosts.firstIndex { corePost in
                 corePost.id == postArray[index].id &&
                 corePost.descriptionPost == postArray[index].descriptionLabel

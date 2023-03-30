@@ -78,7 +78,6 @@ class PostViewController: UIViewController {
         let button = UIButton ()
         button.setTitle("  оставить комментарии", for: .normal)
         button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
-
         button.setImage(UIImage(systemName: "paperclip"), for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 12)
         button.setTitleColor( UIColor(red: 0.495, green: 0.507, blue: 0.512, alpha: 1), for: .normal)
@@ -98,10 +97,11 @@ class PostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
         setLayers()
         setNavigation ()
         title = "Публикация"
+       
     }
     
     private func setNavigation () {
@@ -111,6 +111,7 @@ class PostViewController: UIViewController {
         button.width = 6
         self.navigationItem.rightBarButtonItem = button
     }
+    
     private func setLayers() {
         self.view.addSubview(drawerVC)
         self.view.addSubview(separator)
@@ -151,7 +152,6 @@ class PostViewController: UIViewController {
             }
             isExtended = false
         } else if isExtended == false {
-            
             UIView.animate(withDuration: 0.5) {
                 self.drawerVC.frame = CGRect(x: 0, y: self.view.frame.height/2, width: self.view.frame.width, height: self.view.frame.height/2)
                 self.drawerVC.layer.cornerRadius = 20

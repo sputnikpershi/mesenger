@@ -248,8 +248,8 @@
 			children = (
 				14FC7E0929D0076600086ED2 /* LikeViewController.swift */,
 				14FC7E0B29D0284000086ED2 /* LikeVCell.swift */,
-				14F5C51729399F200034CE9B /* LikeCoordinator.swift */,
 				1485A2A32983C76D006B9045 /* LikeHelper.swift */,
+				14F5C51729399F200034CE9B /* LikeCoordinator.swift */,
 			);
 			path = Like;
 			sourceTree = "<group>";
