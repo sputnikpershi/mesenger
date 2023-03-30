@@ -17,14 +17,16 @@ class EditMenuViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Medium", size: 12)
         label.text = "Имя"
+        label.textColor = colorButtonText
         return label
     }()
     
     private lazy var nameTextField: UITextField = {
         let tf = UITextField()
-        tf.backgroundColor = UIColor(red: 0.961, green: 0.953, blue: 0.933, alpha: 1)
+        tf.backgroundColor = colorTextField
         tf.layer.cornerRadius = 10
         tf.placeholder  = "имя"
+        tf.textColor = colorButtonText
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         tf.leftView = paddingView
         tf.leftViewMode = UITextField.ViewMode.always
@@ -35,6 +37,7 @@ class EditMenuViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Medium", size: 12)
         label.text = "Фамилия"
+        label.textColor = colorButtonText
         return label
     }()
     
@@ -42,9 +45,10 @@ class EditMenuViewController: UIViewController {
         let tf = UITextField()
         tf.layer.cornerRadius = 10
         tf.placeholder  = "фамилия"
-        tf.backgroundColor = UIColor(red: 0.961, green: 0.953, blue: 0.933, alpha: 1)
+        tf.backgroundColor = colorTextField
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         tf.leftView = paddingView
+        tf.textColor = colorButtonText
         tf.leftViewMode = UITextField.ViewMode.always
         return tf
     }()
@@ -53,6 +57,7 @@ class EditMenuViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Medium", size: 12)
         label.text = "Пол"
+        label.textColor = colorButtonText
         return label
     }()
     
@@ -81,16 +86,19 @@ class EditMenuViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Medium", size: 12)
         label.text = "Дата рождения"
+        label.textColor = colorButtonText
         return label
     }()
     
     private lazy var birthTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder  = "01.01.2020"
-        tf.backgroundColor = UIColor(red: 0.961, green: 0.953, blue: 0.933, alpha: 1)
+        
+        tf.backgroundColor = colorTextField
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         tf.leftView = paddingView
         tf.layer.cornerRadius = 10
+        tf.textColor = colorButtonText
         tf.leftViewMode = UITextField.ViewMode.always
         return tf
     }()
@@ -99,15 +107,17 @@ class EditMenuViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Medium", size: 12)
         label.text = "Родной город"
+        label.textColor = colorButtonText
         return label
     }()
     
     private lazy var cityTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Напишите название"
-        tf.backgroundColor = UIColor(red: 0.961, green: 0.953, blue: 0.933, alpha: 1)
+        tf.backgroundColor = colorTextField
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         tf.leftView = paddingView
+        tf.textColor = colorButtonText
         tf.layer.cornerRadius = 10
         tf.leftViewMode = UITextField.ViewMode.always
         return tf
@@ -116,7 +126,7 @@ class EditMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Основная информация"
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel1"), style: .plain, target: self, action: #selector(tapedCancelActionButton))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "check2"), style: .plain, target: self, action: #selector(tapedSaveMenuActionButton))
         self.navigationController?.navigationBar.tintColor = .orange

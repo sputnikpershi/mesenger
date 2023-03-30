@@ -27,7 +27,7 @@ class ProfileViewController: UIViewController {
         let view = UIView()
         view.alpha = 0
         view.tag = 99
-        view.backgroundColor = .black
+        view.backgroundColor = colorBlackView
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapedBlackViewAction)))
         return view
     }()

@@ -28,7 +28,7 @@ class PopupMenu: NSObject {
     }
     
     func showSettings () {
-        blackView.backgroundColor = .black
+        blackView.backgroundColor = colorBlackView
         blackView.alpha = 0
         self.view?.view.addSubview(blackView)
         self.view?.view.addSubview(collectionView)

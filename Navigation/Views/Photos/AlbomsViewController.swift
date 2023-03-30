@@ -29,7 +29,7 @@ class AlbomsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
         setLayers()
         title = "Alboms"
         self.navigationController?.navigationBar.isHidden = false

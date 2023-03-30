@@ -63,7 +63,9 @@ class PostHeader: UICollectionReusableView {
     private lazy var likesButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
+        let color = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
+        button.setTitleColor(color, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         return button
     }()
@@ -71,7 +73,9 @@ class PostHeader: UICollectionReusableView {
     private lazy var commentsButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "message"), for: .normal)
+        let color = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
+        button.setTitleColor(color, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill

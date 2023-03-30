@@ -65,8 +65,9 @@ class MainPostsCell: UICollectionViewCell {
     private lazy var likesButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
+        let color = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
-//        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(color, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         return button
     }()
@@ -74,8 +75,9 @@ class MainPostsCell: UICollectionViewCell {
     private lazy var commentsButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "message"), for: .normal)
+        let color = UIColor.createColor(lightMode: .black, darkMode: .white)
         button.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
-//        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(color, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
@@ -331,14 +333,15 @@ class MainPostsCell: UICollectionViewCell {
         } else {
             favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
-        post.isLiked = isLiked
+        posts[index].isLiked = isLiked
+        
+        print("😠 \(posts[index].isLiked)")
     }
     
     @objc func likeActionTap () {
         let likeHelper = LikeHelper()
         likeHelper.delegate = self
         likeHelper.likePost(isLiked: &isLiked)
-        
     }
 }
 

@@ -27,6 +27,7 @@
 		142177C729C3FDFC000B2BE1 /* SideMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142177C629C3FDFC000B2BE1 /* SideMenuModel.swift */; };
 		142177C929C4016A000B2BE1 /* DrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142177C829C4016A000B2BE1 /* DrawerView.swift */; };
 		144DC27C29810A6500CEF819 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7F58F9288E5AE400138DF2 /* AppDelegate.swift */; };
+		14619CE929D521B10074477D /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14619CE829D521B10074477D /* DarkMode.swift */; };
 		14673AF52918C148006FEC03 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14673AF42918C148006FEC03 /* SnapKit */; };
 		1485A2A42983C76D006B9045 /* LikeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1485A2A32983C76D006B9045 /* LikeHelper.swift */; };
 		148618CE29AF24D9004C6D98 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 148618C529AF24D9004C6D98 /* Inter-Medium.ttf */; };
@@ -111,6 +112,7 @@
 		142177C429C1F6EE000B2BE1 /* SideInfoTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideInfoTableCell.swift; sourceTree = "<group>"; };
 		142177C629C3FDFC000B2BE1 /* SideMenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuModel.swift; sourceTree = "<group>"; };
 		142177C829C4016A000B2BE1 /* DrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerView.swift; sourceTree = "<group>"; };
+		14619CE829D521B10074477D /* DarkMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkMode.swift; sourceTree = "<group>"; };
 		1485A2A32983C76D006B9045 /* LikeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeHelper.swift; sourceTree = "<group>"; };
 		148618C529AF24D9004C6D98 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
 		148618C629AF24D9004C6D98 /* Inter-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.ttf"; sourceTree = "<group>"; };
@@ -219,6 +221,14 @@
 			path = MenuSettings;
 			sourceTree = "<group>";
 		};
+		14619CE729D5219C0074477D /* Dark Mode */ = {
+			isa = PBXGroup;
+			children = (
+				14619CE829D521B10074477D /* DarkMode.swift */,
+			);
+			path = "Dark Mode";
+			sourceTree = "<group>";
+		};
 		148618C429AF24D9004C6D98 /* Fonts Inter */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,6 +332,7 @@
 			children = (
 				1415DDC928F5464E00433703 /* Views */,
 				1415DD9E28F292A400433703 /* Coordinator */,
+				14619CE729D5219C0074477D /* Dark Mode */,
 				149916092988F02100404BBC /* NotificationService */,
 				4F7F58F9288E5AE400138DF2 /* AppDelegate.swift */,
 				4F7F58FB288E5AE400138DF2 /* SceneDelegate.swift */,
@@ -447,6 +458,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14619CE929D521B10074477D /* DarkMode.swift in Sources */,
 				1415DDA228F292C900433703 /* ApplicationCoordinator.swift in Sources */,
 				142177C129C05722000B2BE1 /* PostCommentsCell.swift in Sources */,
 				1415DDA028F292B800433703 /* Coordinator.swift in Sources */,

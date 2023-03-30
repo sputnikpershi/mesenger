@@ -66,8 +66,8 @@ class LikeVCell: UICollectionViewCell {
     private lazy var likesButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = .black
-        button.setTitleColor(.black, for: .normal)
+        button.tintColor = colorButtonText
+        button.setTitleColor(colorButtonText, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         return button
     }()
@@ -75,8 +75,8 @@ class LikeVCell: UICollectionViewCell {
     private lazy var commentsButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "message"), for: .normal)
-        button.tintColor = .black
-        button.setTitleColor(.black, for: .normal)
+        button.tintColor = colorButtonText
+        button.setTitleColor(colorButtonText, for: .normal)
         button.titleLabel?.font = UIFont(name: "Inter-Regular", size: 14)
         button.isUserInteractionEnabled = true
         button.contentHorizontalAlignment = .fill
@@ -110,7 +110,7 @@ class LikeVCell: UICollectionViewCell {
         let description = UILabel()
         description.numberOfLines = 4
         description.font = UIFont(name: "Inter-Regular", size: 14)
-        description.textColor = UIColor(red: 0.149, green: 0.196, blue: 0.22, alpha: 1)
+        description.textColor =  UIColor.createColor(lightMode: .black, darkMode: .white)
         description.translatesAutoresizingMaskIntoConstraints = false
         
         return description
@@ -119,7 +119,7 @@ class LikeVCell: UICollectionViewCell {
     private lazy var showMoreButton : UIButton = {
         let button = UIButton()
         button.setTitle("Показать полностью...", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
+        button.setTitleColor(UIColor.createColor(lightMode: .blue, darkMode: .lightGray), for: .normal)
         button.contentHorizontalAlignment = .leading
         button.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 12)
         //        button.addTarget(self, action: #selector(likeActionTap), for: .touchUpInside)
@@ -147,24 +147,7 @@ class LikeVCell: UICollectionViewCell {
         return line
     } ()
     
-    private lazy var likesLabel: UILabel = {
-        let likes = UILabel()
-        likes.text = "Likes : "
-        likes.backgroundColor = .red
-        likes.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        likes.translatesAutoresizingMaskIntoConstraints = false
-        return likes
-    }()
-    
-    private lazy var commentsLabel: UILabel = {
-        let views = UILabel()
-        views.numberOfLines = 0
-        views.text = "Views : "
-        views.textAlignment = .right
-        views.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        views.translatesAutoresizingMaskIntoConstraints = false
-        return views
-    }()
+  
     
     private lazy var backgroundColorView : UIView = {
         let stack = UIView()
@@ -301,16 +284,13 @@ class LikeVCell: UICollectionViewCell {
         self.authorLabel.text = posts[index].authorLabel
         self.postImage.image =  UIImage(data: posts[index].postImage ?? Data())
         self.authorProfLabel.text = posts[index].statusLabel
-        
         commentsButton.setTitle(" \(posts[index].comments)", for: .normal)
         likesButton.setTitle(" \(posts[index].likes)", for: .normal)
         self.descriptionTextView.text = posts[index].descriptionPost
         let likePluralLocalization = NSLocalizedString("likes-plural", comment: "")
         let formattedLike = String(format: likePluralLocalization, "\(posts[index].likes)")
-        self.likesLabel.text = "\(formattedLike) : \(posts[index].likes)"
         let viewPluralLocalization = NSLocalizedString("views-plural", comment: "")
         let formattedViews = String(format: viewPluralLocalization, "\(posts[index].comments)")
-        self.commentsLabel.text = "\(formattedViews) : \(posts[index].comments)"
         self.posts = coreDataManager.posts
         self.isLiked = posts[index].isLiked
         if isLiked {
