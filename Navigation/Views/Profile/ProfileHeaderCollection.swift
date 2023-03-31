@@ -130,7 +130,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
     
     private lazy var noteButton : UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "edit1"), for: .normal)
+        button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
         button.imageView?.tintColor =  .orange
         return button
     } ()
@@ -143,7 +143,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
     
     private lazy var historyButton : UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "camera1"), for: .normal)
+        button.setImage(UIImage(systemName: "camera"), for: .normal)
         button.imageView?.tintColor =  .orange
         return button
     } ()
@@ -156,7 +156,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
     
     private lazy var photoButton : UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "photos1"), for: .normal)
+        button.setImage(UIImage(systemName: "photo"), for: .normal)
         button.imageView?.tintColor =  .orange
         return button
     } ()
