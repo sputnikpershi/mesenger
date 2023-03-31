@@ -17,7 +17,7 @@ class HomeViewController: UICollectionViewController {
     private lazy var localNotificationsService = LocalNotificationsService()
     var searchText  = ""
     var popupMenu = PopupMenu()
-
+    var navBarHeight : CGFloat?
     
     lazy var menuBar : MenuBar = {
         let menu = MenuBar()
@@ -34,13 +34,15 @@ class HomeViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+        navBarHeight = navigationController?.navigationBar.frame.height
         friendsBar.viewModel = viewModel
         collectionView.delegate = self
         collectionView.backgroundColor = .secondarySystemBackground
         collectionView.dataSource = self
         collectionView.register(HomeCollectionCell.self, forCellWithReuseIdentifier: "cID")
-        collectionView.contentInset = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
         collectionView.isPagingEnabled = true
         guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         collectionView.collectionViewLayout = flowLayout
@@ -61,9 +63,10 @@ class HomeViewController: UICollectionViewController {
         let searchBarButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchAction))
         navigationItem.rightBarButtonItems = [pushBarButton, searchBarButton]
     }
-    
+   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
@@ -77,7 +80,7 @@ class HomeViewController: UICollectionViewController {
     }
     
     @objc func searchAction () {
-            let alertController = UIAlertController(title: "Author Filter", message: "Please enter the name of author in the field below to show you all his posts", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Найти пост", message: "Введите слово по которому хотите найти пост", preferredStyle: .alert)
             alertController.addTextField { (textField : UITextField!) -> Void in
                 textField.placeholder = "Enter name"
             }
@@ -135,7 +138,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height - 311)
+        let device = UIDevice.current
+        let deviceHeight = device.model == "iPhone" ? 120 : 79
+        let height = view.frame.height - menuBar.frame.height - friendsBar.frame.height - navBarHeight! - CGFloat(deviceHeight)
+        return CGSize(width: view.frame.width, height: height)
     }
     
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

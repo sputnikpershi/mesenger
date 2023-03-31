@@ -262,8 +262,32 @@ class ProfileViewController: UIViewController {
             self.sideMenu.frame = CGRect(x: self.view.frame.width, y: 0, width: 300, height: self.view.frame.height)
         }
     }
+    
+    // MARK: EXTENSION
+     func searchPost() {
+         let alertController = UIAlertController(title: "Найти пост", message: "Введите слово по которому хотите найти пост", preferredStyle: .alert)
+         alertController.addTextField { (textField : UITextField!) -> Void in
+             textField.placeholder = "Enter name"
+         }
+         let saveAction = UIAlertAction(title: "save", style: .default, handler: { [weak self] alert -> Void in
+             if let textField = alertController.textFields?[0] {
+                 if let searchText = textField.text, searchText.count > 0 {
+                     
+                 }
+             }
+         })
+         
+         let cancelAction = UIAlertAction(title: "cancel", style: .destructive, handler: {
+             (action : UIAlertAction!) -> Void in })
+         alertController.addAction(cancelAction)
+         alertController.addAction(saveAction)
+         alertController.preferredAction = saveAction
+         self.present(alertController, animated: true, completion: nil)
+     }
 }
 
+
+// MARK: EXTENSION
 
 extension ProfileViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

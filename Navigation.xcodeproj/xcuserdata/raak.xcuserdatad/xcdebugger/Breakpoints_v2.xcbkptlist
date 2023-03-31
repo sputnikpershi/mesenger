@@ -423,8 +423,8 @@
             filePath = "Navigation/Views/Home/MainPostsCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "341"
-            endingLineNumber = "341"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
             landmarkName = "likeActionTap()"
             landmarkType = "7">
          </BreakpointContent>
@@ -455,8 +455,8 @@
             filePath = "Navigation/Views/Home/MainPostsCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "350"
-            endingLineNumber = "350"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
             landmarkName = "likePost(_:)"
             landmarkType = "7">
          </BreakpointContent>

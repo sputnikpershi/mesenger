@@ -11,15 +11,9 @@ class ProfileHeaderCollection: UICollectionReusableView {
     static let identifier =  "HeaderCollection"
     private var initialAvatarFrame = CGRect(x: 16, y: 48, width: 60, height: 60)
     var user : Account?
-    private var statusText = ""
     weak var profileVC : ProfileViewController?
     weak var viewModel: ProfileViewModel?
     private var widthFrame = (UIScreen.main.bounds.size.width/3)
-
-//    private var widthFrame = (UIScreen.main.bounds.size.width/3)
-//    weak var delegate: SideMenuDelegate?
-//    var containerVC: ContainerMenuVC?
-
     
     private lazy var avatarImage : UIImageView = {
         let avatar = UIImageView()
@@ -176,13 +170,13 @@ class ProfileHeaderCollection: UICollectionReusableView {
     
     private lazy var photosView: PhotosView = {
         let view = PhotosView()
+        view.buttonTapCallback = { self.profileVC?.searchPost()}
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapPhotoView)))
         return view
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        nicknameLabel.text = viewModel?.account.nickname
         setViews()
         setConstraints()
         setGestureRecornizer()
@@ -203,7 +197,6 @@ class ProfileHeaderCollection: UICollectionReusableView {
         numberFolowers.text = "\(viewModel?.friends?.count ?? 0) \nподписчиков"
         numberPost.text = "\(user.posts.count) \nпубликаций"
         statusLabel.text = viewModel?.account.status
-//        widthFrame = self.frame.width
    }
    
    private func setViews () {
@@ -212,8 +205,6 @@ class ProfileHeaderCollection: UICollectionReusableView {
        self.addSubview(statusLabel)
        self.addSubview(self.infoLabel)
        self.addSubview(self.profileButton)
-//       self.addSubview(nicknameLabel)
-//       self.addSubview(self.menuButton)
        self.addSubview(self.numberPost)
        self.addSubview(self.numberFolowed)
        self.addSubview(self.numberFolowers)
@@ -231,18 +222,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
    private func setConstraints () {
 
 
-//       nicknameLabel.snp.makeConstraints { make in
-//           make.top.equalTo(self.snp.top).offset(8)
-//           make.leading.equalToSuperview().offset(16)
-//       }
-//
-//           menuButton.snp.makeConstraints { make in
-//               make.top.equalTo(self.snp.top).offset(8)
-//               make.trailing.equalToSuperview().offset(-16)
-//           }
-       
        avatarImage.snp.makeConstraints { make in
-//           make.top.equalTo(nicknameLabel.snp.bottom).offset(16)
            make.top.equalToSuperview().offset(16)
            make.leading.equalToSuperview().offset(16)
            make.width.height.equalTo(60)
@@ -307,13 +287,11 @@ class ProfileHeaderCollection: UICollectionReusableView {
        noteButtonLabel.snp.makeConstraints { make in
            make.top.equalTo(noteButton.snp.bottom).offset(8)
            make.centerX.equalTo(noteButton.snp.centerX)
-           
        }
        
        historyButton.snp.makeConstraints { make in
            make.centerY.equalTo(noteButton.snp.centerY)
            make.width.height.equalTo(29)
-          
            make.centerX.equalToSuperview()
        }
        
@@ -324,7 +302,6 @@ class ProfileHeaderCollection: UICollectionReusableView {
        }
        
       
-       
        historyButtonLabel.snp.makeConstraints { make in
            make.top.equalTo(historyButton.snp.bottom).offset(8)
            make.centerX.equalTo(historyButton.snp.centerX)
@@ -361,7 +338,6 @@ class ProfileHeaderCollection: UICollectionReusableView {
        avatarImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTapAction)))
    }
    
-   
    @objc func handleTapAction () {
         self.profileVC?.animateAvatar(ava: self.avatarImage)
    }
@@ -379,9 +355,8 @@ class ProfileHeaderCollection: UICollectionReusableView {
        backView.alpha = 0.5
        self.addSubview(backView)
    }
-   
+
   @objc func didTapMenuAction () {
       profileVC?.tapMenu()
-//      delegate?.didTapMenuButton()
    }
 }

@@ -188,6 +188,7 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
     
     private lazy var photosView: PhotosView = {
         let view = PhotosView()
+        view.buttonTapCallback = { self.profileVC?.searchPost()}
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapPhotoView)))
         return view
     }()

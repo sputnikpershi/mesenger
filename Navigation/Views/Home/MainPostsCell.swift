@@ -334,9 +334,7 @@ class MainPostsCell: UICollectionViewCell {
             favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
         posts[index].isLiked = isLiked
-        
-        print("😠 \(posts[index].isLiked)")
-    }
+        }
     
     @objc func likeActionTap () {
         let likeHelper = LikeHelper()
