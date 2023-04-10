@@ -13,6 +13,7 @@ class PhotosView: UIView {
     var buttonTapCallback: () -> ()  = { }
     weak var viewModel: ProfileViewModel?
     var numberItems = 10
+    var isSearched : Bool?
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -54,11 +55,12 @@ class PhotosView: UIView {
         let button = UIButton()
         button.isUserInteractionEnabled = true
         button.addTarget(self, action: #selector(searchTapAction), for: .touchUpInside)
-        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.setImage( UIImage(systemName: "magnifyingglass"), for: .normal)
          button.imageView?.tintColor = UIColor.createColor(lightMode: .black, darkMode: .white)
-
+         print(isSearched)
         return button
     } ()
+    
     private lazy var backgroundColorView : UIView = {
         let stack = UIView()
         stack.translatesAutoresizingMaskIntoConstraints = false

@@ -32,8 +32,6 @@ class ProfileTabCoordinator: Coordinator {
         }
     }
     
-    
-    
     func start () {
         let profileVM = ProfileViewModel(account: account, friends: friends)
         let profileVC = ProfileViewController(viewModel: profileVM)

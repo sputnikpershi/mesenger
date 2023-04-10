@@ -21,6 +21,17 @@ class ProfileViewController: UIViewController {
     var isMainProfile: Bool?
     var moreInfoActionState : SideMenuState = .closed
     var menuActionState : SideMenuState = .closed
+    var accountPosts: [AccountPosts]?
+    let coreDataManager: CoreDataManager = CoreDataManager.shared
+    var isSearched = false 
+
+    
+    private lazy var fetchResultController: NSFetchedResultsController = {
+        let fetchRequest = PostData.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "authorLabel", ascending: true)]
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataManager.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        return frc
+    }()
     
     
     private lazy var blackView : UIView = {
@@ -97,6 +108,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        accountPosts = viewModel?.returnAccountPosts() ?? []
         self.view.backgroundColor = .secondarySystemBackground
         self.tabBarController?.tabBar.backgroundColor = .secondarySystemBackground
         NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
@@ -109,11 +121,7 @@ class ProfileViewController: UIViewController {
         } else {
             collectionView.register(FriendProfileHeaderCollection.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FriendProfileHeaderCollection.identifier)
         }
-     
     }
-    
-  
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -265,22 +273,42 @@ class ProfileViewController: UIViewController {
     
     // MARK: EXTENSION
      func searchPost() {
+         
          let alertController = UIAlertController(title: "Найти пост", message: "Введите слово по которому хотите найти пост", preferredStyle: .alert)
          alertController.addTextField { (textField : UITextField!) -> Void in
              textField.placeholder = "Enter name"
          }
          let saveAction = UIAlertAction(title: "save", style: .default, handler: { [weak self] alert -> Void in
              if let textField = alertController.textFields?[0] {
-                 if let searchText = textField.text, searchText.count > 0 {
-                     
-                 }
+                
+                 self?.accountPosts = self?.accountPosts?.filter({ post in
+                     post.descriptionLabel.contains(textField.text ?? "" )
+                 })
+                 print(self?.accountPosts?.count)
+                 self?.isSearched = true
+                 self?.collectionView.reloadData()
              }
-         })
+//             self?.accountPosts  = viewModel?.returnAccountPosts() ?? []
+            })
          
          let cancelAction = UIAlertAction(title: "cancel", style: .destructive, handler: {
-             (action : UIAlertAction!) -> Void in })
+             (action : UIAlertAction!) -> Void in
+             
+
+         })
+         if isSearched {
+             let clearAction = UIAlertAction(title: "clear", style: .destructive) { action in
+                 self.accountPosts  = self.viewModel?.returnAccountPosts() ?? []
+                 self.collectionView.reloadData()
+
+             }
+             alertController.addAction(clearAction)
+
+         }
+         
          alertController.addAction(cancelAction)
          alertController.addAction(saveAction)
+
          alertController.preferredAction = saveAction
          self.present(alertController, animated: true, completion: nil)
      }
@@ -309,7 +337,6 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
                 header.viewModel = viewModel
                 return header
             }
-            //            header.isMainProfile = false
         }
         return UICollectionReusableView()
     }
@@ -324,17 +351,17 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel?.account.posts.count ?? 0
+        accountPosts?.count ?? 0
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cID", for: indexPath) as! MainPostsCell
         cell.profileVC = self
-        let posts = viewModel?.returnAccountPosts() ?? []
-        cell.postArray = posts
+//        let posts = viewModel?.returnAccountPosts() ?? []
+        cell.postArray = accountPosts
         cell.index = indexPath.row
-        cell.setup(with: posts, index: indexPath.row, account: viewModel?.account)
+        cell.setup(with: accountPosts ?? [], index: indexPath.row, account: viewModel?.account)
         return cell
     }
     
@@ -351,12 +378,4 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     }
 }
 
-extension UIColor {
-    static func createColor(lightMode: UIColor, darkMode: UIColor) -> UIColor {
-        guard #available(iOS 13.0, *) else
-        { return lightMode }
-        return UIColor { (traitCollection) -> UIColor in
-            return traitCollection.userInterfaceStyle == .light ? lightMode : darkMode
-        }
-    }
-}
+

@@ -13,7 +13,7 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
     var user : Account?
     private var statusText = ""
     weak var profileVC : ProfileViewController?
-     var viewModel: ProfileViewModel?
+    var viewModel: ProfileViewModel?
     private var widthFrame = (UIScreen.main.bounds.size.width/3)
     var isMainProfile : Bool! {
         didSet {
@@ -198,7 +198,6 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
         setViews()
         setConstraints()
         setGestureRecornizer()
-
     }
     
     required init?(coder: NSCoder) {

@@ -45,15 +45,14 @@ class CoreDataManager {
     
     var posts = [PostData]()
     
-    //reload folder
+    //Обновление данных
     func reloadData() {
         let request = PostData.fetchRequest()
         let posts = (try? persistentContainer.viewContext.fetch(request)) ?? []
         self.posts = posts
     }
     
-    //like post
-    
+    //В избранное пост
     func likePost(originalPost: AccountPosts) {
         persistentContainer.performBackgroundTask { backgroundContext in
             let post = PostData(context: backgroundContext)
@@ -79,6 +78,7 @@ class CoreDataManager {
         }
     }
     
+    // отмена в избранное
     func unlike (post: PostData) {
         print("post with name \(String(describing: post.authorLabel)) - \(post.likes) likes")
         persistentContainer.viewContext.delete(post)
@@ -89,11 +89,29 @@ class CoreDataManager {
        
     }
     
-    func getFilteredPostsData (authorLabel: String? = nil) -> [PostData]? {
+    // фильтр
+    func getFilteredPostsData (description: String? = nil) -> [PostData]? {
            let fetchRequest = PostData.fetchRequest()
-           if let authorLabel, authorLabel.count > 0 {
-               fetchRequest.predicate = NSPredicate(format: "descriptionPost contains[c] %@", authorLabel)
+           if let description, description.count > 0 {
+               fetchRequest.predicate = NSPredicate(format: "descriptionPost contains[c] %@", description)
            }
            return (try? persistentContainer.viewContext.fetch(fetchRequest)) ?? []
        }
+    
+    
+    // сохрание постов перед поиском по предикату
+    func savePosts(post: AccountPosts) {
+        persistentContainer.performBackgroundTask { backgroundContext in
+            let postCore = PostData(context: backgroundContext)
+            postCore.isLiked = post.isLiked
+            postCore.profileImage = post.authorImage?.pngData()
+            postCore.authorLabel = post.authorLabel
+            postCore.statusLabel = post.statusLabel
+            postCore.comments = post.views
+            postCore.likes = post.likes
+            postCore.descriptionPost = post.descriptionLabel
+            postCore.date = post.date
+            postCore.id = post.id
+        }
+    }
 }

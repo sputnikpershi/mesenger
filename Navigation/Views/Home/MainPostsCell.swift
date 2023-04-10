@@ -15,7 +15,6 @@ class MainPostsCell: UICollectionViewCell {
         didSet {
         }
     }
-    var indexPath : IndexPath?
     let context = CoreDataManager.shared.persistentContainer.viewContext
     let coreDataManager: CoreDataManager = CoreDataManager.shared
     var fetchResultController: NSFetchedResultsController<PostData>?
@@ -334,12 +333,13 @@ class MainPostsCell: UICollectionViewCell {
             favouriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
         posts[index].isLiked = isLiked
-        }
+    }
     
     @objc func likeActionTap () {
         let likeHelper = LikeHelper()
         likeHelper.delegate = self
         likeHelper.likePost(isLiked: &isLiked)
+        postArray[index].isLiked = isLiked
     }
 }
 

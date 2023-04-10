@@ -14,7 +14,7 @@ class ProfileHeaderCollection: UICollectionReusableView {
     weak var profileVC : ProfileViewController?
     weak var viewModel: ProfileViewModel?
     private var widthFrame = (UIScreen.main.bounds.size.width/3)
-    
+
     private lazy var avatarImage : UIImageView = {
         let avatar = UIImageView()
         avatar.image = viewModel?.account.avatar
@@ -220,7 +220,6 @@ class ProfileHeaderCollection: UICollectionReusableView {
 
    
    private func setConstraints () {
-
 
        avatarImage.snp.makeConstraints { make in
            make.top.equalToSuperview().offset(16)
