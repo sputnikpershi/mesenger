@@ -20,7 +20,6 @@ class FriendProfileHeaderCollection: UICollectionReusableView {
             if isMainProfile! == false {
                 photosView.searchButton.alpha = 0
                 photosView.tableTitleLabel.text = "Text"
-                
             }
         }
     }

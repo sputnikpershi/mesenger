@@ -139,7 +139,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let device = UIDevice.current
-        let deviceHeight = device.model == "iPhone" ? 120 : 79
+        let deviceHeight = device.model == "iPhone" ? 130 : 79
         let height = view.frame.height - menuBar.frame.height - friendsBar.frame.height - navBarHeight! - CGFloat(deviceHeight)
         return CGSize(width: view.frame.width, height: height)
     }

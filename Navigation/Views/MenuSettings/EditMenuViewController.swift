@@ -93,7 +93,6 @@ class EditMenuViewController: UIViewController {
     private lazy var birthTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder  = "01.01.2020"
-        
         tf.backgroundColor = colorTextField
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         tf.leftView = paddingView
