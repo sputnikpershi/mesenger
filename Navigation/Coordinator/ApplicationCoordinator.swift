@@ -7,22 +7,37 @@
 
 import UIKit
 import SwiftUI
-import Combine
+import FirebaseAuth
 
 class ApplicationCoordinator: Coordinator {
     var window: UIWindow
     var childCoordinator = [Coordinator]()
-   
+  
     init (window: UIWindow) {
         self.window = window
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "dissmis"), object: nil)
     }
-    
-    
-    func start() {
+    @objc func loadList(notification: NSNotification){
         let mainCoordinator  = MainCoordinator()
         mainCoordinator.start()
         self.childCoordinator = [mainCoordinator]
         self.window.rootViewController = mainCoordinator.rootViewController
+    }
+    
+    
+    func start() {
+ 
+        if Auth.auth().currentUser == nil {
+            let loginCoordinator = LoginCoordinator()
+            loginCoordinator.start()
+            self.childCoordinator  = [loginCoordinator]
+            self.window.rootViewController = loginCoordinator.rootViewController
+        } else {
+            let mainCoordinator  = MainCoordinator()
+            mainCoordinator.start()
+            self.childCoordinator = [mainCoordinator]
+            self.window.rootViewController = mainCoordinator.rootViewController
+        }
     }
 }
 
