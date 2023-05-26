@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class RegistrationViewController: UIViewController {
+class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -43,10 +43,12 @@ class RegistrationViewController: UIViewController {
     }()
     private lazy var textField: UITextField = {
        let tf = UITextField()
+        tf.delegate = self
         tf.keyboardType = .asciiCapableNumberPad
         tf.textContentType = .telephoneNumber
         tf.placeholder = "_ _ _-_ _ _-_ _-_ _"
         tf.textColor  = .black
+        tf.addTarget(self, action: #selector(self.textFieldFilter), for: .editingChanged)
         return tf
     }()
     
@@ -178,8 +180,22 @@ class RegistrationViewController: UIViewController {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
             self.view.addGestureRecognizer(tapGesture)
         }
+    
         @objc private func hideKeyboard () {
             self.view.endEditing(true )
         }
-   
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let invalidCharacters =
+            CharacterSet(charactersIn: "0123456789").inverted
+          return (string.rangeOfCharacter(from: invalidCharacters) == nil)
+    }
+    
+    @objc private func textFieldFilter(_ textField: UITextField) {
+      if let text = textField.text, let intText = Int(text) {
+        textField.text = "\(intText)"
+      } else {
+        textField.text = ""
+      }
+    }
 }

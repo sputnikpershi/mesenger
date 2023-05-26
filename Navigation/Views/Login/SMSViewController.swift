@@ -61,16 +61,12 @@ class SMSViewController: UIViewController {
     
     private lazy var textField: UITextField = {
        let tf = UITextField()
-//        tf.delegate = self
         tf.keyboardType = .asciiCapableNumberPad
         tf.textContentType = .telephoneNumber
         tf.placeholder = "_ _-_ _-_ _"
         tf.textColor  = .black
         return tf
     }()
-    
-  
-    
     
     private lazy var authButton : UIButton = {
         let button = UIButton()
@@ -80,8 +76,6 @@ class SMSViewController: UIViewController {
         button.addTarget(self, action: #selector(tapButtonAction), for: .touchUpInside)
         return button
     }()
-
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,7 +85,6 @@ class SMSViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "arrow1"), style: .plain, target: self, action: #selector(didTapBackButtonAction))
         navigationController?.navigationBar.tintColor = .black
         configureViews()
-        print(isRegistration)
     }
     
     @objc func didTapBackButtonAction () {
@@ -114,7 +107,6 @@ class SMSViewController: UIViewController {
                     guard success else { return }
                     print("success")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "dissmis"), object: nil)
-
                 }
             }
     }
@@ -126,8 +118,6 @@ class SMSViewController: UIViewController {
         }
     }
 
-    
-    
     private func setLayers() {
         self.view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
@@ -185,21 +175,3 @@ class SMSViewController: UIViewController {
         }
     
 }
-
-//extension ProveAuthViewController: UITextFieldDelegate {
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//
-//        if let text = textField.text, !text.isEmpty {
-//            let code = text
-//
-//            AuthManager.shared.verifySMS(smsCode: code) { success in
-//                guard success else { return }
-//                DispatchQueue.main.async {
-//                    print("activate")
-//                }
-//            }
-//        }
-//        return true
-//    }
-//}

@@ -14,7 +14,6 @@ enum SideMenuState {
 
 
 class SideMenuView: UIView {
-//    let blackView = UIView()
     var view : UIViewController?
     var state: StateMenu?
     var title: String?

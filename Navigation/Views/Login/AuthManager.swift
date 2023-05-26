@@ -20,6 +20,7 @@ class AuthManager {
             .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { [weak self] verificationID, error in
                 guard let verificationID = verificationID, error == nil  else {
                     completion(false)
+                    print(error?.localizedDescription)
                     return
                 }
                 self?.verificationID = verificationID

@@ -17,6 +17,7 @@ class ApplicationCoordinator: Coordinator {
         self.window = window
         NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "dissmis"), object: nil)
     }
+    
     @objc func loadList(notification: NSNotification){
         let mainCoordinator  = MainCoordinator()
         mainCoordinator.start()
@@ -26,7 +27,6 @@ class ApplicationCoordinator: Coordinator {
     
     
     func start() {
- 
         if Auth.auth().currentUser == nil {
             let loginCoordinator = LoginCoordinator()
             loginCoordinator.start()

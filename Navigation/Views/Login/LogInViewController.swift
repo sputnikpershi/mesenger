@@ -25,6 +25,7 @@ class LogInViewController: UIViewController {
         button.addTarget(self, action: #selector(registrationAction), for: .touchUpInside)
         return button
     }()
+    
     private lazy var authButton : UIButton = {
         let button = UIButton()
         button.setTitle("Уже есть аккаунт", for: .normal)
@@ -33,15 +34,12 @@ class LogInViewController: UIViewController {
         return button
     }()
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayers()
         view.backgroundColor = .white
     }
-    
-    
+
     @objc func  registrationAction () {
         let vc = RegistrationViewController()
         self.navigationController?.pushViewController(vc, animated: true)
@@ -72,17 +70,6 @@ class LogInViewController: UIViewController {
         self.authButton.snp.makeConstraints { make in
             make.top.equalTo(registerButton.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
-            
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
